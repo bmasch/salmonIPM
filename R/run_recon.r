@@ -13,6 +13,12 @@
 #' \item{\code{hrate.w}}{The harvest rate (0-1) of wild fish.}
 #' }
 #' 
+#' @return A list with the following:
+#' \describe{
+#' \item{\code{R}}{A [years x ages] matrix of age-specific recruits by brood year.}
+#' \item{\code{R_tot}}{A vector with the total number of estimated of recruits across all ages for each brood year.}
+#' }
+#' 
 #' @export
 run_recon <- function(data)
 {

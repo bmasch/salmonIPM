@@ -1,4 +1,23 @@
-# Function to generate initial values
+#' Generate initial values for Stan
+#'
+#' \code{stan_init} generates initial values for parameters and states in Stan.
+#'
+#' @param \code{data} data frame with the following \code{colnames}:
+#' \describe{
+#' \item{\code{brood.yr}}{The year the fish were spawned.}
+#' \item{\code{pop}}{Population ID.}
+#' \item{\code{p3...pN}}{Multiple columns of the proportion of age-3, age-4, ..., age-N fish.}
+#' \item{\code{pHOS}}{The proportion of Hatchery Origin Spawners.}
+#' \item{\code{nS}}{The total number of wild + hatchery-origin spawners.}
+#' \item{\code{wild.broodstk}}{The number of fish taken for hatchery broodstock.}
+#' \item{\code{hrate.w}}{The harvest rate (0-1) of wild fish.}
+#' }
+#' @param \code{chains} The number of parallel chains to fit.
+#' @param \code{fixedpop} Logical value indicating whether or not to treat the different populations as fixed/independent instead of hierarchical. Default is \code{FALSE}.
+#' 
+#' @return A list with initial starting values for all of the parameters and states in the Stan model.
+#' 
+#' @export
 stan_init <- function(data, chains, fixedpop = FALSE)
 {
   for(i in names(data)) assign(i, data[[i]])

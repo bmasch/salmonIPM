@@ -1,9 +1,24 @@
-# Simulate data under adult-to-adult integrated population model
-#
-# Arguments:
-#
-# 
-
+#' Simulate data under adult-to-adult integrated population model
+#'
+#' \code{IPM_adult_sim} simulates initial values for parameters and states in Stan.
+#'
+#' @param \code{pars}{Model parameters to b eused for simulations.}
+#' @param \code{pop}{Population ID.}
+#' @param \code{year}{ }
+#' @param \code{X}{ }
+#' @param \code{N_age}{The number of adult age classes.}
+#' @param \code{max_age}{Oldest adult age class.}
+#' @param \code{S_H_tot}{ }
+#' @param \code{A}{ }
+#' @param \code{F_rate}{ }
+#' @param \code{B_rate}{ }
+#' @param \code{SR_func}{Character code for the type of stocl-recruit model to fit. At present, only 'BH' for "Beverton-Holt' is allowed.}
+#' @param \code{n_age_tot_obs}{ }
+#' @param \code{n_HW_tot_obs}{ }
+#' 
+#' @return A list with initial starting values for all of the parameters and states in the Stan model.
+#' 
+#' @export
 IPM_adult_sim <- function(pars, pop, year, X, N_age, max_age, S_H_tot, A, 
                           F_rate, B_rate, SR_func = "BH", n_age_tot_obs, n_HW_tot_obs)
 {
