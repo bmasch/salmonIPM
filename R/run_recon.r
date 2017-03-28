@@ -2,7 +2,7 @@
 #'
 #' Standardized version of \code{dgnorm}.
 #' 
-#' @param \code{data} data frame with the following \code{colnames}:
+#' @param data data frame with the following \code{colnames}:
 #' \describe{
 #' \item{\code{brood.yr}}{The year the fish were spawned.}
 #' \item{\code{pop}}{Population ID.}

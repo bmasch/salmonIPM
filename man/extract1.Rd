@@ -7,9 +7,9 @@
 extract1(object, par)
 }
 \arguments{
-\item{\code{object}}{fitted Stan object}
+\item{object}{fitted Stan object}
 
-\item{\code{par}}{parameters/states to return}
+\item{par}{parameters/states to return}
 }
 \description{
 Improved function for extracting fitted Stan objects.

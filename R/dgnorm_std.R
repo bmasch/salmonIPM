@@ -2,10 +2,10 @@
 #'
 #' Standardized version of \code{dgnorm}.
 #' 
-#' @param \code{x} variate
-#' @param \code{mu} mean of the distribution
-#' @param \code{x} standard deviation of the distribution
-#' @param \code{x} shape of the distribution
+#' @param x variate
+#' @param mu mean of the distribution
+#' @param sigma standard deviation of the distribution
+#' @param shape shape of the distribution
 #' 
 #' @export
 dgnorm_std <- function(x, mu = 0, sigma = 1, shape = 2)

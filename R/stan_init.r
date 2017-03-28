@@ -2,7 +2,7 @@
 #'
 #' \code{stan_init} generates initial values for parameters and states in Stan.
 #'
-#' @param \code{data} data frame with the following \code{colnames}:
+#' @param data data frame with the following \code{colnames}:
 #' \describe{
 #' \item{\code{brood.yr}}{The year the fish were spawned.}
 #' \item{\code{pop}}{Population ID.}
@@ -12,8 +12,8 @@
 #' \item{\code{wild.broodstk}}{The number of fish taken for hatchery broodstock.}
 #' \item{\code{hrate.w}}{The harvest rate (0-1) of wild fish.}
 #' }
-#' @param \code{chains} The number of parallel chains to fit.
-#' @param \code{fixedpop} Logical value indicating whether or not to treat the different populations as fixed/independent instead of hierarchical. Default is \code{FALSE}.
+#' @param chains The number of parallel chains to fit.
+#' @param fixedpop Logical value indicating whether or not to treat the different populations as fixed/independent instead of hierarchical. Default is \code{FALSE}.
 #' 
 #' @return A list with initial starting values for all of the parameters and states in the Stan model.
 #' 

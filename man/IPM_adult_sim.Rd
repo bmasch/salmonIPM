@@ -8,31 +8,31 @@ IPM_adult_sim(pars, pop, year, X, N_age, max_age, S_H_tot, A, F_rate, B_rate,
   SR_func = "BH", n_age_tot_obs, n_HW_tot_obs)
 }
 \arguments{
-\item{\code{pars}{Model}{parameters to b eused for simulations.}}
+\item{pars}{Model parameters to b eused for simulations.}
 
-\item{\code{pop}{Population}{ID.}}
+\item{pop}{Population ID.}
 
-\item{\code{year}{}{}}
+\item{year}{Calendar year.}
 
-\item{\code{X}{}{}}
+\item{X}{Covariate(s).}
 
-\item{\code{N_age}{The}{number of adult age classes.}}
+\item{N_age}{The number of adult age classes.}
 
-\item{\code{max_age}{Oldest}{adult age class.}}
+\item{max_age}{Oldest adult age class.}
 
-\item{\code{S_H_tot}{}{}}
+\item{S_H_tot}{Total hatchery-origin spawners.}
 
-\item{\code{A}{}{}}
+\item{A}{Area of spawning habitat.}
 
-\item{\code{F_rate}{}{}}
+\item{F_rate}{Harvest rate.}
 
-\item{\code{B_rate}{}{}}
+\item{B_rate}{Broodstock take rate.}
 
-\item{\code{SR_func}{Character}{code for the type of stocl-recruit model to fit. At present, only 'BH' for "Beverton-Holt' is allowed.}}
+\item{SR_func}{Character code for the type of stocl-recruit model to fit. At present, only 'BH' for "Beverton-Holt' is allowed.}
 
-\item{\code{n_age_tot_obs}{}{}}
+\item{n_age_tot_obs}{Number of adults for age comp.}
 
-\item{\code{n_HW_tot_obs}{}{}}
+\item{n_HW_tot_obs}{Number of adults for H vs W origin.}
 }
 \value{
 A list with initial starting values for all of the parameters and states in the Stan model.

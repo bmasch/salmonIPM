@@ -3,8 +3,8 @@
 #' Convenience function to simplify extracting posterior means or single
 #' parameters from stanfit objects.
 #' 
-#' @param \code{object} A fitted Stan object.
-#' @param \code{pars} Character vector with the names of parameters to summarize.
+#' @param object A fitted Stan object.
+#' @param pars Character vector with the names of parameters to summarize.
 #' 
 #' @return A scalar or vector of means of the posterior distribution of \code{pars}.
 #' 

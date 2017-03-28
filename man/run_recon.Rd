@@ -7,7 +7,7 @@
 run_recon(data)
 }
 \arguments{
-\item{\code{data}}{data frame with the following \code{colnames}:
+\item{data}{data frame with the following \code{colnames}:
 \describe{
 \item{\code{brood.yr}}{The year the fish were spawned.}
 \item{\code{pop}}{Population ID.}

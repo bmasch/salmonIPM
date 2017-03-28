@@ -7,7 +7,7 @@
 stan_init(data, chains, fixedpop = FALSE)
 }
 \arguments{
-\item{\code{data}}{data frame with the following \code{colnames}:
+\item{data}{data frame with the following \code{colnames}:
 \describe{
 \item{\code{brood.yr}}{The year the fish were spawned.}
 \item{\code{pop}}{Population ID.}
@@ -18,9 +18,9 @@ stan_init(data, chains, fixedpop = FALSE)
 \item{\code{hrate.w}}{The harvest rate (0-1) of wild fish.}
 }}
 
-\item{\code{chains}}{The number of parallel chains to fit.}
+\item{chains}{The number of parallel chains to fit.}
 
-\item{\code{fixedpop}}{Logical value indicating whether or not to treat the different populations as fixed/independent instead of hierarchical. Default is \code{FALSE}.}
+\item{fixedpop}{Logical value indicating whether or not to treat the different populations as fixed/independent instead of hierarchical. Default is \code{FALSE}.}
 }
 \value{
 A list with initial starting values for all of the parameters and states in the Stan model.

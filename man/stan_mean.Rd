@@ -7,9 +7,9 @@
 stan_mean(object, pars)
 }
 \arguments{
-\item{\code{object}}{A fitted Stan object.}
+\item{object}{A fitted Stan object.}
 
-\item{\code{pars}}{Character vector with the names of parameters to summarize.}
+\item{pars}{Character vector with the names of parameters to summarize.}
 }
 \value{
 A scalar or vector of means of the posterior distribution of \code{pars}.

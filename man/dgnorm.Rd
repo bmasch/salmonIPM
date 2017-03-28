@@ -7,13 +7,13 @@
 dgnorm(x, mu = 0, sigma = 1, shape = 2)
 }
 \arguments{
-\item{\code{x}}{variate}
+\item{x}{variate}
 
-\item{\code{mu}}{mean of the distribution}
+\item{mu}{mean of the distribution}
 
-\item{\code{x}}{standard deviation of the distribution}
+\item{sigma}{standard deviation of the distribution}
 
-\item{\code{x}}{shape of the distribution}
+\item{shape}{shape of the distribution}
 }
 \description{
 Density function for a generalized normal distribution.
