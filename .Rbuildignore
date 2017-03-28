@@ -1,0 +1,6 @@
+^.*\.Rproj$
+^\.Rproj\.user$
+^.*script.R$
+^.*tmp_data$
+^.*tmp_vignettes$
+
