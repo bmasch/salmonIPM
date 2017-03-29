@@ -28,4 +28,3 @@ A list with the following:
 \description{
 Standardized version of \code{dgnorm}.
 }
-

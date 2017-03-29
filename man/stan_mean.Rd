@@ -18,4 +18,3 @@ A scalar or vector of means of the posterior distribution of \code{pars}.
 Convenience function to simplify extracting posterior means or single
 parameters from stanfit objects.
 }
-

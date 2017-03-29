@@ -14,4 +14,3 @@ extract1(object, par)
 \description{
 Improved function for extracting fitted Stan objects.
 }
-

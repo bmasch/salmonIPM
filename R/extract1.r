@@ -5,6 +5,8 @@
 #' @param object fitted Stan object
 #' @param par parameters/states to return
 #' 
+#' @importFrom rstan extract
+#'
 #' @export
 extract1 <- function(object, par)
 {
