@@ -18,6 +18,8 @@
 #' 
 #' @return A list with initial starting values for all of the parameters and states in the Stan model.
 #' 
+#' @importFrom stats rbinom rlnorm rmultinom rnorm runif
+#' 
 #' @export
 IPM_adult_sim <- function(pars, pop, year, X, N_age, max_age, S_H_tot, A, 
                           F_rate, B_rate, SR_func = "BH", n_age_tot_obs, n_HW_tot_obs)

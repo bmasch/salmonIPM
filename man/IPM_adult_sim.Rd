@@ -40,4 +40,3 @@ A list with initial starting values for all of the parameters and states in the 
 \description{
 \code{IPM_adult_sim} simulates initial values for parameters and states in Stan.
 }
-

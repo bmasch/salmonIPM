@@ -8,6 +8,8 @@
 #' 
 #' @return A scalar or vector of means of the posterior distribution of \code{pars}.
 #' 
+#' @importFrom rstan get_posterior_mean
+#'
 #' @export
 stan_mean <- function(object, pars)
 {

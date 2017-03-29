@@ -1,0 +1,189 @@
+# Simulate data#
+pop <- rep(1:12, each = 50)#
+year <- rep(1:50, 12)#
+sim_dat <- IPM_adult_sim(pars = list(mu_log_a = 2, sigma_log_a = 0.5,#
+                                     mu_log_b = -1, sigma_log_b = 0.5,#
+                                     beta_log_phi = 1, rho_log_phi = 0.7, sigma_log_phi = 0.5, #
+                                     mu_sigma_proc = 0.3, sigma_log_sigma_proc = 0.5, sigma_obs = 0.5, #
+                                     mu_p = c(0.05, 0.55, 0.4), sigma_alr_p = c(0.5, 0.5), #
+                                     mu_tau_alr_p = c(0.5, 0.5), sigma_log_tau_alr_p = c(0.3, 0.3)),#
+                         pop = pop, year = year, X = matrix(0, max(year), 1),#
+                         N_age = 3, max_age = 5, A = 100,#
+                         S_H_tot = replace(sample(1:1000, length(year), replace = T), year <= 30, 0),#
+                         F_rate = rbeta(length(pop), 7, 3), #
+                         B_rate = replace(runif(length(pop), 0.01, 0.1), year <= 30, 0),#
+                         n_age_tot_obs = 50, n_HW_tot_obs = 50)#
+#
+stan_dat <- list(N = sim_dat$sim_dat$N,#
+                 pop = pop, year = year,#
+                 N_X = ncol(sim_dat$sim_dat$X), X = sim_dat$sim_dat$X,#
+                 N_pop_H = length(unique(pop[sim_dat$pars_out$pHOS > 0])),#
+                 which_pop_H = array(unique(pop[sim_dat$pars_out$pHOS > 0]),#
+                                     dim = length(unique(pop[sim_dat$pars_out$pHOS > 0]))),#
+                 N_S_obs = sum(!is.na(sim_dat$sim_dat$S_tot_obs)),#
+                 which_S_obs = array(which(!is.na(sim_dat$sim_dat$S_tot_obs)), dim = sum(!is.na(sim_dat$sim_dat$S_tot_obs))),#
+                 S_tot_obs = replace(sim_dat$sim_dat$S_tot_obs, is.na(sim_dat$sim_dat$S_tot_obs), 1),#
+                 N_age = 3, max_age = 5,#
+                 n_age_obs = sim_dat$sim_dat$n_age_obs,#
+                 N_H = sum(sim_dat$pars_out$pHOS > 0),#
+                 which_H = array(which(sim_dat$pars_out$pHOS > 0), dim = sum(sim_dat$pars_out$pHOS > 0)),#
+                 n_W_obs = array(sim_dat$sim_dat$n_W_obs[sim_dat$pars_out$pHOS > 0],#
+                                 dim = sum(sim_dat$pars_out$pHOS > 0)),#
+                 n_H_obs = array(sim_dat$sim_dat$n_H_obs[sim_dat$pars_out$pHOS > 0],#
+                                 dim = sum(sim_dat$pars_out$pHOS > 0)),#
+                 A = rep(sim_dat$sim_dat$A, sim_dat$sim_dat$N),#
+                 F_rate = sim_dat$sim_dat$F_rate,#
+                 N_B = sum(sim_dat$sim_dat$B_take > 0),#
+                 which_B = array(which(sim_dat$sim_dat$B_take > 0), dim = sum(sim_dat$sim_dat$B_take > 0)),#
+                 B_take_obs = sim_dat$sim_dat$B_take[sim_dat$sim_dat$B_take > 0])#
+if(stan_dat$N_pop_H == 0) stan_dat$which_pop_H <- array(1, dim = 1)#
+if(stan_dat$N_H == 0)#
+{#
+  stan_dat$which_H <- array(1, dim = 1)#
+  stan_dat$n_W_obs <- array(1, dim = 1)#
+  stan_dat$n_H_obs <- array(1, dim = 1)#
+}
+IPM_adult_sim <- function(pars, pop, year, X, N_age, max_age, S_H_tot, A, #
+                          F_rate, B_rate, SR_func = "BH", n_age_tot_obs, n_HW_tot_obs)#
+{#
+  # spawner-recruit functions#
+  BH <- function(a, b, S, A) #
+  {#
+    R <- a*S/(A + b*S)#
+    return(R)#
+  }#
+  BH_Rmax <- function(a, b, A)#
+  {#
+    return(A*a/b)#
+  }#
+  N <- length(pop)                        # number of observations #
+  N_pop <- max(pop)                       # number of populations#
+  which_pop_H <- unique(pop[S_H_tot > 0]) # populations with hatchery input#
+  ages <- (max_age - N_age + 1):max_age   # adult ages#
+  # parameters#
+  mu_log_a <- pars$mu_log_a#
+  sigma_log_a <- pars$sigma_log_a#
+  a <- rlnorm(N_pop, mu_log_a, sigma_log_a)#
+  mu_log_b <- pars$mu_log_b#
+  sigma_log_b <- pars$sigma_log_b#
+  b <- rlnorm(N_pop, mu_log_b, sigma_log_b)#
+  Rmax <- BH_Rmax(a, b, A)#
+  beta_log_phi <- pars$beta_log_phi#
+  rho_log_phi <- pars$rho_log_phi#
+  sigma_log_phi <- pars$sigma_log_phi#
+  mu_log_phi <- X %*% beta_log_phi#
+  log_phi <- rep(0, max(year))#
+  log_phi[1] <- rnorm(1, 0, sigma_log_phi/sqrt(1 - rho_log_phi^2))#
+  for(i in 2:max(year))#
+    log_phi[i] <- rnorm(1, rho_log_phi*log_phi[i-1], sigma_log_phi)#
+  phi <- exp(log_phi + X %*% beta_log_phi)#
+  mu_sigma_proc <- pars$mu_sigma_proc#
+  sigma_log_sigma_proc <- pars$sigma_log_sigma_proc#
+  sigma_proc <- rlnorm(N_pop, log(mu_sigma_proc), sigma_log_sigma_proc)#
+  sigma_obs <- pars$sigma_obs#
+  mu_alr_p <- log(pars$mu_p[1:(N_age-1)]) - log(pars$mu_p[N_age])#
+  sigma_alr_p <- pars$sigma_alr_p#
+  gamma_alr_p <- t(sapply(1:N_pop, function(i) rnorm(N_age - 1, mu_alr_p, sigma_alr_p)))#
+  mu_tau_alr_p <- pars$mu_tau_alr_p#
+  sigma_log_tau_alr_p <- pars$sigma_log_tau_alr_p#
+  tau_alr_p <- t(sapply(1:N_pop, function(i) rlnorm(N_age - 1, log(mu_tau_alr_p), sigma_log_tau_alr_p)))#
+  alr_p <- t(sapply(1:N, function(i) rnorm(N_age - 1, gamma_alr_p[pop[i],], tau_alr_p[pop[i],])))#
+  p <- sweep(cbind(exp(alr_p), 1), 1, rowSums(exp(alr_p)) + 1, "/")#
+#
+  # Simulate recruits and calculate total spawners#
+  # and spawner age distributions#
+  S_W <- matrix(NA, N, 3)            # true wild spawners by age  #
+  S_W_tot <- vector("numeric",N)     # true total wild spawners#
+  S_tot <- vector("numeric",N)       # true total spawners#
+  R_tot_hat <- vector("numeric",N)   # expected recruits#
+  R_tot <- vector("numeric",N)       # true recruits#
+  B_take <- vector("numeric",N)      # adult broodstock removals#
+  for(i in 1:N)#
+  {#
+    if(year[i] <= max_age)#
+    {#
+      S_W[i,] <- rlnorm(N_age, log(Rmax[pop[i]]/N_age), 0.1) # initialize years 1:max_age#
+    } else#
+    {#
+      for(j in 1:N_age)#
+        S_W[i,j] <- R_tot[i-ages[j]]*p[i-ages[j],j]#
+      S_W[i,-1] <- S_W[i,-1]*(1 - F_rate[i])     # catch (assumes no take of age 1)#
+      B_take[i] <- B_rate[i]*sum(S_W[i,-1])#
+      S_W[i,-1] <- S_W[i,-1]*(1 - B_rate[i])     # broodstock removal (assumes no take of age 1)#
+    }#
+    S_W_tot[i] <- sum(S_W[i,])#
+    S_tot[i] <- S_W_tot[i] + S_H_tot[i]#
+    R_tot_hat[i] <- switch(SR_func,#
+                           BH = A*BH(a[pop[i]], b[pop[i]], S_tot[i], A)*phi[year[i]])#
+    R_tot[i] <- rlnorm(1, log(R_tot_hat[i]), sigma_proc[pop[i]])#
+  }#
+  S_tot_obs <- rlnorm(N, log(S_tot), sigma_obs)           # obs total spawners#
+  pHOS <- S_H_tot/(S_W_tot + S_H_tot)                     # true pHOS#
+  q <- sweep(S_W, 1, S_W_tot, "/")                        # true spawner age distn #
+  n_age_tot_obs <- round(pmin(n_age_tot_obs, S_tot_obs))  # cap age samples at pop size#
+  n_HW_tot_obs <- round(pmin(n_HW_tot_obs, S_tot_obs))    # cap H/W samples at pop size#
+  n_age_obs <- t(sapply(1:N, function(i) rmultinom(1, n_age_tot_obs[i], q[i,]))) # obs wild age frequencies#
+  n_H_obs <- rbinom(N, n_HW_tot_obs, pHOS)                # obs count of hatchery spawners#
+  n_W_obs <- n_HW_tot_obs - n_H_obs                       # obs count of wild spawners#
+  return(list(sim_dat = list(N = N, pop = pop, year = year, X = X, S_tot_obs = S_tot_obs, #
+                             n_age_obs = n_age_obs, n_H_obs = n_H_obs, n_W_obs = n_W_obs, #
+                             F_rate = F_rate, B_take = B_take, A = A),#
+              pars_out = c(pars, list(S_W = S_W, a = a, b = b, phi = phi, #
+                                      pHOS = pHOS, p = p, sigma_proc = sigma_proc,#
+                           R_tot_hat = R_tot_hat, R_tot = R_tot))))#
+}
+# Simulate data#
+pop <- rep(1:12, each = 50)#
+year <- rep(1:50, 12)#
+sim_dat <- IPM_adult_sim(pars = list(mu_log_a = 2, sigma_log_a = 0.5,#
+                                     mu_log_b = -1, sigma_log_b = 0.5,#
+                                     beta_log_phi = 1, rho_log_phi = 0.7, sigma_log_phi = 0.5, #
+                                     mu_sigma_proc = 0.3, sigma_log_sigma_proc = 0.5, sigma_obs = 0.5, #
+                                     mu_p = c(0.05, 0.55, 0.4), sigma_alr_p = c(0.5, 0.5), #
+                                     mu_tau_alr_p = c(0.5, 0.5), sigma_log_tau_alr_p = c(0.3, 0.3)),#
+                         pop = pop, year = year, X = matrix(0, max(year), 1),#
+                         N_age = 3, max_age = 5, A = 100,#
+                         S_H_tot = replace(sample(1:1000, length(year), replace = T), year <= 30, 0),#
+                         F_rate = rbeta(length(pop), 7, 3), #
+                         B_rate = replace(runif(length(pop), 0.01, 0.1), year <= 30, 0),#
+                         n_age_tot_obs = 50, n_HW_tot_obs = 50)#
+#
+stan_dat <- list(N = sim_dat$sim_dat$N,#
+                 pop = pop, year = year,#
+                 N_X = ncol(sim_dat$sim_dat$X), X = sim_dat$sim_dat$X,#
+                 N_pop_H = length(unique(pop[sim_dat$pars_out$pHOS > 0])),#
+                 which_pop_H = array(unique(pop[sim_dat$pars_out$pHOS > 0]),#
+                                     dim = length(unique(pop[sim_dat$pars_out$pHOS > 0]))),#
+                 N_S_obs = sum(!is.na(sim_dat$sim_dat$S_tot_obs)),#
+                 which_S_obs = array(which(!is.na(sim_dat$sim_dat$S_tot_obs)), dim = sum(!is.na(sim_dat$sim_dat$S_tot_obs))),#
+                 S_tot_obs = replace(sim_dat$sim_dat$S_tot_obs, is.na(sim_dat$sim_dat$S_tot_obs), 1),#
+                 N_age = 3, max_age = 5,#
+                 n_age_obs = sim_dat$sim_dat$n_age_obs,#
+                 N_H = sum(sim_dat$pars_out$pHOS > 0),#
+                 which_H = array(which(sim_dat$pars_out$pHOS > 0), dim = sum(sim_dat$pars_out$pHOS > 0)),#
+                 n_W_obs = array(sim_dat$sim_dat$n_W_obs[sim_dat$pars_out$pHOS > 0],#
+                                 dim = sum(sim_dat$pars_out$pHOS > 0)),#
+                 n_H_obs = array(sim_dat$sim_dat$n_H_obs[sim_dat$pars_out$pHOS > 0],#
+                                 dim = sum(sim_dat$pars_out$pHOS > 0)),#
+                 A = rep(sim_dat$sim_dat$A, sim_dat$sim_dat$N),#
+                 F_rate = sim_dat$sim_dat$F_rate,#
+                 N_B = sum(sim_dat$sim_dat$B_take > 0),#
+                 which_B = array(which(sim_dat$sim_dat$B_take > 0), dim = sum(sim_dat$sim_dat$B_take > 0)),#
+                 B_take_obs = sim_dat$sim_dat$B_take[sim_dat$sim_dat$B_take > 0])#
+if(stan_dat$N_pop_H == 0) stan_dat$which_pop_H <- array(1, dim = 1)#
+if(stan_dat$N_H == 0)#
+{#
+  stan_dat$which_H <- array(1, dim = 1)#
+  stan_dat$n_W_obs <- array(1, dim = 1)#
+  stan_dat$n_H_obs <- array(1, dim = 1)#
+}
+head(stan_dat)
+ll <- list(N=1000, pop=seq(10), yr=seq(20))#
+#
+ff <- function(data) {#
+	for(i in names(data)) assign(i, data[[i]])#
+}
+names(ll)
+ff(ll)
+ls()
+pop
