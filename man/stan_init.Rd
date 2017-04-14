@@ -28,3 +28,4 @@ A list with initial starting values for all of the parameters and states in the 
 \description{
 \code{stan_init} generates initial values for parameters and states in Stan.
 }
+

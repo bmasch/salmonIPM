@@ -9,11 +9,22 @@ Description: A hierarchical Bayesian model of salmon population dynamics. It
     estimates historical run reconstructions based on adult abdundance, harvest,
     age structure, and possible external drivers. It also computes forecasts of
     future run sizes, by year and age.
-Depends: R (>= 3.3)
-Imports: gtools, lattice, loo, magicaxis, parallel, rstan, shinystan, zoo
+Depends:
+    R (>= 3.3)
+Imports:
+    gtools,
+    lattice,
+    loo,
+    magicaxis,
+    parallel,
+    rstan,
+    shinystan,
+    zoo
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true
-Suggests: knitr, rmarkdown
+Suggests:
+    knitr,
+    rmarkdown
 VignetteBuilder: knitr
-RoxygenNote: 6.0.1
+RoxygenNote: 5.0.1
