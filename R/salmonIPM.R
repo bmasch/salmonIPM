@@ -54,7 +54,7 @@ salmonIPM <- function(fish_data, env_data = NULL, model, pool_pops = TRUE, init 
                                      "rho_log_phi","sigma_log_phi","phi","sigma","R_hat"),
                                N = c("a","b","rho","sigma","R_hat")))
   
-  stan_path <- file.path(path.package("SalmonIPM"), "exec")
+  stan_path <- path.package("SalmonIPM")
   
   fit <- stan(file = switch(model,
                             IPM = file.path(stan_path, ifelse(pool_pops, "IPM_adult_pp.stan", "IPM_adult_npp.stan")),
