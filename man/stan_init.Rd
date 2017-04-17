@@ -2,30 +2,22 @@
 % Please edit documentation in R/stan_init.r
 \name{stan_init}
 \alias{stan_init}
-\title{Generate initial values for Stan}
+\title{Generate initial values for fitting either integrated or run-reconstruction spawner-recruit models in Stan.}
 \usage{
-stan_init(data, chains, fixedpop = FALSE)
+stan_init(data, chains, model, pool_pops = TRUE)
 }
 \arguments{
-\item{data}{data frame with the following \code{colnames}:
-\describe{
-\item{\code{brood.yr}}{The year the fish were spawned.}
-\item{\code{pop}}{Population ID.}
-\item{\code{p3...pN}}{Multiple columns of the proportion of age-3, age-4, ..., age-N fish.}
-\item{\code{pHOS}}{The proportion of Hatchery Origin Spawners.}
-\item{\code{nS}}{The total number of wild + hatchery-origin spawners.}
-\item{\code{wild.broodstk}}{The number of fish taken for hatchery broodstock.}
-\item{\code{hrate.w}}{The harvest rate (0-1) of wild fish.}
-}}
+\item{data}{Named list of input data for fitting either an integrated or run-reconstruction spawner-recruit model in \code{stan}, as returned by \code{stan_data}.}
 
-\item{chains}{The number of parallel chains to fit.}
+\item{chains}{A positive integer specifying the number of Markov chains.}
 
-\item{fixedpop}{Logical value indicating whether or not to treat the different populations as fixed/independent instead of hierarchical. Default is \code{FALSE}.}
+\item{model}{One of \code{"IPM"} or \code{"RR"}, indicating whether to fit an integrated or run-reconstruction model.}
+
+\item{pool_pops}{Logical, with default \code{TRUE}, indicating whether or not to treat the different populations as hierarchical rather than fixed/independent.}
 }
 \value{
 A list with initial starting values for all of the parameters and states in the Stan model.
 }
 \description{
-\code{stan_init} generates initial values for parameters and states in Stan.
+Generate initial values for fitting either integrated or run-reconstruction spawner-recruit models in Stan.
 }
-

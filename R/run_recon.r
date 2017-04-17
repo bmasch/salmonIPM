@@ -1,45 +1,60 @@
-#' Standardized density function for generalized normal (Subbotin) distribution
+#' Perform run reconstruction on brood table data.
 #'
-#' Standardized version of \code{dgnorm}.
-#' 
-#' @param data data frame with the following \code{colnames}:
+#' @param fish_data Data frame that includes the following \code{colnames}, in no particular order except where noted:
 #' \describe{
-#' \item{\code{brood.yr}}{The year the fish were spawned.}
-#' \item{\code{pop}}{Population ID.}
-#' \item{\code{p3...pN}}{Multiple columns of the proportion of age-3, age-4, ..., age-N fish.}
-#' \item{\code{pHOS}}{The proportion of Hatchery Origin Spawners.}
-#' \item{\code{nS}}{The total number of wild + hatchery-origin spawners.}
-#' \item{\code{wild.broodstk}}{The number of fish taken for hatchery broodstock.}
-#' \item{\code{hrate.w}}{The harvest rate (0-1) of wild fish.}
+#' \item{\code{pop}}{Numeric or character population ID.}
+#' \item{\code{year}}{Numeric variable giving the year the fish spawned (i.e., the brood year).}
+#' \item{\code{A}}{Spawning habitat size (either stream length or area). Will usually be time-invariant within a population, but need not be.}
+#' \item{\code{S_tot_obs}}{Total number (not density) of wild and hatchery-origin spawners.}
+#' \item{\code{n_age_minAge...n_age_maxAge}}{Multiple columns of observed spawner age frequencies (i.e., counts), where minAge (maxAge) is the numeral age in years (total, not ocean age) of the youngest (oldest) spawners.}
+#' \item{\code{n_W_obs}}{Observed frequency of natural-origin spawners.}
+#' \item{\code{n_H_obs}}{Observed frequency of hatchery-origin spawners.}
+#' \item{\code{F_rate}}{Total harvest rate (proportion) of natural-origin fish.}
+#' \item{\code{B_take_obs}}{Number of adults taken for hatchery broodstock.}
 #' }
 #' 
-#' @return A list with the following:
+#' @return A data frame with the following \code{colnames}, some of which are simply replicated from fish_data:
 #' \describe{
-#' \item{\code{R}}{A [years x ages] matrix of age-specific recruits by brood year.}
-#' \item{\code{R_tot}}{A vector with the total number of estimated of recruits across all ages for each brood year.}
+#' \item{\code{pop}}{See above.}
+#' \item{\code{year}}{See above.}
+#' \item{\code{A}}{See above.}
+#' \item{\code{S}}{Same as S_tot_obs above.}
+#' \item{\code{p_age_minAge...p_age_maxAge}}{Multiple columns of spawner age \emph{relative} frequencies corresponding to the frequencies in fish_data.}
+#' \item{\code{p_HOS}}{Proportion of hatchery-origin spawners.}
+#' \item{\code{F_rate}}{See above.}
+#' \item{\code{B_take_obs}}{See above.}
+#' #' \item{\code{R}}{Total natural-origin recruits from the brood year in each row.}
 #' }
 #' 
 #' @export
-run_recon <- function(data)
+run_recon <- function(fish_data)
 {
-  year <- data$brood.yr
-  pop <- data$pop
-  q <- sweep(data[,c("p3","p4","p5")], 1, rowSums(data[,c("p3","p4","p5")]), "/")
-  pHOS <- data$pHOS
-  S_W <- data$nS*(1 - pHOS)
-  S_H <- data$nS*pHOS
-  B_take <- data$wild.broodstk
-  F_rate <- data$hrate.w
-  R <- matrix(NA, nrow(data), 3)
-  for(i in 1:nrow(data))
-    for(age in 3:5)
+  with(fish_data, {
+    age_range <- as.numeric(substring(names(fish_data)[grep("n_age", names(fish_data))], 6, 6))
+    qq <- sweep(fish_data[,grep("n_age", names(fish_data))], 1, 
+                rowSums(fish_data[,grep("n_age", names(fish_data))]), "/")
+    qq[is.infinite(as.matrix(qq))] <- NA
+    substr(names(qq), 1, 1) <- "p" 
+    p_HOS <- n_H_obs/(n_H_obs + n_W_obs)
+    recon_dat <- cbind(pop = pop, A, year = year, S = S_tot_obs, qq, p_HOS = p_HOS, 
+                       F_rate = F_rate, B_take_obs = B_take_obs, R = NA)
+    R <- matrix(NA, nrow(recon_dat), length(age_range))
+    
+    for(i in 1:nrow(recon_dat))
     {
-      if(year[i] + age <= max(year[pop==pop[i]]))
+      for(j in 1:length(age_range))
       {
-        B_rate <- ifelse(age==3, 0, B_take[i+age]/(S_W[i+age]*sum(q[i+age,-1]) + B_take[i+age]))
-        F_rate23 <- ifelse(age==3, 0, F_rate[i+age])
-        R[i,age-2] <- S_W[i+age]*q[i+age,age-2]/((1 - B_rate)*(1 - F_rate23))
+        a <- age_range[j]
+        if(year[i] + a <= max(year[pop==pop[i]]))
+        {
+          B_rate <- ifelse(j==1, 0, B_take_obs[i+a]/(S_tot_obs[i+a]*(1 - p_HOS[i+a])*(1 - qq[i+a,1]) + B_take_obs[i+a]))
+          F_eff <- ifelse(j==1, 0, F_rate[i+a])
+          R[i,j] <- S_tot_obs[i+a]*(1 - p_HOS[i+a])*qq[i+a,j]/((1 - B_rate)*(1 - F_eff))
+        }
       }
     }
-  return(list(R = R, R_tot = rowSums(R)))
+    
+    recon_dat$R <- rowSums(R)
+    return(recon_dat)
+  })
 }
