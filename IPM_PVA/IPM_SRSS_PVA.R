@@ -1,18 +1,3 @@
-library(rstan)
-library(loo)
-library(shinystan)
-library(gtools)
-library(lattice)
-library(parallel)
-library(magicaxis)
-source("stan_mean.r")
-source("extract1.r")
-source("IPM_adult_forecast.r")
-source("step_ahead.r")
-source("stan_init.r")
-source("run_recon.r")
-source("dgnorm.r")
-source("fix_ff_filenames.r")
 options(device=windows)
 
 
