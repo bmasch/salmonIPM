@@ -1,6 +1,10 @@
 # Load data
 fish_data <- read.table(file.path("~", "SalmonIPM", "IPM_PVA", "fish_data.txt"), sep = "\t", header = T)
 
+# Impute one NA value of S_tot_obs in Chamberlain 1986
+fish_data$S_tot_obs[fish_data$pop == "Chamberlain" & fish_data$year == 1986] <- 
+  mean(fish_data$S_tot_obs[fish_data$pop == "Chamberlain"][1:5], na.rm = T)
+
 # Fit hierarchical spawner-recruit model to run reconstruction
 RR_fit <- salmonIPM(fish_data = fish_data, model = "RR", chains = 3, iter = 1000, warmup = 500)
 
