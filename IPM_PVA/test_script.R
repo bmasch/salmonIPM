@@ -16,7 +16,7 @@ IPM_fit <- salmonIPM(fish_data = fish_data, model = "IPM", chains = 3, iter = 20
 
 print(IPM_fit, pars = c("mu_log_a","sigma_log_a",
                         "mu_log_b","sigma_log_b",
-                        "sigma_log_phi","rho_log_phi"
+                        "sigma_log_phi","rho_log_phi",
                         "mu_p","sigma_alr_p","gamma_alr_p",
                         "mu_tau_alr_p","sigma_log_tau_alr_p","tau_alr_p",
                         "mu_sigma_proc","sigma_log_sigma_proc"))
