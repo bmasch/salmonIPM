@@ -4,4 +4,5 @@
 .Ruserdata
 .DS_Store
 inst/doc
-^.*\.RData$
+#^.*\.RData$
+**/*.RData
