@@ -1,6 +1,5 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^.*script.R$
-^.*tmp_data$
-^.*tmp_vignettes$
-^.*IPM_PVA$
+^IPM_PVA.*$
+^docs.*$

@@ -18,3 +18,4 @@ dgnorm(x, mu = 0, sigma = 1, shape = 2)
 \description{
 Density function for a generalized normal distribution.
 }
+
