@@ -32,7 +32,7 @@ RR_fit <- salmonIPM(fish_data = fish_data, model = "RR", chains = 3, iter = 1000
 print(test_fit, pars = c("phi","R_hat"), include = F)
 
 # Fit hierarchical IPM
-IPM_fit2 <- salmonIPM(fish_data = fish_data2, model = "IPM", 
+IPM_fit <- salmonIPM(fish_data = fish_data, model = "IPM", 
                      pars = c("mu_log_a","sigma_log_a","a",
                        "mu_log_b","sigma_log_b","b",
                        "sigma_log_phi","rho_log_phi","phi",
@@ -43,13 +43,13 @@ IPM_fit2 <- salmonIPM(fish_data = fish_data2, model = "IPM",
                      chains = 3, iter = 2000, warmup = 1000, 
                      control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
 
-print(IPM_fit2, pars = c("mu_log_a","sigma_log_a",
+print(IPM_fit, pars = c("mu_log_a","sigma_log_a",
                         "mu_log_b","sigma_log_b",
                         "sigma_log_phi","rho_log_phi",
                         "mu_p","sigma_alr_p","gamma_alr_p",
                         "mu_tau_alr_p","sigma_log_tau_alr_p","tau_alr_p",
                         "mu_sigma_proc","sigma_log_sigma_proc"))
-launch_shinystan(IPM_fit2)
+launch_shinystan(IPM_fit)
 
 
 #-----------------
