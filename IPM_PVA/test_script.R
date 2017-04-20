@@ -29,7 +29,7 @@ fish_data2$A <- 1
 # Fit hierarchical spawner-recruit model to run reconstruction
 RR_fit <- salmonIPM(fish_data = fish_data, model = "RR", chains = 3, iter = 1000, warmup = 500,
                     control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
-print(test_fit, pars = c("phi","R_hat"), include = FALSE)
+print(test_fit, pars = c("phi","R_hat"), include = F)
 
 # Fit hierarchical IPM
 IPM_fit2 <- salmonIPM(fish_data = fish_data2, model = "IPM", 
