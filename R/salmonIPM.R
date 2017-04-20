@@ -27,9 +27,9 @@
 #' 
 #' @return An object of class \code{stanfit} representing the fitted model. See \code{rstan::stan} for details.
 #' 
+#' @importFrom rstan stan
+#'
 #' @export
-
-
 salmonIPM <- function(fish_data, env_data = NULL, model, pool_pops = TRUE, init = NULL, pars = NULL, 
                       chains, iter, warmup, thin = 1, cores = 3, control = NULL)
 {

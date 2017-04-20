@@ -18,3 +18,4 @@ dgnorm_std(x, mu = 0, sigma = 1, shape = 2)
 \description{
 Standardized version of \code{dgnorm}.
 }
+
