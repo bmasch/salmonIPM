@@ -31,4 +31,3 @@ A named list that can be passed to \code{stan} as the \code{data} argument.
 \description{
 Assembles input data in a format that can be passed to Stan for fitting either integrated or run-reconstruction spawner-recruit models.
 }
-

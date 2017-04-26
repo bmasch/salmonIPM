@@ -51,4 +51,3 @@ An object of class \code{stanfit} representing the fitted model. See \code{rstan
 \description{
 Fits an integrated or run-reconstruction spawner-recruit model.
 }
-

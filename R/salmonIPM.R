@@ -51,8 +51,9 @@ salmonIPM <- function(fish_data, env_data = NULL, model, pool_pops = TRUE, init 
                    RR = switch(ifelse(pool_pops, "Y", "N"),
                                Y = c("mu_log_a","sigma_log_a","a",
                                      "mu_log_b","sigma_log_b","b",
-                                     "rho_log_phi","sigma_log_phi","phi","sigma","R_hat"),
-                               N = c("a","b","rho","sigma","R_hat")))
+                                     "rho_log_phi","sigma_log_phi","phi","sigma",
+                                     "R_hat","S_sim","R_sim"),
+                               N = c("a","b","rho","sigma","R_hat","S_sim","R_sim")))
   
   stan_path <- file.path(path.package("salmonIPM"), "stan")
   

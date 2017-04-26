@@ -37,4 +37,3 @@ A data frame with the following \code{colnames}, some of which are simply replic
 \description{
 Perform run reconstruction on brood table data.
 }
-

@@ -94,15 +94,24 @@ stan_data <- function(fish_data, env_data = NULL, model)
     })
   } else {
     recon_dat <- run_recon(fish_data)
-    recon_NA <- is.na(recon_dat$R) | is.na(recon_dat$S)
+    which_fit <- which(!is.na(recon_dat$R) & !is.na(recon_dat$S))
+    N_fit <- length(which_fit)
+    p <- aggregate(recon_dat[,grep("p_age", names(recon_dat))], list(pop = recon_dat$pop), mean, na.rm = TRUE)[,-1]
     
     with(recon_dat, {
-      dat <- list(N = sum(!recon_NA),
-                  pop = pop[!recon_NA], 
-                  year = year[!recon_NA],
-                  S = replace(S, S == 0, 1)[!recon_NA],
-                  R = R[!recon_NA],
-                  A = A[!recon_NA])
+      dat <- list(N = length(S),
+                  pop = pop, 
+                  year = year,
+                  N_fit = N_fit,
+                  which_fit = array(which_fit, dim = N_fit),
+                  S = replace(S, S == 0 | is.na(S), 1),
+                  R = replace(R, R == 0 | is.na(R), 1),
+                  A = A,
+                  S_NA = array(as.integer(is.na(S)), dim = length(S)),
+                  R_NA = array(as.integer(is.na(R)), dim = length(R)),
+                  N_age = sum(grepl("p_age", names(recon_dat))),
+                  max_age = max(as.numeric(substring(names(recon_dat)[grep("p_age", names(recon_dat))], 6, 6))),
+                  p = as.matrix(p))
       
       return(dat)
     })

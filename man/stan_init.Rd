@@ -21,4 +21,3 @@ A list with initial starting values for all of the parameters and states in the 
 \description{
 Generate initial values for fitting either integrated or run-reconstruction spawner-recruit models in Stan.
 }
-
