@@ -1,87 +1,95 @@
 options(device=windows)
-
+library(salmonIPM)
 
 #===========================================================================
 # DATA
 #===========================================================================
 
-srchin_all <- read.table("srchin.4ss.all.txt", sep="\t", header=T)
-srchin <- srchin_all
-### TEMP: Impute one NA value of nS in Chamberlain 1986
-srchin$nS[srchin$pop == "Chamberlain" & srchin$brood.yr == 1986] <- 
-  mean(srchin$nS[srchin$pop == "Chamberlain"][1:5], na.rm = T)
+# Load data
+fish_data <- read.table(file.path("~", "SalmonIPM", "IPM_PVA", "fish_data.txt"), sep = "\t", header = T)
+
+# Impute one NA value of S_tot_obs in Chamberlain 1986
+fish_data$S_tot_obs[fish_data$pop == "Chamberlain" & fish_data$year == 1986] <- 
+  mean(fish_data$S_tot_obs[fish_data$pop == "Chamberlain"][1:5], na.rm = T)
+
+# Change area to 1 for all pops (units of Rmax will be spawners, not spawners/ha)
+fish_data$A <- 1
 
 # Pad data with years through max_year
-max_year <- max(srchin$brood.yr) + 50
-year_aug <- sapply(tapply(srchin$brood.yr, srchin$pop, max), function(x) (x + 1):max_year)
+max_year <- max(fish_data$year) + 50
+year_aug <- sapply(tapply(fish_data$year, fish_data$pop, max), function(x) (x + 1):max_year)
 pop_aug <- rep(names(year_aug), sapply(year_aug, length))
-ha_aug <- rep(tapply(srchin$ha, srchin$pop, mean), times = sapply(year_aug, length))
-srchin_aug <- data.frame(type = "future", pop = pop_aug, brood.yr = unlist(year_aug), 
-                         ha = ha_aug, period = NA, nS = NA, n3 = 0, n4 = 0, n5 = 0,
-                         p3 = NA, p4 = NA, p5 = NA, nH = 0, nW = 0, pHOS = 0, 
-                         wild.broodstk = 0, hrate.w = 0,
-                         row.names = NULL)
-srchin <- rbind(data.frame(type = "past",
-                           srchin[,c("pop","brood.yr","ha","period","nS","n3","n4","n5",
-                                     "p3","p4","p5","nH","nW","pHOS","wild.broodstk","hrate.w")]), 
-                srchin_aug)
-srchin <- srchin[order(srchin$pop, srchin$brood.yr),]
-row.names(srchin) <- NULL
-
-X <- matrix(0, length(unique(srchin$brood.yr)))
+code_aug <- fish_data$code[match(pop_aug, fish_data$pop)]
+MPG_aug <- fish_data$MPG[match(pop_aug, fish_data$pop)]
+A_aug <- rep(tapply(fish_data$A, fish_data$pop, mean), times = sapply(year_aug, length))
+fish_data_aug <- data.frame(pop = pop_aug, code = code_aug, MPG = MPG_aug, A = A_aug,
+                            year = unlist(year_aug), type = "future", fit_p_HOS = 0, 
+                            S_tot_obs = NA, n_age3_obs = 0, n_age4_obs = 0, n_age5_obs = 0,
+                            n_W_obs = 0, n_H_obs = 0, p_HOS = 0, B_take_obs = 0, F_rate = 0,
+                            row.names = NULL)
+fish_data_aug <- rbind(cbind(type = "past", fish_data[,setdiff(names(fish_data_aug), "type")])[,names(fish_data_aug)], 
+                       fish_data_aug)
+fish_data_aug <- fish_data_aug[order(fish_data_aug$pop, fish_data_aug$year),]
+row.names(fish_data_aug) <- NULL
 
 
 #===========================================================================
-# INTEGRATED MODEL
+# FIT MODELS
 #===========================================================================
 
-# Data for Stan
-stan_dat <- list(N = nrow(srchin),
-                 pop = as.numeric(srchin$pop), year = as.numeric(factor(srchin$brood.yr)),
-                 N_X = ncol(X), X = X,
-                 N_pop_H = length(unique(srchin$pop[srchin$period %in% c("nonlocal","local")])),
-                 which_pop_H = array(unique(as.numeric(srchin$pop)[srchin$period %in% c("nonlocal","local")]),
-                                     dim = length(unique(as.numeric(srchin$pop)[srchin$period %in% c("nonlocal","local")]))),
-                 N_S_obs = sum(!is.na(srchin$nS)),
-                 which_S_obs = array(which(!is.na(srchin$nS)), dim = sum(!is.na(srchin$nS))),
-                 S_tot_obs = replace(srchin$nS, is.na(srchin$nS) | srchin$nS==0, 1),
-                 N_age = 3, max_age = 5,
-                 n_age_obs = as.matrix(srchin[,c("n3","n4","n5")]),
-                 N_H = sum(srchin$period %in% c("nonlocal","local")),
-                 which_H = array(which(srchin$period %in% c("nonlocal","local")), 
-                                 dim = max(sum(srchin$period %in% c("nonlocal","local")), 1)),
-                 n_W_obs = array(srchin$nW[srchin$period %in% c("nonlocal","local")], 
-                                 dim = max(sum(srchin$period %in% c("nonlocal","local")), 1)),
-                 n_H_obs = array(srchin$nH[srchin$period %in% c("nonlocal","local")], 
-                                 dim = max(sum(srchin$period %in% c("nonlocal","local")), 1)),
-                 A = srchin$ha,
-                 F_rate = srchin$hrate.w,
-                 N_B = sum(srchin$wild.broodstk > 0),
-                 which_B = array(which(srchin$wild.broodstk > 0),
-                                 dim = max(sum(srchin$wild.broodstk > 0), 1)),
-                 B_take_obs = srchin$wild.broodstk[srchin$wild.broodstk > 0])
-if(stan_dat$N_pop_H == 0) stan_dat$which_pop_H <- array(1, dim = 1)
-if(stan_dat$N_H == 0) 
-{
-  stan_dat$which_H <- array(1, dim = 1)
-  stan_dat$n_W_obs <- array(1, dim = 1)
-  stan_dat$n_H_obs <- array(1, dim = 1)
-}
+#------------------------------------------
+# RR, each population separate
+#------------------------------------------
 
-# Fit model!
-stan_PVA <- stan(file = "IPM_adult.stan",
-                data = stan_dat, 
-                init = stan_init(stan_dat, chains = 3, fixedpop = FALSE), 
-                pars = c("mu_log_a","sigma_log_a","a",
-                         "mu_log_b","sigma_log_b","b",
-                         "beta_log_phi","sigma_log_phi","rho_log_phi","phi",
-                         "mu_p","sigma_alr_p","gamma_alr_p",
-                         "mu_tau_alr_p","sigma_log_tau_alr_p","tau_alr_p","p",
-                         "pHOS","B_rate_all",
-                         "mu_sigma_proc","sigma_log_sigma_proc","sigma_proc","sigma_obs",
-                         "S_tot","R_tot","q"),
-                chains = 3, iter = 2000, warmup = 1000, thin = 1, cores = 3,
-                control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+PVA_RR_npp <- salmonIPM(fish_data = fish_data_aug, model = "RR", pool_pops = FALSE, 
+                        chains = 3, iter = 1000, warmup = 500,
+                        control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+
+print(PVA_RR_npp, pars = c("phi","R_hat","S_sim"), include = FALSE)
+launch_shinystan(PVA_RR_npp)
+
+
+#------------------------------------------
+# RR, populations hierarchical
+#------------------------------------------
+
+PVA_RR_pp <- salmonIPM(fish_data = fish_data_aug, model = "RR", pool_pops = TRUE, 
+                       chains = 3, iter = 1000, warmup = 500,
+                       control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+
+print(PVA_RR_pp, pars = c("phi","R_hat","S_sim"), include = FALSE)
+launch_shinystan(PVA_RR_pp)
+
+
+#------------------------------------------
+# IPM, each population separate
+#------------------------------------------
+
+PVA_IPM_npp <- salmonIPM(fish_data = fish_data_aug, model = "IPM", pool_pops = FALSE, 
+                         chains = 3, iter = 1000, warmup = 500,
+                         control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+
+print(PVA_IPM_npp, pars = c("phi","p_HOS","B_rate_all","q"), include = FALSE)
+launch_shinystan(PVA_IPM_npp)
+
+
+#------------------------------------------
+# IPM, populations hierarchical
+#------------------------------------------
+
+PVA_IPM_pp <- salmonIPM(fish_data = fish_data_aug, model = "IPM", pool_pops = TRUE, 
+                        chains = 3, iter = 1000, warmup = 500,
+                        control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+
+print(PVA_IPM_pp, pars = c("phi","p_HOS","B_rate_all","q"), include = FALSE)
+launch_shinystan(PVA_IPM_pp)
+
+
+
+
+
+
+
 
 
 # # Write out results (total spawners and recruits per spawner by population)
@@ -95,59 +103,6 @@ stan_PVA <- stan(file = "IPM_adult.stan",
 # write.table(S_tot, "S_tot.txt", sep = "\t", row.names = F)
 # write.table(RS, "RS.txt", sep = "\t", row.names = F)
 # rm(list = c("S_tot","R_tot","RS","pop","brood_year"))
-
-
-#===========================================================================
-# TRADITIONAL MULTILEVEL SPAWNER-RECRUIT MODEL
-#===========================================================================
-
-# Run reconstruction
-srchin_rr <- run_recon(srchin)
-rr_NA <- is.na(srchin$rr$R_tot) | is.na(srchin$nS)
-
-# Data for Stan
-stan_rr_dat <- list(N = sum(!reg_NA),
-                     pop = as.numeric(srchin$pop)[!reg_NA], 
-                     year = as.numeric(factor(srchin$brood.yr))[!reg_NA],
-                     N_pop_H = length(unique(srchin$pop[srchin$period %in% c("nonlocal","local")])),
-                     which_pop_H = array(unique(as.numeric(srchin$pop)[srchin$period %in% c("nonlocal","local")]),
-                                         dim = length(unique(as.numeric(srchin$pop)[srchin$period %in% c("nonlocal","local")]))),
-                     a_vary = 0, Rmax_vary = 0,
-                     S_W = (replace(srchin$nS, srchin$nS == 0, 1)*(1 - srchin$pHOS))[!reg_NA],
-                     S_H = (replace(srchin$nS, srchin$nS == 0, 1)*srchin$pHOS)[!reg_NA],
-                     R = srchin_recon$R_tot[!reg_NA],
-                     A = srchin$ha[!reg_NA])
-
-
-# Function to generate initial values
-stan_reg_init <- function() 
-{
-  if(exists("stan_dat")) 
-    for(i in names(stan_reg_dat)) assign(i, stan_reg_dat[[i]])
-  
-  return(list(mu_log_a_W = runif(1,3,6), mu_log_a_H = runif(1,3,6), 
-              sigma_log_a = runif(1,0.1,0.5),
-              log_a_W_z = array(runif(max(pop),-1,1), dim = max(pop)), 
-              log_a_H_z = array(runif(max(N_pop_H,1),-1,1), dim = max(N_pop_H,1)),
-              mu_log_Rmax_W = runif(1,4,6), mu_log_Rmax_H = runif(1,4,6), 
-              sigma_log_Rmax = runif(1,0.1,0.5),
-              log_Rmax_W_z = array(runif(max(pop),-1,1), dim = max(pop)), 
-              log_Rmax_H_z = array(runif(max(N_pop_H,1),-1,1), dim = max(N_pop_H,1)),
-              sigma_log_phi = runif(1,0.1,0.5), 
-              log_phi_z = array(rnorm(max(year),0,0.1), dim = max(year)),
-              sigma = runif(1,0.1,2)))
-}
-
-# Fit model!
-stan_LG_reg <- stan(file = "HW_STAN.stan",
-                    data = c(stan_reg_dat), 
-                    init = stan_reg_init, 
-                    pars = c("mu_log_a_W","mu_log_a_H","sigma_log_a","a_W", "a_H", #"log_alpha",
-                             "mu_log_Rmax_W","mu_log_Rmax_H","sigma_log_Rmax","Rmax_W","Rmax_H", #"log_rho",
-                             "sigma_log_phi","phi","sigma","R_hat"),
-                    chains = 3, iter = 10000, warmup = 2000, thin = 8, cores = 3,
-                    control = list(adapt_delta = 0.8))
-
 
 
 #===========================================================================
@@ -304,7 +259,7 @@ for(i in levels(srchin$pop))
   RS_i <- RS[,srchin$pop==i]
   RS_fit_i <- RS_i[,srchin$type[srchin$pop==i]=="past"]
   RS_fore_i <- cbind(RS_fit_i[,ncol(RS_fit_i)],
-                        RS_i[,srchin$type[srchin$pop==i]=="future"])
+                     RS_i[,srchin$type[srchin$pop==i]=="future"])
   year_fit_i <- srchin$brood.yr[srchin$pop==i & srchin$type=="past"]
   year_fore_i <- c(year_fit_i[length(year_fit_i)], 
                    srchin$brood.yr[srchin$pop==i & srchin$type=="future"])
