@@ -109,6 +109,174 @@ launch_shinystan(PVA_IPM_pp)
 # FIGURES
 #===========================================================================
 
+# Comparison of S-R curves and parameters under RR and IPM models
+dev.new(width = 15, height = 5)
+par(mfrow = c(1,3))
+BH <- function(a, b, S) 
+{
+  a*S/(1 + b*S)
+}
+
+S <- matrix(seq(1, quantile(fish_data$S_tot_obs, 0.9, na.rm = T), length = 100),
+            nrow = sum(PVA_RR_pp@sim$n_save - PVA_RR_pp@sim$warmup2)*50, ncol = 100, byrow = T)
+
+# S-R curves
+mu_log_a <- as.vector(extract1(PVA_IPM_pp,"mu_log_a"))
+mu_log_b <- as.vector(extract1(PVA_IPM_pp,"mu_log_b"))
+R_ESU <- BH(a = exp(mu_log_a), b = exp(mu_log_b), S = S)
+bb <- "blue4"
+
+plot(S[1,], apply(R_ESU, 2, median), type = "l", lwd=3, col = bb, las = 1,
+     cex.lab = 1.5, cex.axis = 1.2, xaxs = "i", yaxs = "i",
+     ylim = c(0, max(apply(R_ESU, 2, quantile, 0.975))),
+     xlab = "Spawners", ylab = "Recruits")
+bb <- col2rgb(bb)
+bb <- rgb(bb[1], bb[2], bb[3], maxColorValue = 255, alpha = 255*0.15)
+polygon(c(S[1,], rev(S[1,])), c(apply(R_ESU, 2, quantile, 0.025), rev(apply(R_ESU, 2, quantile, 0.975))), col = bb, border = NA)
+
+mu_log_a <- as.vector(extract1(PVA_RR_pp,"mu_log_a"))
+mu_log_b <- as.vector(extract1(PVA_RR_pp,"mu_log_b"))
+R_ESU <- BH(a = exp(mu_log_a), b = exp(mu_log_b), S = S)
+bb <- "orangered3"
+lines(S[1,], apply(R_ESU, 2, median), type = "l", lwd=3, col = bb)
+bb <- col2rgb(bb)
+bb <- rgb(bb[1], bb[2], bb[3], maxColorValue = 255, alpha = 255*0.15)
+polygon(c(S[1,], rev(S[1,])), c(apply(R_ESU, 2, quantile, 0.025), rev(apply(R_ESU, 2, quantile, 0.975))), col = bb, border = NA)
+
+# Posterior densities of log(a)
+dd_IPM_ESU <- density(extract1(PVA_IPM_pp,"mu_log_a"))
+dd_IPM_pop <- vector("list", length(levels(fish_data$pop)))
+for(i in 1:length(dd_IPM_pop))
+  dd_IPM_pop[[i]] <- density(log(extract1(PVA_IPM_pp,"a")[,i]))
+dd_RR_ESU <- density(extract1(PVA_RR_pp,"mu_log_a"))
+dd_RR_pop <- vector("list", length(levels(fish_data$pop)))
+for(i in 1:length(dd_RR_pop))
+  dd_RR_pop[[i]] <- density(log(extract1(PVA_RR_pp,"a")[,i]))
+
+bb <- "blue4"
+plot(dd_IPM_ESU$x, dd_IPM_ESU$y, type = "l", lwd = 3, col = bb, las = 1, cex.lab = 1.5, cex.axis = 1.2,
+     xlab = "log(a)", ylab = "Probability density", xaxs = "i",
+     xlim = range(c(dd_IPM_ESU$x, dd_RR_ESU$x, sapply(c(dd_RR_pop, dd_IPM_pop), function(m) m$x))),
+     ylim = range(c(dd_IPM_ESU$y, dd_RR_ESU$y, sapply(c(dd_RR_pop, dd_IPM_pop), function(m) m$y))))
+bb <- col2rgb(bb)
+bb <- rgb(bb[1], bb[2], bb[3], maxColorValue = 255, alpha = 255*0.3)
+for(i in 1:length(dd_IPM_pop))
+  lines(dd_IPM_pop[[i]]$x, dd_IPM_pop[[i]]$y, col = bb)
+
+bb <- "orangered3"
+lines(dd_RR_ESU$x, dd_RR_ESU$y, lwd = 3, col = bb)
+bb <- col2rgb(bb)
+bb <- rgb(bb[1], bb[2], bb[3], maxColorValue = 255, alpha = 255*0.3)
+for(i in 1:length(dd_RR_pop))
+  lines(dd_RR_pop[[i]]$x, dd_RR_pop[[i]]$y, col = bb)
+
+curve(dnorm(x,0,5), lwd=3, add=T)
+
+# Posterior densities of log(Rmax)
+dd_IPM_ESU <- density(extract1(PVA_IPM_pp,"mu_log_a") - extract1(PVA_IPM_pp,"mu_log_b"))
+dd_IPM_pop <- vector("list", length(levels(fish_data$pop)))
+for(i in 1:length(dd_IPM_pop))
+  dd_IPM_pop[[i]] <- density(log(extract1(PVA_IPM_pp,"a")[,i]) - log(extract1(PVA_IPM_pp,"b")[,i]))
+dd_RR_ESU <- density(extract1(PVA_RR_pp,"mu_log_a") - extract1(PVA_RR_pp,"mu_log_b"))
+dd_RR_pop <- vector("list", length(levels(fish_data$pop)))
+for(i in 1:length(dd_RR_pop))
+  dd_RR_pop[[i]] <- density(log(extract1(PVA_RR_pp,"a")[,i]) - log(extract1(PVA_RR_pp,"b")[,i]))
+
+bb <- "blue4"
+plot(dd_IPM_ESU$x, dd_IPM_ESU$y, type = "l", lwd = 3, col = bb, las = 1, cex.lab = 1.5, cex.axis = 1.2,
+     xlab = "log(Rmax)", ylab = "Probability density", xaxs = "i",
+     xlim = range(c(dd_IPM_ESU$x, dd_RR_ESU$x, sapply(c(dd_RR_pop, dd_IPM_pop), function(m) m$x))),
+     ylim = range(c(dd_IPM_ESU$y, dd_RR_ESU$y, sapply(c(dd_RR_pop, dd_IPM_pop), function(m) m$y))))
+bb <- col2rgb(bb)
+bb <- rgb(bb[1], bb[2], bb[3], maxColorValue = 255, alpha = 255*0.3)
+for(i in 1:length(dd_IPM_pop))
+  lines(dd_IPM_pop[[i]]$x, dd_IPM_pop[[i]]$y, col = bb)
+
+bb <- "orangered3"
+lines(dd_RR_ESU$x, dd_RR_ESU$y, lwd = 3, col = bb)
+bb <- col2rgb(bb)
+bb <- rgb(bb[1], bb[2], bb[3], maxColorValue = 255, alpha = 255*0.3)
+for(i in 1:length(dd_RR_pop))
+  lines(dd_RR_pop[[i]]$x, dd_RR_pop[[i]]$y, col = bb)
+
+
+
+
+# Spawner-recruit curve variance decomposition under RR and IPM models
+
+dev.new(width=15,height=10)
+par(mfcol = c(2,3), mar=c(5.1,5.1,1,1))
+BH <- function(a, b, S) 
+{
+  a*S/(1 + b*S)
+}
+
+# RR
+mu_log_a <- as.vector(extract1(PVA_RR_pp,"mu_log_a"))
+sigma_log_a <- as.vector(extract1(PVA_RR_pp,"sigma_log_a"))
+mu_log_b <- as.vector(extract1(PVA_RR_pp,"mu_log_b"))
+sigma_log_b <- as.vector(extract1(PVA_RR_pp,"sigma_log_b"))
+sigma_log_phi <- as.vector(extract1(PVA_RR_pp,"sigma_log_phi"))
+sigma <- as.vector(extract1(PVA_RR_pp,"sigma"))
+S <- matrix(seq(1, 500, length = 100),
+            nrow=sum(PVA_RR_pp@sim$n_save - PVA_RR_pp@sim$warmup2)*50, ncol=100, byrow=T)
+R_ESU <- BH(a = exp(mu_log_a), b = exp(mu_log_b), S = S)
+R_pop <- BH(a = rlnorm(nrow(S), mu_log_a, sigma_log_a), b = rlnorm(nrow(S), mu_log_b, sigma_log_b), S = S)
+R_year <- R_pop*rlnorm(nrow(S), 0, sigma_log_phi)
+R_resid <- R_year*rlnorm(nrow(S), 0, sigma)
+bb <- "orangered3"
+plot(S[1,], apply(R_resid, 2, median), type = "l", lwd=3, col = bb, las = 1,
+     cex.lab = 1.5, cex.axis = 1.2, xaxs = "i", 
+     ylim = c(1, max(apply(R_resid, 2, quantile, 0.975))),
+     xlab = "Spawners", ylab = "Recruits", log = "y")
+bb <- col2rgb(bb)
+bb <- rgb(bb[1], bb[2], bb[3], maxColorValue = 255, alpha = 255*0.15)
+polygon(c(S[1,], rev(S[1,])), 
+        c(apply(R_ESU, 2, quantile, 0.025), rev(apply(R_ESU, 2, quantile, 0.975))), col = bb, border = NA)
+polygon(c(S[1,], rev(S[1,])), 
+        c(apply(R_pop, 2, quantile, 0.025), rev(apply(R_pop, 2, quantile, 0.975))), col = bb, border = NA)
+polygon(c(S[1,], rev(S[1,])), 
+        c(apply(R_year, 2, quantile, 0.025), rev(apply(R_year, 2, quantile, 0.975))), col = bb, border = NA)
+polygon(c(S[1,], rev(S[1,])), 
+        c(apply(R_resid, 2, quantile, 0.025), rev(apply(R_resid, 2, quantile, 0.975))), col = bb, border = NA)
+
+# IPM
+mu_log_a <- as.vector(extract1(PVA_IPM_pp,"mu_log_a"))
+sigma_log_a <- as.vector(extract1(PVA_IPM_pp,"sigma_log_a"))
+mu_log_b <- as.vector(extract1(PVA_IPM_pp,"mu_log_b"))
+sigma_log_b <- as.vector(extract1(PVA_IPM_pp,"sigma_log_b"))
+sigma_log_phi <- as.vector(extract1(PVA_IPM_pp,"sigma_log_phi"))
+mu_sigma_proc <- as.vector(extract1(PVA_IPM_pp,"mu_sigma_proc"))
+sigma_obs <- as.vector(extract1(PVA_IPM_pp,"sigma_obs"))
+R_ESU <- BH(a = exp(mu_log_a), b = exp(mu_log_b), S = S)
+R_pop <- BH(a = rlnorm(nrow(S), mu_log_a, sigma_log_a), b = rlnorm(nrow(S), mu_log_b, sigma_log_b), S = S)
+R_year <- R_pop*rlnorm(nrow(S), 0, sigma_log_phi)
+R_proc <- R_year*rlnorm(nrow(S), 0, mu_sigma_proc)
+R_obs <- R_proc*rlnorm(nrow(S), 0, sigma_obs)
+bb <- "blue4"
+plot(S[1,], apply(R_obs, 2, median), type = "l", lwd=3, col = bb, las = 1,
+     cex.lab = 1.5, cex.axis = 1.2, xaxs = "i", 
+     ylim = c(1, max(apply(R_obs, 2, quantile, 0.975))),
+     xlab = "Spawners", ylab = "Recruits", log = "y")
+bb <- col2rgb(bb)
+bb <- rgb(bb[1], bb[2], bb[3], maxColorValue = 255, alpha = 255*0.15)
+polygon(c(S[1,], rev(S[1,])), 
+        c(apply(R_ESU, 2, quantile, 0.025), rev(apply(R_ESU, 2, quantile, 0.975))), col = bb, border = NA)
+polygon(c(S[1,], rev(S[1,])), 
+        c(apply(R_pop, 2, quantile, 0.025), rev(apply(R_pop, 2, quantile, 0.975))), col = bb, border = NA)
+polygon(c(S[1,], rev(S[1,])), 
+        c(apply(R_year, 2, quantile, 0.025), rev(apply(R_year, 2, quantile, 0.975))), col = bb, border = NA)
+polygon(c(S[1,], rev(S[1,])), 
+        c(apply(R_proc, 2, quantile, 0.025), rev(apply(R_proc, 2, quantile, 0.975))), col = bb, border = NA)
+polygon(c(S[1,], rev(S[1,])), 
+        c(apply(R_obs, 2, quantile, 0.025), rev(apply(R_obs, 2, quantile, 0.975))), col = bb, border = NA)
+
+rm(list=c("mu_log_a","sigma_log_a","mu_log_b","sigma_log_b","sigma_log_phi","sigma",
+          "mu_sigma_proc","sigma_obs","S","R_ESU","R_pop","R_year","R_proc","R_obs","R_resid","bb"))
+
+
+
+
 # Time series of observed and fitted or predicted total spawners for each pop
 dev.new(width=16,height=10)
 # png(filename="IPM_SRSS_PVA_S_tot.png", width=16, height=10, units="in", res=200, type="cairo-png")

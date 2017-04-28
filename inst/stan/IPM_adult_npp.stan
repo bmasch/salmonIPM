@@ -148,7 +148,7 @@ model {
   
   # Priors
   a ~ lognormal(0,5);
-  b ~ lognormal(0,5);
+  b ~ lognormal(0,10);
   to_vector(beta_proc) ~ normal(0,5);
   for(j in 1:N_pop)
     rho_proc[j] ~ pexp(0,0.8,10); # mildly regularize rho to ensure stationarity
