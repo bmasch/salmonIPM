@@ -7,6 +7,7 @@ library(salmonIPM)
 
 # Load data
 fish_data <- read.table(file.path("~", "SalmonIPM", "IPM_PVA", "fish_data.txt"), sep = "\t", header = T)
+fish_data <- fish_data[order(fish_data$code, fish_data$year),]
 
 # Impute one NA value of S_tot_obs in Chamberlain 1986
 fish_data$S_tot_obs[fish_data$pop == "Chamberlain" & fish_data$year == 1986] <- 
@@ -29,7 +30,7 @@ fish_data_aug <- data.frame(pop = pop_aug, code = code_aug, MPG = MPG_aug, A = A
                             row.names = NULL)
 fish_data_aug <- rbind(cbind(type = "past", fish_data[,setdiff(names(fish_data_aug), "type")])[,names(fish_data_aug)], 
                        fish_data_aug)
-fish_data_aug <- fish_data_aug[order(fish_data_aug$pop, fish_data_aug$year),]
+fish_data_aug <- fish_data_aug[order(fish_data_aug$code, fish_data_aug$year),]
 row.names(fish_data_aug) <- NULL
 
 
