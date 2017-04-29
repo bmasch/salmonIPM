@@ -85,9 +85,12 @@ transformed parameters {
 model {
   # Priors
   a ~ lognormal(0,5);
-  b ~ lognormal(0,5);
+  b ~ lognormal(0,10);
   for(i in 1:N_pop)
+  {
+    rho[i] ~ pexp(0,0.8,10);   # mildly regularize rho to ensure stationarity
     sigma[i] ~ pexp(0,2,10);
+  }
 
   # Likelihood
   R[which_fit] ~ lognormal(log(R_ar1[which_fit]), sigma_ar1[which_fit]);

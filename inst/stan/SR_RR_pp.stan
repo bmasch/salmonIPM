@@ -75,11 +75,11 @@ model {
   # Priors
   mu_log_a ~ normal(0,5);
   sigma_log_a ~ pexp(0,3,10);
-  mu_log_b ~ normal(0,5);
+  mu_log_b ~ normal(0,10);
   sigma_log_b ~ pexp(0,3,10);
-  # rho_log_phi ~ pexp(0,0.8,10);  # mildly regularize rho to ensure stationarity
-  sigma_log_phi ~ pexp(0,1,10);
-  sigma ~ pexp(0,1,10);
+  rho_log_phi ~ pexp(0,0.8,10);  # mildly regularize rho to ensure stationarity
+  sigma_log_phi ~ pexp(0,3,10);
+  sigma ~ pexp(0,2,10);
   
   # Hierarchical priors
   log_a_z ~ normal(0,1);      # log(a) ~ N(mu_log_a, sigma_log_a)

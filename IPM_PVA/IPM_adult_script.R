@@ -140,14 +140,14 @@ stan_reg_init <- function()
 }
 
 # Fit model!
-stan_BH_reg <- stan(file = "HW_STAN.stan",
+stan_BH_reg <- stan(file = file.path("~","ICTRTchinook","HW_STAN.stan"),
                     data = c(stan_reg_dat), 
                     init = stan_reg_init, 
                     pars = c("mu_log_a_W","mu_log_a_H","sigma_log_a","a_W", "a_H", #"log_alpha",
                              "mu_log_Rmax_W","mu_log_Rmax_H","sigma_log_Rmax","Rmax_W","Rmax_H", #"log_rho",
                              "sigma_log_phi","phi","sigma","R_hat"),
-                    chains = 3, iter = 10000, warmup = 2000, thin = 8, cores = 3,
-                    control = list(adapt_delta = 0.8))
+                    chains = 3, iter = 1000, warmup = 500, thin = 1, cores = 3,
+                    control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
 
 
 

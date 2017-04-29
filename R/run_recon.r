@@ -31,9 +31,10 @@ run_recon <- function(fish_data)
 {
   with(fish_data, {
     age_range <- as.numeric(substring(names(fish_data)[grep("n_age", names(fish_data))], 6, 6))
-    qq <- sweep(fish_data[,grep("n_age", names(fish_data))], 1, 
+    qq <- sweep(fish_data[,grep("n_age", names(fish_data))], 1,
                 rowSums(fish_data[,grep("n_age", names(fish_data))]), "/")
-    qq[is.infinite(as.matrix(qq))] <- NA
+    for(i in unique(pop))
+      qq[pop==i & is.na(rowSums(qq)),] <- colMeans(qq[pop==i & !is.na(rowSums(qq)),])
     substr(names(qq), 1, 1) <- "p" 
     p_HOS <- n_H_obs/(n_H_obs + n_W_obs)
     recon_dat <- cbind(pop = pop, A, year = year, S = S_tot_obs, qq, p_HOS = p_HOS, 

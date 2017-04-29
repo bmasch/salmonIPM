@@ -13,7 +13,7 @@ fish_data$S_tot_obs[fish_data$pop == "Chamberlain" & fish_data$year == 1986] <-
   mean(fish_data$S_tot_obs[fish_data$pop == "Chamberlain"][1:5], na.rm = T)
 
 # Change area to 1 for all pops (units of Rmax will be spawners, not spawners/ha)
-fish_data$A <- 1
+# fish_data$A <- 1
 
 # Pad data with years through max_year
 max_year <- max(fish_data$year) + 50
@@ -170,8 +170,6 @@ bb <- rgb(bb[1], bb[2], bb[3], maxColorValue = 255, alpha = 255*0.3)
 for(i in 1:length(dd_RR_pop))
   lines(dd_RR_pop[[i]]$x, dd_RR_pop[[i]]$y, col = bb)
 
-curve(dnorm(x,0,5), lwd=3, add=T)
-
 # Posterior densities of log(Rmax)
 dd_IPM_ESU <- density(extract1(PVA_IPM_pp,"mu_log_a") - extract1(PVA_IPM_pp,"mu_log_b"))
 dd_IPM_pop <- vector("list", length(levels(fish_data$pop)))
@@ -199,6 +197,8 @@ bb <- rgb(bb[1], bb[2], bb[3], maxColorValue = 255, alpha = 255*0.3)
 for(i in 1:length(dd_RR_pop))
   lines(dd_RR_pop[[i]]$x, dd_RR_pop[[i]]$y, col = bb)
 
+rm(list=c("mu_log_a","sigma_log_a","mu_log_b","sigma_log_b","S","R_ESU",
+          "bb","dd_IPM_ESU","dd_RR_ESU","dd_IPM_pop","dd_RR_pop"))
 
 
 
