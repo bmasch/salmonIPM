@@ -70,15 +70,11 @@ parameters {
   real<lower=-1,upper=1> rho_log_phi;   # AR(1) coef for log productivity anomalies
   real<lower=0> sigma_log_phi;          # hyper-SD of brood year log productivity anomalies
   vector[max(year)] log_phi_z;          # log brood year productivity anomalies (Z-scores)
-  real<lower=0> mu_sigma_proc;          # hyper-median unique process error SD
-  real<lower=0> sigma_log_sigma_proc;   # hyper-SD log unique process error SD
-  vector[N_pop] log_sigma_proc_z;       # log unique process error SD (Z-scores)
+  real<lower=0> sigma_proc;             # unique process error SD
   simplex[N_age] mu_p;                  # mean of cohort age distributions
   row_vector<lower=0>[N_age-1] sigma_alr_p; # among-pop SD of mean log-ratio age distributions
   matrix[N_pop,N_age-1] gamma_alr_p_z;  # population mean log-ratio age distributions (Z-scores)
-  row_vector<lower=0>[N_age-1] mu_tau_alr_p; # hyper-median SD of log-ratio cohort age distributions
-  row_vector<lower=0>[N_age-1] sigma_log_tau_alr_p; # hyper-SD of log-ratio cohort age distribution SD
-  matrix[N_pop,N_age-1] log_tau_alr_p_z; # log of log-ratio cohort age distribution SD (Z-scores)
+  row_vector<lower=0>[N_age-1] tau_alr_p; # SD of log-ratio cohort age distributions
   matrix[N,N_age-1] alr_p_z;            # log-ratio cohort age distributions (Z-scores)
   vector<lower=0>[max_age*N_pop] S_tot_init;  # true total spawner abundance in years 1-max_age
   simplex[N_age] q_init[max_age*N_pop]; # true wild spawner age distributions in years 1-max_age
@@ -91,14 +87,12 @@ parameters {
 transformed parameters {
   vector<lower=0>[N_pop] a;           # intrinsic productivity 
   vector<lower=0>[N_pop] b;           # density dependence 
-  vector<lower=0>[N_pop] sigma_proc;  # unique process error SD
   vector<lower=0>[N_year] phi;        # brood year productivity anomalies
   vector<lower=0>[N] S_W_tot;         # true total wild spawner abundance
   vector[N] S_H_tot;                  # true total hatchery spawner abundance (can == 0)
   vector<lower=0>[N] S_tot;           # true total spawner abundance
   row_vector[N_age-1] mu_alr_p;       # mean of log-ratio cohort age distributions
   matrix[N_pop,N_age-1] gamma_alr_p;  # population mean log-ratio age distributions
-  matrix<lower=0>[N_pop,N_age-1] tau_alr_p; # SD of log-ratio cohort age distributions
   matrix<lower=0,upper=1>[N,N_age] p; # cohort age distributions
   matrix<lower=0,upper=1>[N,N_age] q; # true spawner age distributions
   vector[N] p_HOS_all;                # true p_HOS in all years (can == 0)
@@ -108,8 +102,7 @@ transformed parameters {
 
   a = exp(mu_log_a + sigma_log_a*log_a_z);
   b = exp(mu_log_b + sigma_log_b*log_b_z);
-  sigma_proc = mu_sigma_proc*exp(sigma_log_sigma_proc*log_sigma_proc_z);
-  
+
   phi[1] = log_phi_z[1]*sigma_log_phi; # initial anomaly
   for(i in 2:N_year)
     phi[i] = rho_log_phi*phi[i-1] + log_phi_z[i]*sigma_log_phi;
@@ -125,7 +118,6 @@ transformed parameters {
 
   mu_alr_p = to_row_vector(log(mu_p[1:(N_age-1)]) - log(mu_p[N_age]));
   gamma_alr_p = rep_matrix(mu_alr_p,N_pop) + rep_matrix(sigma_alr_p,N_pop) .* gamma_alr_p_z;
-  tau_alr_p = rep_matrix(mu_tau_alr_p,N_pop) .* exp(rep_matrix(sigma_log_tau_alr_p,N_pop) .* log_tau_alr_p_z);
 
   # Calculate true total wild and hatchery spawners and spawner age distribution
   # and predict recruitment from brood year t
@@ -136,8 +128,7 @@ transformed parameters {
 
     # inverse log-ratio transform of cohort age distn
     # (built-in softmax function doesn't accept row vectors)
-    # p[i,] = append_col(gamma_alr_p[pop[i],] + mu_tau_alr_p .* alr_p_z[i,], rep_row_vector(0,1));
-    p[i,] = append_col(gamma_alr_p[pop[i],] + tau_alr_p[pop[i],] .* alr_p_z[i,], rep_row_vector(0,1));
+    p[i,] = append_col(gamma_alr_p[pop[i],] + tau_alr_p .* alr_p_z[i,], rep_row_vector(0,1));
     exp_p = exp(p[i,]); 
     p[i,] = exp_p/sum(exp_p);
     
@@ -162,7 +153,7 @@ transformed parameters {
     
     S_tot[i] = S_W_tot[i] + S_H_tot[i];
     R_tot_hat[i] = A[i]*SR(a[pop[i]], b[pop[i]], S_tot[i], A[i])*phi[year[i]];
-    R_tot[i] = R_tot_hat[i]*exp(sigma_proc[pop[i]]*log_R_tot_z[i]);
+    R_tot[i] = R_tot_hat[i]*exp(sigma_proc*log_R_tot_z[i]);
   }
 }
 
@@ -177,13 +168,11 @@ model {
   beta_log_phi ~ normal(0,5);
   rho_log_phi ~ pexp(0,0.85,50);  # mildly regularize rho to ensure stationarity
   sigma_log_phi ~ pexp(0,2,10);
-  mu_sigma_proc ~ pexp(0,1,10);
-  sigma_log_sigma_proc ~ pexp(0,2,10);
+  sigma_proc ~ pexp(0,1,10);
   for(i in 1:(N_age-1))
   {
     sigma_alr_p[i] ~ pexp(0,2,5);
-    mu_tau_alr_p[i] ~ pexp(0,2,5); 
-    sigma_log_tau_alr_p[i] ~ pexp(0,2,5);
+    tau_alr_p[i] ~ pexp(0,2,5); 
   }
   sigma_obs ~ pexp(0,1,10);
   S_tot_init ~ lognormal(0,5);
@@ -196,10 +185,8 @@ model {
   # Hierarchical priors
   log_a_z ~ normal(0,1);            # log(a) ~ N(mu_log_a, sigma_log_a)
   log_b_z ~ normal(0,1);            # log(b) ~ N(mu_log_b, sigma_log_b)
-  log_sigma_proc_z ~ normal(0,1);   # log(sigma_proc) ~ N(mu_log_sigma_proc, sigma_log_sigma_proc);
   log_phi_z ~ normal(0,1);          # log(phi[i]) ~ N(rho_log_phi*log(phi[i-1]), sigma_log_phi)
   to_vector(gamma_alr_p_z) ~ normal(0,1); # pop mean age probs logistic normal: gamma_alr_p[i] ~ N(mu_alr_p, sigma_alr_p)
-  to_vector(log_tau_alr_p_z) ~ normal(0,1); # age prob SDs lognormal: tau_alr_p_z[i] ~ N(log(mu_tau_alr_p), sigma_log_tau_alr_p)
   to_vector(alr_p_z) ~ normal(0,1); # age probs logistic normal: alr_p[i] ~ N(gamma_alr_p, tau_alr_p)
   
   # Process model

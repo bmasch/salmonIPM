@@ -428,11 +428,11 @@ plot(sort(Umax_ESU_RR), (1:M)/M, type = "l", lwd = 3, col = c1,
      xlim = range(Umax_ESU_IPM, Umax_ESU_RR, Umax_pop_IPM, Umax_pop_RR), ylim = c(0,1),
      xaxs = "i", yaxs = "i", las = 1, cex.axis = 1.2, cex.lab = 1.5,
      xlab = "Harvest rate", ylab = "Probability of overfishing")
-lines(sort(Umax_ESU_IPM), (1:M)/M, lwd = 3, col = c1)
+lines(sort(Umax_ESU_IPM), (1:M)/M, lwd = 3, col = c2)
 for(i in 1:ncol(Umax_pop_IPM))
 {
-  lines(sort(Umax_pop_RR[,i]), (1:M)/M, lwd = 3, col = c1t)
-  lines(sort(Umax_pop_IPM[,i]), (1:M)/M, lwd = 3, col = c2t)
+  lines(sort(Umax_pop_RR[,i]), (1:M)/M, lwd = 1, col = c1t)
+  lines(sort(Umax_pop_IPM[,i]), (1:M)/M, lwd = 1, col = c2t)
 }
 
 rm(list = c("mu_log_a_RR","mu_log_a_IPM","Umax_ESU_RR","Umax_ESU_IPM","a_RR","Umax_pop_RR",
@@ -516,7 +516,7 @@ polygon(c(S[1,], rev(S[1,])),
 polygon(c(S[1,], rev(S[1,])),
         c(apply(R_obs, 2, quantile, 0.025), rev(apply(R_obs, 2, quantile, 0.975))), col = bb, border = NA)
 
-rm(list=c("mu_log_a","sigma_log_a","mu_log_b","sigma_log_b","sigma_log_phi","sigma",
+rm(list=c("mu_log_a","sigma_log_a","mu_log_b","sigma_log_b","sigma_log_phi","sigma","BH",
           "mu_sigma_proc","sigma_obs","S","R_ESU","R_pop","R_year","R_proc","R_obs","R_resid","bb"))
 
 
