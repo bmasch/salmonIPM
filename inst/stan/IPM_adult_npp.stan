@@ -151,7 +151,7 @@ model {
   b ~ lognormal(0,10);
   to_vector(beta_proc) ~ normal(0,5);
   for(j in 1:N_pop)
-    rho_proc[j] ~ pexp(0,0.8,10); # mildly regularize rho to ensure stationarity
+    rho_proc[j] ~ pexp(0,0.85,50); # mildly regularize rho to ensure stationarity
   sigma_proc ~ normal(0,2);
   sigma_obs ~ lognormal(0.7,0.7);
   to_vector(tau_alr_p) ~ normal(0,5);

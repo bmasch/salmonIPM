@@ -175,7 +175,7 @@ model {
   mu_log_b ~ normal(0,10);
   sigma_log_b ~ pexp(0,3,10);
   beta_log_phi ~ normal(0,5);
-  rho_log_phi ~ pexp(0,0.8,10);  # mildly regularize rho to ensure stationarity
+  rho_log_phi ~ pexp(0,0.85,50);  # mildly regularize rho to ensure stationarity
   sigma_log_phi ~ pexp(0,2,10);
   mu_sigma_proc ~ pexp(0,1,10);
   sigma_log_sigma_proc ~ pexp(0,2,10);

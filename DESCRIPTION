@@ -17,9 +17,7 @@ Imports:
     gtools,
     lattice,
     loo,
-    magicaxis,
-    parallel,
-    zoo
+    parallel
 License: GPL (>= 3)
 Encoding: UTF-8
 LazyData: true

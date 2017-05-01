@@ -55,7 +55,7 @@ parameters {
 transformed parameters {
   vector<lower=0>[N_pop] a;             # intrinsic productivity of wild spawners
   vector<lower=0>[N_pop] b;             # density dependence 
-  vector<lower=0>[N_year] phi;         # brood year productivity anomalies
+  vector<lower=0>[N_year] phi;          # brood year productivity anomalies
   vector<lower=0>[N] R_hat;             # expected recruit abundance (not density) by brood year
   
   phi[1] = log_phi_z[1]*sigma_log_phi; # initial anomaly
@@ -77,7 +77,7 @@ model {
   sigma_log_a ~ pexp(0,3,10);
   mu_log_b ~ normal(0,10);
   sigma_log_b ~ pexp(0,3,10);
-  rho_log_phi ~ pexp(0,0.8,10);  # mildly regularize rho to ensure stationarity
+  rho_log_phi ~ pexp(0,0.85,50);  # mildly regularize rho to ensure stationarity
   sigma_log_phi ~ pexp(0,3,10);
   sigma ~ pexp(0,2,10);
   
