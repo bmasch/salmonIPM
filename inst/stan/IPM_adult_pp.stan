@@ -126,7 +126,7 @@ transformed parameters {
   mu_alr_p = to_row_vector(log(mu_p[1:(N_age-1)]) - log(mu_p[N_age]));
   gamma_alr_p = rep_matrix(mu_alr_p,N_pop) + rep_matrix(sigma_alr_p,N_pop) .* gamma_alr_p_z;
   tau_alr_p = rep_matrix(mu_tau_alr_p,N_pop) .* exp(rep_matrix(sigma_log_tau_alr_p,N_pop) .* log_tau_alr_p_z);
-  
+
   # Calculate true total wild and hatchery spawners and spawner age distribution
   # and predict recruitment from brood year t
   for(i in 1:N)
@@ -136,7 +136,7 @@ transformed parameters {
 
     # inverse log-ratio transform of cohort age distn
     # (built-in softmax function doesn't accept row vectors)
-    # p[i,] = append_col(gamma_alr_p[pop[i]] + tau_alr_p .* alr_p_z[i,], rep_row_vector(0,1));
+    # p[i,] = append_col(gamma_alr_p[pop[i],] + mu_tau_alr_p .* alr_p_z[i,], rep_row_vector(0,1));
     p[i,] = append_col(gamma_alr_p[pop[i],] + tau_alr_p[pop[i],] .* alr_p_z[i,], rep_row_vector(0,1));
     exp_p = exp(p[i,]); 
     p[i,] = exp_p/sum(exp_p);

@@ -366,7 +366,7 @@ rm(list=c("qet","pop","S_tot_RR","S_tot_IPM","pqe_RR","pqe_IPM","pqe"))
 dev.new(height = 7, width = 7)
 # png(filename="Fig_4.png", width=7, height=7, units="in", res=200, type="cairo-png")
 par(mar = c(5.1,5.1,1,1))
-qet <- 0:50     # set quasi-extinction threshold (4-yr moving average)
+qet <- 0:50 
 pop <- fish_data_aug$pop[fish_data_aug$year > max(fish_data$year)]
 year <- fish_data_aug$year[fish_data_aug$year > max(fish_data$year)]
 S_tot_RR <- extract1(PVA_RR_pp, "S_sim")[,fish_data_aug$year > max(fish_data$year)]
@@ -397,6 +397,48 @@ rm(list = c("pop","S_tot_RR","S_tot_IPM","qet","year","pqe_RR","pqe_IPM"))
 # dev.off()
 
 
+#------------------------------------------------------------------------------
+# CDF of max sustainable harvest rate, at ESU and pop levels, under RR and IPM
+# Umax = 1 - 1/a
+#------------------------------------------------------------------------------
+
+dev.new(height = 7, width = 7)
+# png(filename="Fig_5.png", width=7, height=7, units="in", res=200, type="cairo-png")
+
+mu_log_a_RR <- extract1(PVA_RR_pp,"mu_log_a")
+Umax_ESU_RR <- 1 - exp(-mu_log_a_RR)
+a_RR <- extract1(PVA_RR_pp,"a")
+Umax_pop_RR <- 1 - 1/a_RR
+
+mu_log_a_IPM <- extract1(PVA_IPM_pp,"mu_log_a")
+Umax_ESU_IPM <- 1 - exp(-mu_log_a_IPM)
+a_IPM <- extract1(PVA_IPM_pp,"a")
+Umax_pop_IPM <- 1 - 1/a_IPM
+
+M <- length(mu_log_a_RR)
+
+c1 <- "orangered3"
+c1t <- col2rgb(c1)
+c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.3)
+c2 <- "blue4"
+c2t <- col2rgb(c2)
+c2t <- rgb(c2t[1], c2t[2], c2t[3], maxColorValue = 255, alpha = 255*0.3)
+
+plot(sort(Umax_ESU_RR), (1:M)/M, type = "l", lwd = 3, col = c1,
+     xlim = range(Umax_ESU_IPM, Umax_ESU_RR, Umax_pop_IPM, Umax_pop_RR), ylim = c(0,1),
+     xaxs = "i", yaxs = "i", las = 1, cex.axis = 1.2, cex.lab = 1.5,
+     xlab = "Harvest rate", ylab = "Probability of overfishing")
+lines(sort(Umax_ESU_IPM), (1:M)/M, lwd = 3, col = c1)
+for(i in 1:ncol(Umax_pop_IPM))
+{
+  lines(sort(Umax_pop_RR[,i]), (1:M)/M, lwd = 3, col = c1t)
+  lines(sort(Umax_pop_IPM[,i]), (1:M)/M, lwd = 3, col = c2t)
+}
+
+rm(list = c("mu_log_a_RR","mu_log_a_IPM","Umax_ESU_RR","Umax_ESU_IPM","a_RR","Umax_pop_RR",
+            "a_IPM","Umax_pop_IPM","c1","c1t","c2","c2t"))
+
+# dev.off()
 
 
 
