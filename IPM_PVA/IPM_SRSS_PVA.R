@@ -419,16 +419,16 @@ M <- length(mu_log_a_RR)
 
 c1 <- "orangered3"
 c1t <- col2rgb(c1)
-c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.3)
+c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.4)
 c2 <- "blue4"
 c2t <- col2rgb(c2)
-c2t <- rgb(c2t[1], c2t[2], c2t[3], maxColorValue = 255, alpha = 255*0.3)
+c2t <- rgb(c2t[1], c2t[2], c2t[3], maxColorValue = 255, alpha = 255*0.4)
 
-plot(sort(Umax_ESU_RR), (1:M)/M, type = "l", lwd = 3, col = c1,
-     xlim = range(Umax_ESU_IPM, Umax_ESU_RR, Umax_pop_IPM, Umax_pop_RR), ylim = c(0,1),
-     xaxs = "i", yaxs = "i", las = 1, cex.axis = 1.2, cex.lab = 1.5,
-     xlab = "Harvest rate", ylab = "Probability of overfishing")
-lines(sort(Umax_ESU_IPM), (1:M)/M, lwd = 3, col = c2)
+plot(sort(Umax_ESU_RR), (1:M)/M, type = "l", lwd = 4, col = c1,
+     xlim = c(0, 1), ylim = c(0,1),
+     xaxs = "i", las = 1, cex.axis = 1.2, cex.lab = 1.5,
+     xlab = "Harvest rate", ylab = "Probability of decline")
+lines(sort(Umax_ESU_IPM), (1:M)/M, lwd = 4, col = c2)
 for(i in 1:ncol(Umax_pop_IPM))
 {
   lines(sort(Umax_pop_RR[,i]), (1:M)/M, lwd = 1, col = c1t)
