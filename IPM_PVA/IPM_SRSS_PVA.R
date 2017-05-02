@@ -435,8 +435,8 @@ for(i in 1:ncol(Umax_pop_IPM))
   lines(sort(Umax_pop_IPM[,i]), (1:M)/M, lwd = 1, col = c2t)
 }
 
-rm(list = c("mu_log_a_RR","mu_log_a_IPM","Umax_ESU_RR","Umax_ESU_IPM","a_RR","Umax_pop_RR",
-            "a_IPM","Umax_pop_IPM","c1","c1t","c2","c2t"))
+rm(list = c("mu_log_a_RR","mu_log_a_IPM","Umax_ESU_RR","Umax_ESU_IPM",
+            "a_RR","Umax_pop_RR","a_IPM","Umax_pop_IPM","c1","c1t","c2","c2t"))
 
 # dev.off()
 
@@ -444,6 +444,10 @@ rm(list = c("mu_log_a_RR","mu_log_a_IPM","Umax_ESU_RR","Umax_ESU_IPM","a_RR","Um
 
 
 
+
+#===========================================================================
+# MORE FIGURES: SPARE PARTS
+#===========================================================================
 
 #--------------------------------------------------------------------------
 # Spawner-recruit curve variance decomposition under RR and IPM models
