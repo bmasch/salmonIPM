@@ -1,3 +1,4 @@
+setwd(file.path("~","salmonIPM","IPM_PVA"))
 options(device=windows)
 library(salmonIPM)
 library(magicaxis)
@@ -97,8 +98,8 @@ launch_shinystan(PVA_IPM_pp)
 # Comparison of S-R curves and parameters under RR and IPM models
 #--------------------------------------------------------------------
 
-dev.new(width = 15, height = 5)
-# png(filename="Fig_1.png", width=15, height=5, units="in", res=200, type="cairo-png")
+dev.new(width = 11, height = 3.5)
+# png(filename="Fig_1.png", width=11, height=3.5, units="in", res=200, type="cairo-png")
 par(mfrow = c(1,3), mar = c(5.1,5.1,1,1))
 BH <- function(a, b, S) 
 {
@@ -118,7 +119,7 @@ R_ESU_IPM <- BH(a = exp(mu_log_a), b = exp(mu_log_b), S = S)
 
 bb <- "orangered3"
 plot(S[1,], apply(R_ESU_RR, 2, median), type = "l", lwd=3, col = bb, las = 1,
-     cex.lab = 1.5, cex.axis = 1.2, xaxs = "i", yaxs = "i",
+     cex.lab = 2, cex.axis = 1.5, xaxs = "i", yaxs = "i",
      ylim = range(0, apply(R_ESU_RR, 2, quantile, 0.975), apply(R_ESU_IPM, 2, quantile, 0.975)),
      xlab=bquote("Spawner density (ha"^-1*")"), ylab=bquote("Recruit density (ha"^-1*")"))
 bb <- col2rgb(bb)
@@ -130,7 +131,7 @@ lines(S[1,], apply(R_ESU_IPM, 2, median), type = "l", lwd=3, col = bb)
 bb <- col2rgb(bb)
 bb <- rgb(bb[1], bb[2], bb[3], maxColorValue = 255, alpha = 255*0.3)
 polygon(c(S[1,], rev(S[1,])), c(apply(R_ESU_IPM, 2, quantile, 0.025), rev(apply(R_ESU_IPM, 2, quantile, 0.975))), col = bb, border = NA)
-text(par("usr")[1], par("usr")[4], adj = c(-1,1.5), "A", cex = 1.5)
+text(par("usr")[1], par("usr")[4], adj = c(-1,1.5), "A", cex = 2)
 
 # Posterior densities of log(a)
 dd_IPM_ESU <- density(extract1(PVA_IPM_pp,"mu_log_a"))
@@ -143,8 +144,8 @@ for(i in 1:length(dd_RR_pop))
   dd_RR_pop[[i]] <- density(log(extract1(PVA_RR_pp,"a")[,i]))
 
 bb <- "blue4"
-plot(dd_IPM_ESU$x, dd_IPM_ESU$y, type = "l", lwd = 3, col = bb, las = 1, cex.lab = 1.5, cex.axis = 1.2,
-     xlab = "log(a)", ylab = "Probability density", xaxs = "i",
+plot(dd_IPM_ESU$x, dd_IPM_ESU$y, type = "l", lwd = 3, col = bb, las = 1, cex.lab = 2, cex.axis = 1.5,
+     xlab = bquote(log(alpha)), ylab = "Probability density", xaxs = "i",
      xlim = range(c(dd_IPM_ESU$x, dd_RR_ESU$x, sapply(c(dd_RR_pop, dd_IPM_pop), function(m) m$x))),
      ylim = range(c(dd_IPM_ESU$y, dd_RR_ESU$y, sapply(c(dd_RR_pop, dd_IPM_pop), function(m) m$y))))
 bb <- col2rgb(bb)
@@ -158,7 +159,7 @@ bb <- col2rgb(bb)
 bb <- rgb(bb[1], bb[2], bb[3], maxColorValue = 255, alpha = 255*0.3)
 for(i in 1:length(dd_RR_pop))
   lines(dd_RR_pop[[i]]$x, dd_RR_pop[[i]]$y, col = bb)
-text(par("usr")[1], par("usr")[4], adj = c(-1,1.5), "B", cex = 1.5)
+text(par("usr")[1], par("usr")[4], adj = c(-1,1.5), "B", cex = 2)
 
 # Posterior densities of log(Rmax)
 dd_IPM_ESU <- density(extract1(PVA_IPM_pp,"mu_log_a") - extract1(PVA_IPM_pp,"mu_log_b"))
@@ -171,8 +172,8 @@ for(i in 1:length(dd_RR_pop))
   dd_RR_pop[[i]] <- density(log(extract1(PVA_RR_pp,"a")[,i]) - log(extract1(PVA_RR_pp,"b")[,i]))
 
 bb <- "blue4"
-plot(dd_IPM_ESU$x, dd_IPM_ESU$y, type = "l", lwd = 3, col = bb, las = 1, cex.lab = 1.5, cex.axis = 1.2,
-     xlab = "log(Rmax)", ylab = "Probability density", xaxs = "i",
+plot(dd_IPM_ESU$x, dd_IPM_ESU$y, type = "l", lwd = 3, col = bb, las = 1, cex.lab = 2, cex.axis = 1.5,
+     xlab = bquote(log(italic(R)[max])), ylab = "Probability density", xaxs = "i",
      xlim = range(c(dd_IPM_ESU$x, dd_RR_ESU$x, sapply(c(dd_RR_pop, dd_IPM_pop), function(m) m$x))),
      ylim = range(c(dd_IPM_ESU$y, dd_RR_ESU$y, sapply(c(dd_RR_pop, dd_IPM_pop), function(m) m$y))))
 bb <- col2rgb(bb)
@@ -186,7 +187,8 @@ bb <- col2rgb(bb)
 bb <- rgb(bb[1], bb[2], bb[3], maxColorValue = 255, alpha = 255*0.3)
 for(i in 1:length(dd_RR_pop))
   lines(dd_RR_pop[[i]]$x, dd_RR_pop[[i]]$y, col = bb)
-text(par("usr")[1], par("usr")[4], adj = c(-1,1.5), "C", cex = 1.5)
+text(par("usr")[1], par("usr")[4], adj = c(-1,1.5), "C", cex = 2)
+legend("topright", c("IPM","RR"), col = c("blue4","orangered3"), lwd = 3, cex = 1.5)
 
 rm(list=c("mu_log_a","mu_log_b","S","R_ESU_RR","R_ESU_IPM","BH",
           "bb","dd_IPM_ESU","dd_RR_ESU","dd_IPM_pop","dd_RR_pop"))
@@ -198,7 +200,7 @@ rm(list=c("mu_log_a","mu_log_b","S","R_ESU_RR","R_ESU_IPM","BH",
 #-------------------------------------------------------------------------
 
 dev.new(width = 7, height = 7)
-# png(filename="Fig_1.5.png", width=11, height=7, units="in", res=200, type="cairo-png")
+# png(filename="Fig_1.5(3).png", width=7, height=7, units="in", res=200, type="cairo-png")
 BH <- function(a, b, S, A) 
 {
   a*S/(A + b*S)
@@ -243,7 +245,7 @@ c2tt <- rgb(c2tt[1], c2tt[2], c2tt[3], maxColorValue = 255, alpha = 255*0.3)
 points(apply(S_tot_IPM, 2, median), apply(R_adj_IPM, 2, median), pch = 16, col = c2)
 arrows(S_tot_RR, R_adj_RR, apply(S_tot_IPM, 2, median), apply(R_adj_IPM, 2, median), col = c2t, length = 0.1)
 segments(x0 = apply(S_tot_IPM, 2, quantile, 0.025), y0 = apply(R_adj_IPM, 2, median), x1 = apply(S_tot_IPM, 2, quantile, 0.975), col = c2t)
-segments(x0 = apply(S_tot_IPM, 2, median), y0 = apply(R_adj_IPM, 2, quantile, 0.025), y1 = apply(R_adj_IPM, 2, quantile, 0.975), col = c2t) 
+segments(x0 = apply(S_tot_IPM, 2, median), y0 = apply(R_adj_IPM, 2, quantile, 0.025), y1 = apply(R_adj_IPM, 2, quantile, 0.975), col = c2t)
 
 # layer 3
 lines(S[1,], apply(R_IPM, 2, median), lwd = 3, col = c2)
@@ -286,12 +288,12 @@ for(i in pops)
        ylim = range(pmax(fish_data$S_tot_obs[fish_data$pop==i], 1),
                     apply(S_tot_obs_IPM[,fish_data_aug$pop %in% pops & fish_data_aug$year <= max(y2)], 2, quantile, c(0.025,0.975)), 
                     na.rm = T), 
-       cex.axis = 1.2, cex.main = 2, las = 1, yaxt = "n",
+       cex.axis = 1.5, cex.main = 2, las = 1, yaxt = "n",
        xlab = "", ylab = "", main = i, log = "y")
   at <- maglab(10^par("usr")[3:4], log = T)
-  axis(2, at$labat, cex.axis=1.2, las=1,
+  axis(2, at$labat, cex.axis=1.5, las=1,
        labels = sapply(log10(at$labat), function(i) as.expression(bquote(10^ .(i)))))
-  if(i==pops[1]) mtext("Spawners", side = 2, line = 3, cex = 1.5)
+  if(i==pops[1]) mtext("Spawners", side = 2, line = 3.5, cex = par("cex")*2)
   lines(y2, apply(S_tot_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median), col = c1, lwd = 2)
   polygon(c(y2, rev(y2)), 
           c(apply(S_tot_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025), 
@@ -301,27 +303,27 @@ for(i in pops)
           c(apply(S_tot_obs_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025), 
             rev(apply(S_tot_obs_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975))),
           col = c1t, border = NA)
-  points(y1, fish_data$S_tot_obs[fish_data$pop==i], pch=16, cex = 1.2)
+  points(y1, fish_data$S_tot_obs[fish_data$pop==i], pch=16, cex = 1.5)
   
   plot(y2, apply(RS_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median), pch = "",
        xlim = range(fish_data$year[fish_data$pop %in% pops]) + c(0,Y),
        ylim = range(apply(RS_IPM[,fish_data_aug$pop %in% pops & fish_data_aug$year <= max(y2)], 2, quantile, c(0.025,0.975)),
                     apply(RS_RR[,fish_data_aug$pop %in% pops & fish_data_aug$year <= max(y2)], 2, quantile, c(0.025,0.975), na.rm = T), 
                     na.rm = T), 
-       cex.axis = 1.2, las = 1, yaxt = "n",
+       cex.axis = 1.5, las = 1, yaxt = "n",
        xlab = "", ylab = "", log = "y")
   at <- maglab(10^par("usr")[3:4], log = T)
-  axis(2, at$labat, cex.axis=1.2, las=1,
+  axis(2, at$labat, cex.axis=1.5, las=1,
        labels = sapply(log10(at$labat), function(i) as.expression(bquote(10^ .(i)))))
-  mtext("Year", side = 1, line = 3, cex = 1.5)
-  if(i==pops[1]) mtext("Recruits per spawner", side = 2, line = 3, cex = 1.5)
+  mtext("Year", side = 1, line = 3, cex = par("cex")*2)
+  if(i==pops[1]) mtext("Recruits per spawner", side = 2, line = 3.5, cex = par("cex")*2)
   abline(h = 1, lty = 2, lwd = 2, col = "gray")
   lines(y2, apply(RS_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median), lwd = 2, col = c1)
   polygon(c(y2, rev(y2)), 
           c(apply(RS_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025), 
             rev(apply(RS_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975))),
           col = c1t, border = NA)
-  points(y2, apply(RS_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median, na.rm = T), pch = 16, cex = 1.2, col = c2)
+  points(y2, apply(RS_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median, na.rm = T), pch = 16, cex = 1.5, col = c2)
   segments(x0 = y2, 
            y0 = apply(RS_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025, na.rm = T), 
            y1 = apply(RS_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975, na.rm = T), 
@@ -337,8 +339,8 @@ rm(list = c("pops","S_tot_IPM","S_tot_obs_IPM","R_tot_IPM","RS_IPM","RS_RR","sd"
 # Probability of quasi-extinction by population under RR and IPM
 #------------------------------------------------------------------
 
-dev.new(height = 10, width = 10)
-# png(filename="Fig_3.png", width=10, height=10, units="in", res=200, type="cairo-png")
+dev.new(height = 7, width = 7)
+# png(filename="Fig_3.png", width=7, height=7, units="in", res=200, type="cairo-png")
 par(oma = c(0,5,0,0))
 qet <- 50     # set quasi-extinction threshold (4-yr moving average)
 pop <- fish_data_aug$pop[fish_data_aug$type=="future"]
@@ -350,10 +352,10 @@ pqe <- data.frame(pop = pqe_IPM[,1], pqe_RR = rowMeans(pqe_RR[,-1]), pqe_IPM = r
 pqe <- pqe[order(pqe$pqe_IPM),]
 
 barplot(t(pqe[,-1]), names.arg = pqe$pop, horiz = TRUE, beside = TRUE,
-        col = c("orangered3","blue4"), las = 1, cex.axis = 1.2, cex.lab = 1.5, cex.main = 1.5,
+        col = c("orangered3","blue4"), las = 1, cex.axis = 1, cex.lab = 1.2, cex.names = 0.9, cex.main = 1.2,
         xlab = "Probability of quasi-extinction", 
         main = paste("50-year quasi-extinction risk \n QET = ", qet, " spawners (4-year moving average)", sep = ""))
-legend("bottomright", inset = 0.1, c("IPM","RR"), pch = 15, pt.cex = 2.5, cex = 1.2, col = c("blue4","orangered3"))
+legend("bottomright", inset = 0.1, c("IPM","RR"), pch = 15, pt.cex = 2, cex = 1, col = c("blue4","orangered3"))
 
 rm(list=c("qet","pop","S_tot_RR","S_tot_IPM","pqe_RR","pqe_IPM","pqe"))
 # dev.off()
@@ -434,6 +436,7 @@ for(i in 1:ncol(Umax_pop_IPM))
   lines(sort(Umax_pop_RR[,i]), (1:M)/M, lwd = 1, col = c1t)
   lines(sort(Umax_pop_IPM[,i]), (1:M)/M, lwd = 1, col = c2t)
 }
+legend("topleft", c("IPM","RR"), col = c("blue4","orangered3"), lwd = 3, cex = 1.2)
 
 rm(list = c("mu_log_a_RR","mu_log_a_IPM","Umax_ESU_RR","Umax_ESU_IPM",
             "a_RR","Umax_pop_RR","a_IPM","Umax_pop_IPM","c1","c1t","c2","c2t"))
