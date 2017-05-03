@@ -264,12 +264,14 @@ rm(list = c("yy","AA","BH","pop","S","a","b","R_RR","R_IPM","S_tot_RR","S_tot_IP
 dev.new(width=11,height=7)
 # png(filename="Fig_2.png", width=11, height=7, units="in", res=200, type="cairo-png")
 par(mfcol=c(2,3), mar=c(1,3,4.1,1), oma=c(5.1,2.1,0,0))
-pops <- c("Wenaha","Camas","Yankee")
+pops <- c("CathCr","MarshCR","Yankee")
 S_tot_IPM <- extract1(PVA_IPM_pp,"S_tot")
 S_tot_obs_IPM <- S_tot_IPM * rlnorm(length(S_tot_IPM), 0, extract1(PVA_IPM_pp,"sigma_obs"))
 R_tot_IPM <- extract1(PVA_IPM_pp,"R_tot")
 RS_IPM <- R_tot_IPM/S_tot_IPM
 sd <- stan_data(fish_data_aug, model = "RR")
+S_tot_RR <- extract1(PVA_RR_pp,"S_sim")
+S_tot_RR[,fish_data_aug$type=="past"] <- NA
 RS_RR <- extract1(PVA_RR_pp,"R_sim")
 RS_RR[,sd$which_fit] <- extract1(PVA_RR_pp,"R_hat")[,sd$which_fit]
 RS_RR <- RS_RR/extract1(PVA_RR_pp,"S_sim")
@@ -277,8 +279,12 @@ RS_RR[,fish_data_aug$type=="past" & sd$S_NA] <- NA
 Y <- 10
 c1 <- "blue4"
 c1t <- col2rgb(c1)
+c1tt <- c1t
 c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.25)
+c1tt <- rgb(c1tt[1], c1tt[2], c1tt[3], maxColorValue = 255, alpha = 255*0.45)
 c2 <- "orangered3"
+c2 <- col2rgb(c2)
+c2 <- rgb(c2[1], c2[2], c2[3], maxColorValue = 255, alpha = 255*0.6)
 for(i in pops)
 {
   y1 <- fish_data$year[fish_data$pop==i]
@@ -303,6 +309,11 @@ for(i in pops)
           c(apply(S_tot_obs_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025), 
             rev(apply(S_tot_obs_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975))),
           col = c1t, border = NA)
+  points(y2, apply(S_tot_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median, na.rm = T), pch = 16, cex = 1.5, col = c2)
+  segments(x0 = y2, 
+           y0 = apply(S_tot_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025, na.rm = T), 
+           y1 = apply(S_tot_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975, na.rm = T), 
+           col = c2)
   points(y1, fish_data$S_tot_obs[fish_data$pop==i], pch=16, cex = 1.5)
   
   plot(y2, apply(RS_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median), pch = "",
@@ -322,7 +333,7 @@ for(i in pops)
   polygon(c(y2, rev(y2)), 
           c(apply(RS_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025), 
             rev(apply(RS_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975))),
-          col = c1t, border = NA)
+          col = c1tt, border = NA)
   points(y2, apply(RS_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median, na.rm = T), pch = 16, cex = 1.5, col = c2)
   segments(x0 = y2, 
            y0 = apply(RS_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025, na.rm = T), 
@@ -331,7 +342,7 @@ for(i in pops)
 }
 
 rm(list = c("pops","S_tot_IPM","S_tot_obs_IPM","R_tot_IPM","RS_IPM","RS_RR","sd","at",
-            "c1","c1t","c2","Y","y1","y2"))
+            "c1","c1t","c1tt","c2","Y","y1","y2"))
 # dev.off()
 
 
