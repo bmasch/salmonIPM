@@ -94,12 +94,101 @@ launch_shinystan(PVA_IPM_pp)
 # FIGURES
 #===========================================================================
 
+#-----------------------------------------------------------------------------------------
+# Time series of observed and fitted/predicted total spawners and R/S for 3 populations
+#-----------------------------------------------------------------------------------------
+
+dev.new(width=11,height=7)
+
+par(mfcol=c(2,3), mar=c(1,3,4.1,1), oma=c(5.1,2.1,0,0))
+pops <- c("MarshCR","CathCr","Yankee")
+S_tot_IPM <- extract1(PVA_IPM_pp,"S_tot")
+S_tot_obs_IPM <- S_tot_IPM * rlnorm(length(S_tot_IPM), 0, extract1(PVA_IPM_pp,"sigma_obs"))
+R_tot_IPM <- extract1(PVA_IPM_pp,"R_tot")
+RS_IPM <- R_tot_IPM/S_tot_IPM
+sd <- stan_data(fish_data_aug, model = "RR")
+S_tot_RR <- extract1(PVA_RR_pp,"S_sim")
+S_tot_RR[,fish_data_aug$type=="past"] <- NA
+RS_RR <- extract1(PVA_RR_pp,"R_sim")
+RS_RR[,sd$which_fit] <- extract1(PVA_RR_pp,"R_hat")[,sd$which_fit]
+RS_RR <- RS_RR/extract1(PVA_RR_pp,"S_sim")
+RS_RR[,fish_data_aug$type=="past" & sd$S_NA] <- NA
+Y <- 10
+c1 <- "blue4"
+c1t <- col2rgb(c1)
+c1tt <- c1t
+c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.25)
+c1tt <- rgb(c1tt[1], c1tt[2], c1tt[3], maxColorValue = 255, alpha = 255*0.45)
+c2 <- "orangered3"
+c2 <- col2rgb(c2)
+c2 <- rgb(c2[1], c2[2], c2[3], maxColorValue = 255, alpha = 255*0.6)
+for(i in pops)
+{
+  y1 <- fish_data$year[fish_data$pop==i]
+  y2 <- c(y1, max(y1) + 1:Y) 
+  plot(y1, fish_data$S_tot_obs[fish_data$pop==i], pch = "",
+       xlim = range(fish_data$year[fish_data$pop %in% pops]) + c(0,Y),
+       ylim = range(pmax(fish_data$S_tot_obs[fish_data$pop==i], 1),
+                    apply(S_tot_obs_IPM[,fish_data_aug$pop %in% pops & fish_data_aug$year <= max(y2)], 2, quantile, c(0.025,0.975)), 
+                    na.rm = T), 
+       cex.axis = 1.5, cex.main = 2, las = 1, yaxt = "n",
+       xlab = "", ylab = "", main = i, log = "y")
+  at <- maglab(10^par("usr")[3:4], log = T)
+  axis(2, at$labat, cex.axis=1.5, las=1,
+       labels = sapply(log10(at$labat), function(i) as.expression(bquote(10^ .(i)))))
+  if(i==pops[1]) mtext("Spawners", side = 2, line = 3.5, cex = par("cex")*2)
+  lines(y2, apply(S_tot_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median), col = c1, lwd = 2)
+  polygon(c(y2, rev(y2)), 
+          c(apply(S_tot_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025), 
+            rev(apply(S_tot_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975))),
+          col = c1t, border = NA)
+  polygon(c(y2, rev(y2)), 
+          c(apply(S_tot_obs_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025), 
+            rev(apply(S_tot_obs_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975))),
+          col = c1t, border = NA)
+  points(y2, apply(S_tot_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median, na.rm = T), pch = 16, cex = 1.5, col = c2)
+  segments(x0 = y2, 
+           y0 = apply(S_tot_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025, na.rm = T), 
+           y1 = apply(S_tot_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975, na.rm = T), 
+           col = c2)
+  points(y1, fish_data$S_tot_obs[fish_data$pop==i], pch=16, cex = 1.5)
+  
+  plot(y2, apply(RS_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median), pch = "",
+       xlim = range(fish_data$year[fish_data$pop %in% pops]) + c(0,Y),
+       ylim = range(apply(RS_IPM[,fish_data_aug$pop %in% pops & fish_data_aug$year <= max(y2)], 2, quantile, c(0.025,0.975)),
+                    apply(RS_RR[,fish_data_aug$pop %in% pops & fish_data_aug$year <= max(y2)], 2, quantile, c(0.025,0.975), na.rm = T), 
+                    na.rm = T), 
+       cex.axis = 1.5, las = 1, yaxt = "n",
+       xlab = "", ylab = "", log = "y")
+  at <- maglab(10^par("usr")[3:4], log = T)
+  axis(2, at$labat, cex.axis=1.5, las=1,
+       labels = sapply(log10(at$labat), function(i) as.expression(bquote(10^ .(i)))))
+  mtext("Year", side = 1, line = 3, cex = par("cex")*2)
+  if(i==pops[1]) mtext("Recruits per spawner", side = 2, line = 3.5, cex = par("cex")*2)
+  abline(h = 1, lty = 2, lwd = 2, col = "gray")
+  lines(y2, apply(RS_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median), lwd = 2, col = c1)
+  polygon(c(y2, rev(y2)), 
+          c(apply(RS_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025), 
+            rev(apply(RS_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975))),
+          col = c1tt, border = NA)
+  points(y2, apply(RS_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median, na.rm = T), pch = 16, cex = 1.5, col = c2)
+  segments(x0 = y2, 
+           y0 = apply(RS_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025, na.rm = T), 
+           y1 = apply(RS_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975, na.rm = T), 
+           col = c2)
+}
+
+rm(list = c("pops","S_tot_IPM","S_tot_obs_IPM","R_tot_IPM","RS_IPM","RS_RR","sd","at",
+            "c1","c1t","c1tt","c2","Y","y1","y2"))
+# dev.off()
+
+
 #--------------------------------------------------------------------
 # Comparison of S-R curves and parameters under RR and IPM models
 #--------------------------------------------------------------------
 
 dev.new(width = 11, height = 3.5)
-# png(filename="Fig_1.png", width=11, height=3.5, units="in", res=200, type="cairo-png")
+# png(filename="Fig_2.png", width=11, height=3.5, units="in", res=200, type="cairo-png")
 par(mfrow = c(1,3), mar = c(5.1,5.1,1,1))
 BH <- function(a, b, S) 
 {
@@ -200,7 +289,7 @@ rm(list=c("mu_log_a","mu_log_b","S","R_ESU_RR","R_ESU_IPM","BH",
 #-------------------------------------------------------------------------
 
 dev.new(width = 7, height = 7)
-# png(filename="Fig_1.5(3).png", width=7, height=7, units="in", res=200, type="cairo-png")
+# png(filename="Fig_2.5(3).png", width=7, height=7, units="in", res=200, type="cairo-png")
 BH <- function(a, b, S, A) 
 {
   a*S/(A + b*S)
@@ -257,166 +346,13 @@ rm(list = c("yy","AA","BH","pop","S","a","b","R_RR","R_IPM","S_tot_RR","S_tot_IP
 # dev.off()
 
 
-#-----------------------------------------------------------------------------------------
-# Time series of observed and fitted/predicted total spawners and R/S for 3 populations
-#-----------------------------------------------------------------------------------------
-
-dev.new(width=11,height=7)
-# png(filename="Fig_2.png", width=11, height=7, units="in", res=200, type="cairo-png")
-par(mfcol=c(2,3), mar=c(1,3,4.1,1), oma=c(5.1,2.1,0,0))
-pops <- c("CathCr","MarshCR","Yankee")
-S_tot_IPM <- extract1(PVA_IPM_pp,"S_tot")
-S_tot_obs_IPM <- S_tot_IPM * rlnorm(length(S_tot_IPM), 0, extract1(PVA_IPM_pp,"sigma_obs"))
-R_tot_IPM <- extract1(PVA_IPM_pp,"R_tot")
-RS_IPM <- R_tot_IPM/S_tot_IPM
-sd <- stan_data(fish_data_aug, model = "RR")
-S_tot_RR <- extract1(PVA_RR_pp,"S_sim")
-S_tot_RR[,fish_data_aug$type=="past"] <- NA
-RS_RR <- extract1(PVA_RR_pp,"R_sim")
-RS_RR[,sd$which_fit] <- extract1(PVA_RR_pp,"R_hat")[,sd$which_fit]
-RS_RR <- RS_RR/extract1(PVA_RR_pp,"S_sim")
-RS_RR[,fish_data_aug$type=="past" & sd$S_NA] <- NA
-Y <- 10
-c1 <- "blue4"
-c1t <- col2rgb(c1)
-c1tt <- c1t
-c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.25)
-c1tt <- rgb(c1tt[1], c1tt[2], c1tt[3], maxColorValue = 255, alpha = 255*0.45)
-c2 <- "orangered3"
-c2 <- col2rgb(c2)
-c2 <- rgb(c2[1], c2[2], c2[3], maxColorValue = 255, alpha = 255*0.6)
-for(i in pops)
-{
-  y1 <- fish_data$year[fish_data$pop==i]
-  y2 <- c(y1, max(y1) + 1:Y) 
-  plot(y1, fish_data$S_tot_obs[fish_data$pop==i], pch = "",
-       xlim = range(fish_data$year[fish_data$pop %in% pops]) + c(0,Y),
-       ylim = range(pmax(fish_data$S_tot_obs[fish_data$pop==i], 1),
-                    apply(S_tot_obs_IPM[,fish_data_aug$pop %in% pops & fish_data_aug$year <= max(y2)], 2, quantile, c(0.025,0.975)), 
-                    na.rm = T), 
-       cex.axis = 1.5, cex.main = 2, las = 1, yaxt = "n",
-       xlab = "", ylab = "", main = i, log = "y")
-  at <- maglab(10^par("usr")[3:4], log = T)
-  axis(2, at$labat, cex.axis=1.5, las=1,
-       labels = sapply(log10(at$labat), function(i) as.expression(bquote(10^ .(i)))))
-  if(i==pops[1]) mtext("Spawners", side = 2, line = 3.5, cex = par("cex")*2)
-  lines(y2, apply(S_tot_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median), col = c1, lwd = 2)
-  polygon(c(y2, rev(y2)), 
-          c(apply(S_tot_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025), 
-            rev(apply(S_tot_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975))),
-          col = c1t, border = NA)
-  polygon(c(y2, rev(y2)), 
-          c(apply(S_tot_obs_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025), 
-            rev(apply(S_tot_obs_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975))),
-          col = c1t, border = NA)
-  points(y2, apply(S_tot_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median, na.rm = T), pch = 16, cex = 1.5, col = c2)
-  segments(x0 = y2, 
-           y0 = apply(S_tot_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025, na.rm = T), 
-           y1 = apply(S_tot_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975, na.rm = T), 
-           col = c2)
-  points(y1, fish_data$S_tot_obs[fish_data$pop==i], pch=16, cex = 1.5)
-  
-  plot(y2, apply(RS_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median), pch = "",
-       xlim = range(fish_data$year[fish_data$pop %in% pops]) + c(0,Y),
-       ylim = range(apply(RS_IPM[,fish_data_aug$pop %in% pops & fish_data_aug$year <= max(y2)], 2, quantile, c(0.025,0.975)),
-                    apply(RS_RR[,fish_data_aug$pop %in% pops & fish_data_aug$year <= max(y2)], 2, quantile, c(0.025,0.975), na.rm = T), 
-                    na.rm = T), 
-       cex.axis = 1.5, las = 1, yaxt = "n",
-       xlab = "", ylab = "", log = "y")
-  at <- maglab(10^par("usr")[3:4], log = T)
-  axis(2, at$labat, cex.axis=1.5, las=1,
-       labels = sapply(log10(at$labat), function(i) as.expression(bquote(10^ .(i)))))
-  mtext("Year", side = 1, line = 3, cex = par("cex")*2)
-  if(i==pops[1]) mtext("Recruits per spawner", side = 2, line = 3.5, cex = par("cex")*2)
-  abline(h = 1, lty = 2, lwd = 2, col = "gray")
-  lines(y2, apply(RS_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median), lwd = 2, col = c1)
-  polygon(c(y2, rev(y2)), 
-          c(apply(RS_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025), 
-            rev(apply(RS_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975))),
-          col = c1tt, border = NA)
-  points(y2, apply(RS_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median, na.rm = T), pch = 16, cex = 1.5, col = c2)
-  segments(x0 = y2, 
-           y0 = apply(RS_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025, na.rm = T), 
-           y1 = apply(RS_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975, na.rm = T), 
-           col = c2)
-}
-
-rm(list = c("pops","S_tot_IPM","S_tot_obs_IPM","R_tot_IPM","RS_IPM","RS_RR","sd","at",
-            "c1","c1t","c1tt","c2","Y","y1","y2"))
-# dev.off()
-
-
-#------------------------------------------------------------------
-# Probability of quasi-extinction by population under RR and IPM
-#------------------------------------------------------------------
-
-dev.new(height = 7, width = 7)
-# png(filename="Fig_3.png", width=7, height=7, units="in", res=200, type="cairo-png")
-par(oma = c(0,5,0,0))
-qet <- 50     # set quasi-extinction threshold (4-yr moving average)
-pop <- fish_data_aug$pop[fish_data_aug$type=="future"]
-S_tot_RR <- t(extract1(PVA_RR_pp, "S_sim")[,fish_data_aug$type=="future"])
-pqe_RR <- aggregate(S_tot_RR, list(pop = pop), function(x) any(rollmean(x, 4) < qet))
-S_tot_IPM <- t(extract1(PVA_IPM_pp, "S_tot")[,fish_data_aug$type=="future"])
-pqe_IPM <- aggregate(S_tot_IPM, list(pop = pop), function(x) any(rollmean(x, 4) < qet))
-pqe <- data.frame(pop = pqe_IPM[,1], pqe_RR = rowMeans(pqe_RR[,-1]), pqe_IPM = rowMeans(pqe_IPM[,-1]))
-pqe <- pqe[order(pqe$pqe_IPM),]
-
-barplot(t(pqe[,-1]), names.arg = pqe$pop, horiz = TRUE, beside = TRUE,
-        col = c("orangered3","blue4"), las = 1, cex.axis = 1, cex.lab = 1.2, cex.names = 0.9, cex.main = 1.2,
-        xlab = "Probability of quasi-extinction", 
-        main = paste("50-year quasi-extinction risk \n QET = ", qet, " spawners (4-year moving average)", sep = ""))
-legend("bottomright", inset = 0.1, c("IPM","RR"), pch = 15, pt.cex = 2, cex = 1, col = c("blue4","orangered3"))
-
-rm(list=c("qet","pop","S_tot_RR","S_tot_IPM","pqe_RR","pqe_IPM","pqe"))
-# dev.off()
-
-
-#-------------------------------------------------------------------------
-# ESU-level probabilities of quasi-extinction as a function of QET
-#-------------------------------------------------------------------------
-
-dev.new(height = 7, width = 7)
-# png(filename="Fig_4.png", width=7, height=7, units="in", res=200, type="cairo-png")
-par(mar = c(5.1,5.1,1,1))
-qet <- 0:50 
-pop <- fish_data_aug$pop[fish_data_aug$year > max(fish_data$year)]
-year <- fish_data_aug$year[fish_data_aug$year > max(fish_data$year)]
-S_tot_RR <- extract1(PVA_RR_pp, "S_sim")[,fish_data_aug$year > max(fish_data$year)]
-S_tot_RR <- tapply(as.vector(S_tot_RR), 
-                   list(iter = rep(1:nrow(S_tot_RR), ncol(S_tot_RR)), 
-                        year = rep(year, each = nrow(S_tot_RR)), 
-                        pop = rep(pop, each = nrow(S_tot_RR))), 
-                   identity)
-S_tot_RR <- apply(S_tot_RR, c(1,3), function(x) rollmean(x, 4))
-pqe_RR <- sapply(qet, function(qq) mean(apply(apply(S_tot_RR, c(2,3), function(x) any(x < qq)), 1, any)))
-
-S_tot_IPM <- extract1(PVA_IPM_pp, "S_tot")[,fish_data_aug$year > max(fish_data$year)]
-S_tot_IPM <- tapply(as.vector(S_tot_IPM), 
-                   list(iter = rep(1:nrow(S_tot_IPM), ncol(S_tot_IPM)), 
-                        year = rep(year, each = nrow(S_tot_IPM)), 
-                        pop = rep(pop, each = nrow(S_tot_IPM))), 
-                   identity)
-S_tot_IPM <- apply(S_tot_IPM, c(1,3), function(x) rollmean(x, 4))
-pqe_IPM <- sapply(qet, function(qq) mean(apply(apply(S_tot_IPM, c(2,3), function(x) any(x < qq)), 1, any)))
-
-plot(qet, pqe_RR, type = "l", lwd = 3, col = "orangered3",
-     ylim = range(pqe_RR, pqe_IPM), xaxs = "i", yaxs = "i", cex.axis = 1.2, cex.lab = 1.5, las = 1,
-     xlab = "Quasi-extinction threshold", ylab = bquote("Probability of ">="1 quasi-extinction"))
-lines(qet, pqe_IPM, lwd = 3, col = "blue4")
-legend("topleft", c("IPM","RR"), col = c("blue4","orangered3"), lwd = 3, cex = 1.5)
-
-rm(list = c("pop","S_tot_RR","S_tot_IPM","qet","year","pqe_RR","pqe_IPM"))
-# dev.off()
-
-
 #------------------------------------------------------------------------------
 # CDF of max sustainable harvest rate, at ESU and pop levels, under RR and IPM
 # Umax = 1 - 1/a
 #------------------------------------------------------------------------------
 
 dev.new(height = 7, width = 7)
-# png(filename="Fig_5.png", width=7, height=7, units="in", res=200, type="cairo-png")
+# png(filename="Fig_3.png", width=7, height=7, units="in", res=200, type="cairo-png")
 
 mu_log_a_RR <- extract1(PVA_RR_pp,"mu_log_a")
 Umax_ESU_RR <- 1 - exp(-mu_log_a_RR)
@@ -452,6 +388,70 @@ legend("topleft", c("IPM","RR"), col = c("blue4","orangered3"), lwd = 3, cex = 1
 rm(list = c("mu_log_a_RR","mu_log_a_IPM","Umax_ESU_RR","Umax_ESU_IPM",
             "a_RR","Umax_pop_RR","a_IPM","Umax_pop_IPM","c1","c1t","c2","c2t"))
 
+# dev.off()
+
+
+#------------------------------------------------------------------
+# Probability of quasi-extinction by population under RR and IPM
+#------------------------------------------------------------------
+
+dev.new(height = 7, width = 7)
+# png(filename="Fig_4.png", width=7, height=7, units="in", res=200, type="cairo-png")
+par(oma = c(0,5,0,0))
+qet <- 50     # set quasi-extinction threshold (4-yr moving average)
+pop <- fish_data_aug$pop[fish_data_aug$type=="future"]
+S_tot_RR <- t(extract1(PVA_RR_pp, "S_sim")[,fish_data_aug$type=="future"])
+pqe_RR <- aggregate(S_tot_RR, list(pop = pop), function(x) any(rollmean(x, 4) < qet))
+S_tot_IPM <- t(extract1(PVA_IPM_pp, "S_tot")[,fish_data_aug$type=="future"])
+pqe_IPM <- aggregate(S_tot_IPM, list(pop = pop), function(x) any(rollmean(x, 4) < qet))
+pqe <- data.frame(pop = pqe_IPM[,1], pqe_RR = rowMeans(pqe_RR[,-1]), pqe_IPM = rowMeans(pqe_IPM[,-1]))
+pqe <- pqe[order(pqe$pqe_IPM),]
+
+barplot(t(pqe[,-1]), names.arg = pqe$pop, horiz = TRUE, beside = TRUE,
+        col = c("orangered3","blue4"), las = 1, cex.axis = 1, cex.lab = 1.2, cex.names = 0.9, cex.main = 1.2,
+        xlab = "Probability of quasi-extinction")
+        # main = paste("50-year quasi-extinction risk \n QET = ", qet, " spawners (4-year moving average)", sep = ""))
+legend("bottomright", inset = 0.1, c("IPM","RR"), pch = 15, pt.cex = 2, cex = 1, col = c("blue4","orangered3"))
+
+rm(list=c("qet","pop","S_tot_RR","S_tot_IPM","pqe_RR","pqe_IPM","pqe"))
+# dev.off()
+
+
+#-------------------------------------------------------------------------
+# ESU-level probabilities of quasi-extinction as a function of QET
+#-------------------------------------------------------------------------
+
+dev.new(height = 7, width = 7)
+# png(filename="Fig_5.png", width=7, height=7, units="in", res=200, type="cairo-png")
+par(mar = c(5.1,5.1,1,1))
+qet <- 0:50 
+pop <- fish_data_aug$pop[fish_data_aug$year > max(fish_data$year)]
+year <- fish_data_aug$year[fish_data_aug$year > max(fish_data$year)]
+S_tot_RR <- extract1(PVA_RR_pp, "S_sim")[,fish_data_aug$year > max(fish_data$year)]
+S_tot_RR <- tapply(as.vector(S_tot_RR), 
+                   list(iter = rep(1:nrow(S_tot_RR), ncol(S_tot_RR)), 
+                        year = rep(year, each = nrow(S_tot_RR)), 
+                        pop = rep(pop, each = nrow(S_tot_RR))), 
+                   identity)
+S_tot_RR <- apply(S_tot_RR, c(1,3), function(x) rollmean(x, 4))
+pqe_RR <- sapply(qet, function(qq) mean(apply(apply(S_tot_RR, c(2,3), function(x) any(x < qq)), 1, any)))
+
+S_tot_IPM <- extract1(PVA_IPM_pp, "S_tot")[,fish_data_aug$year > max(fish_data$year)]
+S_tot_IPM <- tapply(as.vector(S_tot_IPM), 
+                   list(iter = rep(1:nrow(S_tot_IPM), ncol(S_tot_IPM)), 
+                        year = rep(year, each = nrow(S_tot_IPM)), 
+                        pop = rep(pop, each = nrow(S_tot_IPM))), 
+                   identity)
+S_tot_IPM <- apply(S_tot_IPM, c(1,3), function(x) rollmean(x, 4))
+pqe_IPM <- sapply(qet, function(qq) mean(apply(apply(S_tot_IPM, c(2,3), function(x) any(x < qq)), 1, any)))
+
+plot(qet, pqe_RR, type = "l", lwd = 3, col = "orangered3",
+     ylim = range(pqe_RR, pqe_IPM), xaxs = "i", yaxs = "i", cex.axis = 1.2, cex.lab = 1.5, las = 1,
+     xlab = "Quasi-extinction threshold", ylab = bquote("Probability of ">="1 quasi-extinction"))
+lines(qet, pqe_IPM, lwd = 3, col = "blue4")
+legend("topleft", c("IPM","RR"), col = c("blue4","orangered3"), lwd = 3, cex = 1.5)
+
+rm(list = c("pop","S_tot_RR","S_tot_IPM","qet","year","pqe_RR","pqe_IPM"))
 # dev.off()
 
 
