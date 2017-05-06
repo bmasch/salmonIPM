@@ -262,7 +262,7 @@ for(i in 1:length(dd_RR_pop))
 
 bb <- "blue4"
 plot(dd_IPM_ESU$x, dd_IPM_ESU$y, type = "l", lwd = 3, col = bb, las = 1, cex.lab = 2, cex.axis = 1.5,
-     xlab = bquote(log(italic(R)[max])), ylab = "Probability density", xaxs = "i",
+     xlab = bquote(log(italic(R)[max]*" [spawners/ha]")), ylab = "Probability density", xaxs = "i",
      xlim = range(c(dd_IPM_ESU$x, dd_RR_ESU$x, sapply(c(dd_RR_pop, dd_IPM_pop), function(m) m$x))),
      ylim = range(c(dd_IPM_ESU$y, dd_RR_ESU$y, sapply(c(dd_RR_pop, dd_IPM_pop), function(m) m$y))))
 bb <- col2rgb(bb)
