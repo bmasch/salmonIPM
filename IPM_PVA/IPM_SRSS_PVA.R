@@ -99,9 +99,9 @@ launch_shinystan(PVA_IPM_pp)
 #-----------------------------------------------------------------------------------------
 
 dev.new(width=11,height=7)
-
+# png(filename="Fig_1.png", width=11, height=7, units="in", res=200, type="cairo-png")
 par(mfcol=c(2,3), mar=c(1,3,4.1,1), oma=c(5.1,2.1,0,0))
-pops <- c("MarshCR","CathCr","Yankee")
+pops <- c("Marsh","Catherine","Yankee")
 S_tot_IPM <- extract1(PVA_IPM_pp,"S_tot")
 S_tot_obs_IPM <- S_tot_IPM * rlnorm(length(S_tot_IPM), 0, extract1(PVA_IPM_pp,"sigma_obs"))
 R_tot_IPM <- extract1(PVA_IPM_pp,"R_tot")
@@ -262,7 +262,7 @@ for(i in 1:length(dd_RR_pop))
 
 bb <- "blue4"
 plot(dd_IPM_ESU$x, dd_IPM_ESU$y, type = "l", lwd = 3, col = bb, las = 1, cex.lab = 2, cex.axis = 1.5,
-     xlab = bquote(log(italic(R)[max]*" [spawners/ha]")), ylab = "Probability density", xaxs = "i",
+     xlab = bquote(log(italic(R)[max]*" [ha"^-1*"]")), ylab = "Probability density", xaxs = "i",
      xlim = range(c(dd_IPM_ESU$x, dd_RR_ESU$x, sapply(c(dd_RR_pop, dd_IPM_pop), function(m) m$x))),
      ylim = range(c(dd_IPM_ESU$y, dd_RR_ESU$y, sapply(c(dd_RR_pop, dd_IPM_pop), function(m) m$y))))
 bb <- col2rgb(bb)
@@ -295,7 +295,7 @@ BH <- function(a, b, S, A)
   a*S/(A + b*S)
 }
 
-pop <- "SulphurCr"
+pop <- "Sulphur"
 
 yy <- stan_data(fish_data_aug, model = "RR")$year
 AA <- unique(fish_data$A[fish_data$pop==pop])
@@ -415,8 +415,9 @@ rm(list = c("pop","S_tot_RR","S_tot_IPM","qet","year","pqe_RR","pqe_IPM"))
 # Umax = 1 - 1/a
 #------------------------------------------------------------------------------
 
-dev.new(height = 7, width = 7)
-# png(filename="Fig_5.png", width=7, height=7, units="in", res=200, type="cairo-png")
+dev.new(width = 7, height = 8)
+# png(filename="Fig_5.png", width=7, height=8, units="in", res=200, type="cairo-png")
+layout(matrix(c(2,1)), heights = c(1.5,7))
 
 mu_log_a_RR <- extract1(PVA_RR_pp,"mu_log_a")
 Umax_ESU_RR <- 1 - exp(-mu_log_a_RR)
@@ -437,6 +438,8 @@ c2 <- "blue4"
 c2t <- col2rgb(c2)
 c2t <- rgb(c2t[1], c2t[2], c2t[3], maxColorValue = 255, alpha = 255*0.7)
 
+par(mar = c(5.1,4.1,0,2.1))
+
 plot(sort(Umax_ESU_RR), (1:M)/M, type = "l", lwd = 4, col = c1,
      xlim = c(0, 1), ylim = c(0,1),
      xaxs = "i", las = 1, cex.axis = 1.2, cex.lab = 1.5,
@@ -449,8 +452,15 @@ for(i in 1:ncol(Umax_pop_IPM))
 }
 legend("topleft", c("IPM","RR"), col = c("blue4","orangered3"), lwd = 3, cex = 1.2)
 
+par(mar = c(0.1,3.1,0.5,1.5))
+bins <- seq(0, 1, 0.05)
+F1 <- hist(fish_data$F_rate[fish_data$year < 1980], breaks = bins, plot = F)$counts
+F2 <- hist(fish_data$F_rate[fish_data$year >= 1980], breaks = bins, plot = F)$counts
+barplot(rbind(F1,F2), names = bins[-1], space = 0, yaxs = "i", xaxt = "n", yaxt = "n", 
+     xlab = "", ylab = "", main = "", col = c("black","gray"), border = "white")
+
 rm(list = c("mu_log_a_RR","mu_log_a_IPM","Umax_ESU_RR","Umax_ESU_IPM",
-            "a_RR","Umax_pop_RR","a_IPM","Umax_pop_IPM","c1","c1t","c2","c2t"))
+            "a_RR","Umax_pop_RR","a_IPM","Umax_pop_IPM","c1","c1t","c2","c2t","bins","F1","F2"))
 
 # dev.off()
 
