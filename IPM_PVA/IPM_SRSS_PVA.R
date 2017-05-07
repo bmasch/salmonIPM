@@ -37,6 +37,32 @@ fish_data_aug <- rbind(cbind(type = "past", fish_data[,setdiff(names(fish_data_a
 fish_data_aug <- fish_data_aug[order(fish_data_aug$code, fish_data_aug$year),]
 row.names(fish_data_aug) <- NULL
 
+#--------------------------------------------------------
+# Create data summary table 
+#--------------------------------------------------------
+
+Ph <- fish_data$p_HOS
+S_tot <- extract1(PVA_IPM_pp, "S_tot")[,fish_data_aug$type=="past"]
+table1 <- data.frame(Population=rep(NA,length(levels(fish_data$pop))), Years=NA, St=NA, 
+                                    Area=NA, P.hatchery=NA)
+table1$Population <- levels(fish_data$pop)
+for(i in 1:nrow(table1))
+{
+  table1$Years[i] <- paste(min(fish_data$year[fish_data$pop==table1$Population[i]]), "-", 
+                           max(fish_data$year[fish_data$pop==table1$Population[i]]), sep="")
+  table1$St[i] <- paste(round(mean(S_tot[fish_data$pop==table1$Population[i]]),1), " (", 
+                        round(min(S_tot[fish_data$pop==table1$Population[i]]),1), "-", 
+                        round(max(S_tot[fish_data$pop==table1$Population[i]]),1), ")", sep="")
+  table1$P.hatchery[i] <- paste(round(mean(Ph[fish_data$pop==table1$Population[i]]),2), 
+                                ifelse(round(mean(Ph[fish_data$pop==table1$Population[i]]),2)==0, "",
+                                       paste0(" (", round(min(Ph[fish_data$pop==table1$Population[i]]),2), "-", 
+                                       round(max(Ph[fish_data$pop==table1$Population[i]]),2), ")")), sep="")
+}
+table1$Area <- round(fish_data$A[match(table1$Population, fish_data$pop)], 1)
+rm(Ph);rm(S_tot)
+print(table1)
+write.table(table1, "table1.txt", sep="\t", row.names=F)
+
 
 #===========================================================================
 # FIT MODELS
