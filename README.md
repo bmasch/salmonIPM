@@ -1,6 +1,6 @@
 # salmonIPM
 
-This is the development repo for `salmonIPM`, an `R` package for fitting integrated population models to salmon data. Click [here](https://ebuhle.github.io/salmonIPM) for the full vignette.
+This is the development repo for `salmonIPM`, an `R` package for fitting integrated population models to salmon data.
 
 ## Installation
 
