@@ -174,9 +174,9 @@ for(i in pops)
             rev(apply(S_tot_obs_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975))),
           col = c1t, border = NA)
   points(y2, apply(S_tot_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median, na.rm = T), pch = 16, cex = 1.5, col = c2)
-  segments(x0 = y2, 
-           y0 = apply(S_tot_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025, na.rm = T), 
-           y1 = apply(S_tot_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975, na.rm = T), 
+  segments(x0 = y2,
+           y0 = apply(S_tot_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025, na.rm = T),
+           y1 = apply(S_tot_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975, na.rm = T),
            col = c2)
   points(y1, fish_data$S_tot_obs[fish_data$pop==i], pch=16, cex = 1.5)
   
@@ -379,7 +379,7 @@ rm(list = c("yy","AA","BH","pop","S","a","b","R_RR","R_IPM","S_tot_RR","S_tot_IP
 
 dev.new(height = 7, width = 7)
 # png(filename="Fig_3.png", width=7, height=7, units="in", res=200, type="cairo-png")
-par(oma = c(0,5,0,0))
+par(oma = c(0,7,0,0))
 qet <- 50     # set quasi-extinction threshold (4-yr moving average)
 pop <- fish_data_aug$pop[fish_data_aug$type=="future"]
 S_tot_RR <- t(extract1(PVA_RR_pp, "S_sim")[,fish_data_aug$type=="future"])
@@ -470,7 +470,7 @@ par(mar = c(5.1,4.1,0,2.1))
 plot(sort(Umax_ESU_RR), (1:M)/M, type = "l", lwd = 4, col = c1,
      xlim = c(0, 1), ylim = c(0,1),
      xaxs = "i", las = 1, cex.axis = 1.2, cex.lab = 1.5,
-     xlab = "Harvest rate", ylab = "Probability of decline")
+     xlab = "Mortality rate", ylab = "Probability of decline")
 lines(sort(Umax_ESU_IPM), (1:M)/M, lwd = 4, col = c2)
 for(i in 1:ncol(Umax_pop_IPM))
 {
@@ -502,6 +502,98 @@ rm(list = c("mu_log_a_RR","mu_log_a_IPM","Umax_ESU_RR","Umax_ESU_IPM",
 #===========================================================================
 # MORE FIGURES: SPARE PARTS
 #===========================================================================
+
+#--------------------------------------------------------------------------
+# Generic example of spawner-recruit regression
+#--------------------------------------------------------------------------
+
+dev.new(width = 7, height = 7)
+par(mar = c(3,3,1,1))
+png(filename="BH_fig.png", width=7, height=7, units="in", res=200, type="cairo-png")
+BH <- function(a, b, S)
+{
+  a*S/(1 + b*S)
+}
+a <- 1
+b <- 1
+sigma <- 0.3
+S <- seq(0,2,length = 20)
+R <- BH(a, b, S)*rlnorm(length(S), -sigma^2/2, sigma)
+
+plot(S, R, xaxt = "n", yaxt = "n", xlab = "", ylab = "", cex.lab = 2, pch = 16, cex = 2)
+mtext("Spawners", 1, line = 1, cex = 2)
+mtext("Recruits", 2, line = 1, cex = 2)
+curve(BH(a, b, x), add = T, col = "blue", lwd = 3)
+box()
+rm(list = c("BH","a","b","sigma","S","R"))
+dev.off()
+
+
+#--------------------------------------------------------------------------
+# Hierarchical S-R curve illustration
+#--------------------------------------------------------------------------
+
+png(filename="BH_hierarchical_fig1.png", width=14, height=7, units="in", res=200, type="cairo-png")
+par(mfrow = c(1,2))
+curve(dlnorm(x, 0, 0.5), from = 0, to = exp(1), lwd = 3, xaxt = "n", yaxt = "n", xlab = "", ylab = "")
+mtext(bquote(log(alpha)), 1, line = 3, cex = 4)
+mtext("Probability", 2, line = 1, cex = 4)
+curve(dlnorm(x, 0, 1), from = 0, to = exp(2), lwd = 3, xaxt = "n", yaxt = "n", xlab = "", ylab = "")
+mtext(bquote(log(italic(R)[max])), 1, line = 3, cex = 4)
+dev.off()
+
+dev.new(width = 16, height = 4)
+png(filename="BH_hierarchical_fig2.png", width=16, height=4, units="in", res=200, type="cairo-png")
+par(mfrow=c(1,4))
+BH <- function(a, b, S)
+{
+  a*S/(1 + b*S)
+}
+a <- rlnorm(4, 0, 0.5)
+b <- rlnorm(4, 0, 0.5)
+sigma <- 0.3
+S <- seq(0,2,length = 20)
+R <- matrix(NA, length(S), 4)
+for(i in 1:4)
+  R[,i] <- BH(a[i], b[i], S)*rlnorm(length(S), -sigma^2/2, sigma)
+cols = c("blue", "green", "orange", "red")
+
+for(i in 1:4)
+{
+  curve(BH(a[i], b[i], x), from = 0, to = max(S), lwd = 3, col = cols[i], ylim = c(0,max(R[,i])),
+        xaxt = "n", yaxt = "n", xlab = "", ylab = "", main = paste("Population", i), cex.main = 2.5)
+  points(S, R[,i], pch = 16, cex = 2, col = cols[i])
+  mtext("Spawners", 1, line = 1.5, cex = 2)
+  mtext("Recruits", 2, line = 1, cex = 2)
+}
+dev.off()
+
+dev.new(width = 7, height = 4)
+png(filename="BH_hierarchical_fig3.png", width=7, height=4, units="in", res=200, type="cairo-png")
+
+rho <- 0.7
+sigma_log_phi <- 0.3
+tt <- 1:30
+log_phi <- rep(NA, length(tt))
+log_phi[1] <- rnorm(1,0,sigma_log_phi)
+for(i in 2:length(tt))
+  log_phi[i] <- rnorm(1, log_phi[i-1]*rho, sigma_log_phi)
+proc <- matrix(NA, length(tt), 4)
+for(i in 1:4)
+  proc[,i] <- rnorm(length(tt), log_phi, sigma)
+
+plot(tt, log_phi, type = "l", lwd = 5, xlab = "", ylab = "",
+     xaxt = "n", yaxt = "n", ylim = range(proc))
+for(i in 1:4)
+  lines(tt, proc[,i], lwd = 2, col = cols[i])
+lines(tt, log_phi, lwd = 5)
+mtext("Brood year", 1, line = 1.5, cex = 2)
+mtext("Process error", 2, line = 1, cex = 2)
+
+dev.off()
+
+rm(list = c("BH","a","b","sigma","S","R","rho","sigma_log_phi","tt","log_phi","proc"))
+
 
 #--------------------------------------------------------------------------
 # Spawner-recruit curve variance decomposition under RR and IPM models
