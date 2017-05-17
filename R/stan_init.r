@@ -55,9 +55,9 @@ stan_init <- function(data, chains, model, pool_pops = TRUE)
       p[p_NA, ] <- rep(colMeans(na.omit(p)), each = sum(p_NA))
       alr_p <- sweep(log(p[,1:(N_age-1)]), 1, log(p[,N_age]), "-")
       alr_p_z <- apply(alr_p, 2, scale)
-      gamma_p <- aggregate(alr_p, list(pop), mean)
-      gamma_alr_p <- aggregate(alr_p, list(pop), mean)[,-1]
-      gamma_alr_p_z <- apply(gamma_alr_p, 2, scale)
+      exp_gamma <- aggregate(p, list(pop), mean)
+      gamma_z <- aggregate(alr_p, list(pop), mean)[,-1]
+      gamma_z <- apply(gamma_z, 2, scale)
       
       if(pool_pops)
       {
@@ -68,15 +68,16 @@ stan_init <- function(data, chains, model, pool_pops = TRUE)
                mu_log_b = runif(1,-1,0),
                sigma_log_b = runif(1,0.1,0.5),
                log_b_z = array(runif(max(pop),-1,1), dim = max(pop)),
+               rho_log_ab = runif(1,0,1),
                beta_log_phi = array(rnorm(N_X,0,1), dim = N_X),
                rho_log_phi = runif(1,0.1,0.7),
                sigma_log_phi = runif(1,0.1,0.5),
                log_phi_z = array(rnorm(max(year),0,0.1), dim = max(year)),
                sigma_proc = runif(1,0.05,2),
                sigma_obs = runif(1,0.5,1),
-               mu_p = colMeans(p), sigma_alr_p = array(runif(N_age-1,0.5,1), dim = N_age-1),
-               gamma_alr_p_z = gamma_alr_p_z,
-               tau_alr_p = array(runif(N_age-1,0.5,1), dim = N_age-1),
+               mu_p = colMeans(p), sigma_gamma = array(runif(N_age-1,0.5,1), dim = N_age-1),
+               gamma_z = gamma_z,
+               sigma_alr_p = array(runif(N_age-1,0.5,1), dim = N_age-1),
                alr_p_z = alr_p_z,
                S_tot_init = rep(max(S_tot_obs_noNA), max_age*max(pop)),
                q_init = matrix(colMeans(q_obs), max_age*max(pop), 3, byrow = T),
@@ -92,8 +93,8 @@ stan_init <- function(data, chains, model, pool_pops = TRUE)
                rho_proc = array(runif(max(pop),0.1,0.7), dim = max(pop)),
                sigma_proc = array(runif(max(pop),0.05,2), dim = max(pop)), 
                sigma_obs = array(runif(max(pop),0.5,1), dim = max(pop)),
-               gamma_p_arr = gamma_p,
-               tau_alr_p = matrix(runif(max(pop)*(N_age-1),0.5,1), max(pop), N_age-1),
+               exp_gamma = exp_gamma,
+               sigma_alr_p = matrix(runif(max(pop)*(N_age-1),0.5,1), max(pop), N_age-1),
                alr_p_z = alr_p_z,
                S_tot_init = rep(max(S_tot_obs_noNA), max_age*max(pop)),
                q_init = matrix(colMeans(q_obs), max_age*max(pop), 3, byrow = T),

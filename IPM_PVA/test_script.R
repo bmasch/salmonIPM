@@ -1,5 +1,6 @@
 options(device = windows)
 library(lme4)
+library(rethinking)
 
 #-----------------
 # PLOTS
@@ -34,22 +35,33 @@ print(RR_fit, pars = c("phi","R_hat"), include = FALSE)
 # Fit hierarchical IPM
 IPM_fit <- salmonIPM(fish_data = fish_data, model = "IPM", 
                      pars = c("mu_log_a","sigma_log_a","a",
-                       "mu_log_b","sigma_log_b","b",
+                       "mu_log_b","sigma_log_b","b","rho_log_ab",
                        "sigma_log_phi","rho_log_phi","phi",
-                       "mu_p","sigma_alr_p","gamma_alr_p",
-                       "mu_tau_alr_p","sigma_log_tau_alr_p","tau_alr_p","p",
-                       "mu_sigma_proc","sigma_log_sigma_proc","sigma_proc","sigma_obs",
-                       "S_tot","S_W_tot","S_H_tot","R_tot","log_R_tot_z","q"),
+                       "mu_p","sigma_gamma","R_gamma","gamma",
+                       "sigma_alr_p","R_alr_p","p","sigma_proc","sigma_obs",
+                       "S_tot","S_W_tot","S_H_tot","R_tot"),
                      chains = 3, iter = 2000, warmup = 1000, 
                      control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
 
 print(IPM_fit, pars = c("mu_log_a","sigma_log_a",
-                        "mu_log_b","sigma_log_b",
+                        "mu_log_b","sigma_log_b","rho_log_ab",
                         "sigma_log_phi","rho_log_phi",
-                        "mu_p","sigma_alr_p","gamma_alr_p",
-                        "mu_tau_alr_p","sigma_log_tau_alr_p","tau_alr_p",
-                        "mu_sigma_proc","sigma_log_sigma_proc"))
+                        "mu_p","sigma_gamma","R_gamma","gamma",
+                        "sigma_alr_p","R_alr_p","sigma_proc","sigma_obs"))
 launch_shinystan(IPM_fit)
+
+# Fit non-hierarchical IPM
+IPM_fit3 <- salmonIPM(fish_data = fish_data, model = "IPM", pool_pops = FALSE,
+                     pars = c("a","b","sigma_proc","rho_proc","sigma_proc","sigma_obs",
+                              "gamma","sigma_alr_p", #"R_alr_p","p",
+                              "S_tot","S_W_tot","S_H_tot","R_tot"),
+                     chains = 3, iter = 2000, warmup = 1000, 
+                     control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+
+print(IPM_fit3, pars = c("a","b","sigma_proc","rho_proc","sigma_proc","sigma_obs",
+                         "gamma","sigma_alr_p","R_alr_p"))
+launch_shinystan(IPM_fit3)
+
 
 
 #-----------------
