@@ -12,11 +12,11 @@ Description: A hierarchical Bayesian model of salmon population dynamics. It
 Depends:
     R (>= 3.3),
     rstan,
-    shinystan
+    shinystan,
+    loo
 Imports:
     gtools,
     lattice,
-    loo,
     parallel
 License: GPL (>= 3)
 Encoding: UTF-8
