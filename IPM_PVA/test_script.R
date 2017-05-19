@@ -36,10 +36,9 @@ IPM_fit <- salmonIPM(fish_data = fish_data, model = "IPM",
                      pars = c("mu_log_a","sigma_log_a","a",
                        "mu_log_b","sigma_log_b","b",
                        "sigma_log_phi","rho_log_phi","phi",
-                       "mu_p","sigma_alr_p","gamma_alr_p",
-                       "mu_tau_alr_p","sigma_log_tau_alr_p","tau_alr_p","p",
-                       "mu_sigma_proc","sigma_log_sigma_proc","sigma_proc","sigma_obs",
-                       "S_tot","S_W_tot","S_H_tot","R_tot","log_R_tot_z","q"),
+                       "mu_p","sigma_alr_p","gamma_alr_p","tau_alr_p","alr_p_z",
+                       "sigma_proc","sigma_obs",
+                       "S_tot","S_W_tot","S_H_tot","R_tot","log_R_tot_z"),
                      chains = 3, iter = 2000, warmup = 1000, 
                      control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
 
