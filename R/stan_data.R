@@ -85,6 +85,8 @@ stan_data <- function(fish_data, env_data = NULL, model)
         dat$n_W_obs <- array(1, dim = 1)
         dat$n_H_obs <- array(1, dim = 1)
       }
+      if(dat$N_B == 0)
+        dat$which_B <- 1
       
       dat$n_W_obs[is.na(dat$n_W_obs)] <- 0
       dat$n_H_obs[is.na(dat$n_H_obs)] <- 0
