@@ -151,16 +151,16 @@ model {
   vector[max(N_B,1)] B_take; # true broodstock take when B_take_obs > 0
   
   # Priors
-  a ~ lognormal(0,5);
-  b ~ lognormal(0,10);
+  a ~ normal(0,500);
+  b ~ normal(0,1000);
   to_vector(beta_proc) ~ normal(0,5);
   for(j in 1:N_pop)
   {
-    rho_proc[j] ~ pexp(0,0.85,50); # mildly regularize rho to ensure stationarity
-    L_alr_p[j] ~ lkj_corr_cholesky(5);
+    rho_proc[j] ~ pexp(0,0.85,20); # mildly regularize rho to ensure stationarity
+    L_alr_p[j] ~ lkj_corr_cholesky(3);
+    sigma_proc[j] ~ pexp(0,1,10);
+    sigma_obs[j] ~ pexp(1,0.85,20);  # avoid sigma_obs < 0.1, which leads to divergences
   }
-  sigma_proc ~ normal(0,2);
-  sigma_obs ~ lognormal(0.7,0.7);
   to_vector(sigma_alr_p) ~ normal(0,5);
   S_tot_init ~ lognormal(0,5);
   if(N_B > 0)

@@ -56,7 +56,7 @@ IPM_fit3 <- salmonIPM(fish_data = fish_data, model = "IPM", pool_pops = FALSE,
                               "gamma","sigma_alr_p","R_alr_p","p",
                               "S_tot","S_W_tot","S_H_tot","R_tot"),
                      chains = 3, iter = 2000, warmup = 1000, 
-                     control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+                     control = list(adapt_delta = 0.95, max_treedepth = 12))
 
 print(IPM_fit3, pars = c("a","b","sigma_proc","rho_proc","sigma_proc","sigma_obs",
                          "gamma","sigma_alr_p","R_alr_p"))
