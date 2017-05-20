@@ -51,16 +51,16 @@ print(IPM_fit, pars = c("mu_log_a","sigma_log_a",
 launch_shinystan(IPM_fit)
 
 # Fit non-hierarchical IPM
-IPM_fit3 <- salmonIPM(fish_data = fish_data, model = "IPM", pool_pops = FALSE,
+IPM_fix <- salmonIPM(fish_data = fish_data2, model = "IPM", pool_pops = FALSE,
                      pars = c("a","b","sigma_proc","rho_proc","sigma_proc","sigma_obs",
                               "gamma","sigma_alr_p","R_alr_p","p",
-                              "S_tot","S_W_tot","S_H_tot","R_tot"),
+                              "S_tot","S_W_tot","S_H_tot","R_tot","log_R_tot_proc"),
                      chains = 3, iter = 2000, warmup = 1000, 
-                     control = list(adapt_delta = 0.95, max_treedepth = 12))
+                     control = list(adapt_delta = 0.99, max_treedepth = 12))
 
-print(IPM_fit3, pars = c("a","b","sigma_proc","rho_proc","sigma_proc","sigma_obs",
+print(IPM_fix, pars = c("a","b","sigma_proc","rho_proc","sigma_proc","sigma_obs",
                          "gamma","sigma_alr_p","R_alr_p"))
-launch_shinystan(IPM_fit3)
+launch_shinystan(IPM_fix)
 
 
 

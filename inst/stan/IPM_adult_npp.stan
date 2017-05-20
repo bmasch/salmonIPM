@@ -2,7 +2,7 @@ functions {
   # spawner-recruit functions
   real SR(real a, real b, real S, real A) {
     real R;
-    R = a*S/(A + b*S);
+    R = a*S/(A + a*S/b);
     return(R);
   }
   
@@ -139,7 +139,8 @@ transformed parameters {
     S_tot[i] = S_W_tot[i] + S_H_tot[i];
     R_tot_hat[i] = A[i]*SR(a[pop[i]], b[pop[i]], S_tot[i], A[i]);
     if(pop_year_indx[i] == 1) # initial process error
-      log_R_tot_proc[i] = log_R_tot_z[i]*sigma_proc[pop[i]];
+      log_R_tot_proc[i] = log_R_tot_z[i]*sigma_proc[pop[i]]/sqrt(1 - rho_proc[pop[i]]^2);
+    # log_R_tot_proc[i] = log_R_tot_z[i]*sigma_proc[pop[i]];
     else
       log_R_tot_proc[i] = rho_proc[pop[i]]*log_R_tot_proc[i-1] + log_R_tot_z[i]*sigma_proc[pop[i]];
     log_R_tot_proc[i] =  dot_product(X[year[i],], beta_proc[pop[i],]) + log_R_tot_proc[i];
@@ -152,7 +153,7 @@ model {
   
   # Priors
   a ~ normal(0,500);
-  b ~ normal(0,1000);
+  b ~ normal(0,10000);
   to_vector(beta_proc) ~ normal(0,5);
   for(j in 1:N_pop)
   {
