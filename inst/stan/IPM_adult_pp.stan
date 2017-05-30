@@ -1,8 +1,8 @@
 functions {
   # spawner-recruit functions
-  real SR(real a, real b, real S, real A) {
+  real SR(real a, real Rmax, real S, real A) {
     real R;
-    R = a*S/(A + b*S);
+    R = a*S/(A + a*S/Rmax);
     return(R);
   }
   
@@ -40,7 +40,10 @@ data {
   int<lower=0> n_W_obs[max(N_H,1)];    # count of wild spawners in samples (assumes no NAs)
   int<lower=0> n_H_obs[max(N_H,1)];    # count of hatchery spawners in samples (assumes no NAs)
   vector[N] A;                         # habitat area associated with each spawner abundance obs
-  vector[N] F_rate;                    # fishing mortality rate of wild adults (no fishing on jacks)
+  vector[N] F_rate;                    # fishing mortality of wild adults
+  # int<lower=0,upper=N> N_F;            # number of years with F_rate > 0
+  # int<lower=1,upper=N> which_F[max(N_F,1)]; # years with F_rate > 0
+  # vector[N] F_rate_obs;                # observed fishing mortality of wild adults
   int<lower=0,upper=N> N_B;            # number of years with B_take > 0
   int<lower=1,upper=N> which_B[max(N_B,1)]; # years with B_take > 0
   vector[max(N_B,1)] B_take_obs;       # observed broodstock take of wild adults
@@ -72,10 +75,10 @@ parameters {
   real mu_log_a;                        # hyper-mean log intrinsic productivity
   real<lower=0> sigma_log_a;            # hyper-SD log intrinsic productivity
   vector[N_pop] log_a_z;                # log intrinsic prod (Z-scores)
-  real mu_log_b;                        # hyper-mean log density dependence
-  real<lower=0> sigma_log_b;            # hyper-SD log density dependence
-  vector[N_pop] log_b_z;                # log density dependence (Z-scores)
-  real<lower=-1,upper=1> rho_log_ab;    # correlation between log(a) and log(b)
+  real mu_log_Rmax;                     # hyper-mean log asymptotic recruitment
+  real<lower=0> sigma_log_Rmax;         # hyper-SD log asymptotic recruitment
+  vector[N_pop] log_Rmax_z;             # log asymptotic recruitment (Z-scores)
+  real<lower=-1,upper=1> rho_log_aRmax; # correlation between log(a) and log(Rmax)
   vector[N_X] beta_log_phi;             # regression coefs for log productivity anomalies
   real<lower=-1,upper=1> rho_log_phi;   # AR(1) coef for log productivity anomalies
   real<lower=0> sigma_log_phi;          # hyper-SD of brood year log productivity anomalies
@@ -92,14 +95,16 @@ parameters {
   simplex[N_age] q_init[max_age*N_pop]; # true wild spawner age distributions in years 1-max_age
   vector<lower=0,upper=1>[max(N_H,1)] p_HOS; # true p_HOS in years which_H
   vector[N] log_R_tot_z;                # log true recruit abundance (not density) by brood year (z-scores)
+  # vector<lower=0,upper=1>[max(N_F,1)] F_rate; # true fishing mortality rate when F_rate > 0
+  # real<lower=0> sigma_F;                # observation error SD of logit observed fishing rate 
   vector<lower=0,upper=1>[max(N_B,1)] B_rate; # true broodstock take rate when B_take > 0
   real<lower=0> sigma_obs;              # observation error SD
 }
 
 transformed parameters {
-  matrix[2,2] L_log_ab;               # Cholesky factor of correlation matrix of log(a) and log(b)
+  matrix[2,2] L_log_aRmax;            # Cholesky factor of correlation matrix of log(a) and log(Rmax)
   vector<lower=0>[N_pop] a;           # intrinsic productivity 
-  vector<lower=0>[N_pop] b;           # density dependence 
+  vector<lower=0>[N_pop] Rmax;        # asymptotic recruitment 
   vector<lower=0>[N_year] phi;        # brood year productivity anomalies
   vector<lower=0>[N] S_W_tot;         # true total wild spawner abundance
   vector[N] S_H_tot;                  # true total hatchery spawner abundance (can == 0)
@@ -111,35 +116,40 @@ transformed parameters {
   vector[N] p_HOS_all;                # true p_HOS in all years (can == 0)
   vector<lower=0>[N] R_tot_hat;       # expected recruit abundance (not density) by brood year
   vector<lower=0>[N] R_tot;           # true recruit abundance (not density) by brood year
+  # vector<lower=0,upper=1>[N] F_rate_all; # true fishing mortality rate in all years
   vector<lower=0,upper=1>[N] B_rate_all; # true broodstock take rate in all years
 
-  # Multivariate Matt trick on [log(a), log(b)]
-  L_log_ab[1,1] = 1;
-  L_log_ab[2,1] = rho_log_ab;
-  L_log_ab[1,2] = 0;
-  L_log_ab[2,2] = sqrt(1 - rho_log_ab^2);
+  # Multivariate Matt trick for [log(a), log(b)]
+  L_log_aRmax[1,1] = 1;
+  L_log_aRmax[2,1] = rho_log_aRmax;
+  L_log_aRmax[1,2] = 0;
+  L_log_aRmax[2,2] = sqrt(1 - rho_log_aRmax^2);
   {
-    matrix[N_pop,2] ab;         # temp variable: matrix of a and b
-    vector[2] sigma_log_ab;     # temp variable: SD vector of [log(a), log(b)]
+    matrix[N_pop,2] aRmax;         # temp variable: matrix of a and Rmax
+    vector[2] sigma_log_aRmax;     # temp variable: SD vector of [log(a), log(Rmax)]
     
-    ab = append_col(log_a_z, log_b_z);
-    sigma_log_ab[1] = sigma_log_a;
-    sigma_log_ab[2] = sigma_log_b;
-    ab = (diag_matrix(sigma_log_ab) * L_log_ab * ab')';
-    a = exp(mu_log_a + col(ab,1));
-    b = exp(mu_log_b + col(ab,2));
+    aRmax = append_col(log_a_z, log_Rmax_z);
+    sigma_log_aRmax[1] = sigma_log_a;
+    sigma_log_aRmax[2] = sigma_log_Rmax;
+    aRmax = (diag_matrix(sigma_log_aRmax) * L_log_aRmax * aRmax')';
+    a = exp(mu_log_a + col(aRmax,1));
+    Rmax = exp(mu_log_Rmax + col(aRmax,2));
   }
 
   # AR(1) model for log(phi)
-  phi[1] = log_phi_z[1]*sigma_log_phi; # initial anomaly
+  phi[1] = log_phi_z[1]*sigma_log_phi/sqrt(1 - rho_log_phi^2); # initial anomaly
   for(i in 2:N_year)
     phi[i] = rho_log_phi*phi[i-1] + log_phi_z[i]*sigma_log_phi;
   phi = exp(X*beta_log_phi + phi);
 
-  # Pad p_HOS and B_rate
+  # Pad p_HOS, F_rate and B_rate
   p_HOS_all = rep_vector(0,N);
   if(N_H > 0)
     p_HOS_all[which_H] = p_HOS;
+
+  # F_rate_all = rep_vector(0,N);
+  # if(N_F > 0)
+  #   F_rate_all[which_F] = F_rate;
 
   B_rate_all = rep_vector(0,N);
   if(N_B > 0)
@@ -182,8 +192,8 @@ transformed parameters {
     }
     
     S_tot[i] = S_W_tot[i] + S_H_tot[i];
-    R_tot_hat[i] = A[i]*SR(a[pop[i]], b[pop[i]], S_tot[i], A[i])*phi[year[i]];
-    R_tot[i] = R_tot_hat[i]*exp(sigma_proc*log_R_tot_z[i]);
+    R_tot_hat[i] = A[i]*SR(a[pop[i]], Rmax[pop[i]], S_tot[i], A[i]);
+    R_tot[i] = R_tot_hat[i]*phi[year[i]]*exp(sigma_proc*log_R_tot_z[i]);
   }
 }
 
@@ -193,8 +203,8 @@ model {
   # Priors
   mu_log_a ~ normal(0,5);
   sigma_log_a ~ pexp(0,3,10);
-  mu_log_b ~ normal(0,10);
-  sigma_log_b ~ pexp(0,3,10);
+  mu_log_Rmax ~ normal(0,10);
+  sigma_log_Rmax ~ pexp(0,3,10);
   beta_log_phi ~ normal(0,5);
   rho_log_phi ~ pexp(0,0.85,50);  # mildly regularize rho to ensure stationarity
   sigma_log_phi ~ pexp(0,2,10);
@@ -206,6 +216,7 @@ model {
   }
   L_gamma ~ lkj_corr_cholesky(1);
   L_alr_p ~ lkj_corr_cholesky(1);
+  # sigma_F ~ pexp(0,2,10);
   sigma_obs ~ pexp(0,1,10);
   S_tot_init ~ lognormal(0,5);
   if(N_B > 0)
@@ -215,9 +226,9 @@ model {
   }
   
   # Hierarchical priors
-  # [log(a), log(b)] ~ MVN(0,D*R_log_ab*D), where D = diag_matrix(sigma_log_a, sigma_log_b)
+  # [log(a), log(Rmax)] ~ MVN(0,D*R_log_aRmax*D), where D = diag_matrix(sigma_log_a, sigma_log_Rmax)
   log_a_z ~ normal(0,1);
-  log_b_z ~ normal(0,1);
+  log_Rmax_z ~ normal(0,1);
   log_phi_z ~ normal(0,1);   # log(phi[i]) ~ N(rho_log_phi*log(phi[i-1]), sigma_log_phi)
   # pop mean age probs logistic MVN: gamma[i,] ~ MVN(0,D*R_gamma*D), where D = diag_matrix(sigma_gamma)
   to_vector(gamma_z) ~ normal(0,1);
@@ -228,9 +239,10 @@ model {
   log_R_tot_z ~ normal(0,1); # total recruits: R_tot ~ lognormal(log(R_tot_hat), sigma_proc)
   
   # Observation model
+  # if(N_F > 0) logit(F_rate_obs[which_F]) ~ normal(logit(F_rate), sigma_F);  # observed fishing mortality rates
   S_tot_obs[which_S_obs] ~ lognormal(log(S_tot[which_S_obs]), sigma_obs);   # observed total spawners
   if(N_H > 0) n_H_obs ~ binomial(n_HW_tot_obs, p_HOS); # observed counts of hatchery vs. wild spawners
-  target += sum(n_age_obs .* log(q));                 # obs wild age freq: n_age_obs[i] ~ multinomial(q[i])
+  target += sum(n_age_obs .* log(q));                  # obs wild age freq: n_age_obs[i] ~ multinomial(q[i])
 }
 
 generated quantities {

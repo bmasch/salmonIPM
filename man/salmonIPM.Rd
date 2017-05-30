@@ -6,7 +6,7 @@
 \usage{
 salmonIPM(fish_data, env_data = NULL, model, pool_pops = TRUE,
   init = NULL, pars = NULL, chains, iter, warmup, thin = 1, cores = 3,
-  control = NULL)
+  ...)
 }
 \arguments{
 \item{fish_data}{Data frame that includes the following \code{colnames}, in no particular order except where noted:
@@ -43,7 +43,8 @@ salmonIPM(fish_data, env_data = NULL, model, pool_pops = TRUE,
 
 \item{cores}{Number of cores to use when executing the chains in parallel. Defaults to 3.}
 
-\item{control}{A named list of parameters to control the sampler's behavior (see \code{rstan::stan} for details). It defaults to NULL so all the default values are used.}
+\item{...}{Additional arguments to pass to \code{stan}. 
+#'}
 }
 \value{
 An object of class \code{stanfit} representing the fitted model. See \code{rstan::stan} for details.

@@ -1,8 +1,8 @@
 functions {
   # spawner-recruit functions
-  real SR(real a, real b, real S, real A) {
+  real SR(real a, real Rmax, real S, real A) {
     real R;
-    R = a*S/(A + a*S/b);
+    R = a*S/(A + a*S/Rmax);
     return(R);
   }
   
@@ -61,7 +61,8 @@ transformed data {
 
 parameters {
   vector<lower=0>[N_pop] a;             # intrinsic productivity
-  vector<lower=0>[N_pop] b;             # density dependence
+  vector<lower=0>[N_pop] Rmax;          # asymptotic recruitment
+  # vector<lower=0>[N_pop] b;             # density dependence
   matrix[N_pop,N_X] beta_proc;          # regression coefs for log productivity anomalies
   vector<lower=-1,upper=1>[N_pop] rho_proc; # AR(1) coefs for log productivity anomalies
   vector<lower=0>[N_pop] sigma_proc;    # process error SDs
@@ -72,7 +73,7 @@ parameters {
   vector<lower=0>[max_age*N_pop] S_tot_init;  # true total spawner abundance in years 1-max_age
   simplex[N_age] q_init[max_age*N_pop]; # true wild spawner age distributions in years 1-max_age
   vector<lower=0,upper=1>[max(N_H,1)] p_HOS; # true p_HOS in years which_H
-  vector[N] log_R_tot_z;                # log true recruit abundance (not density) by brood year (z-scores)
+  vector[N] log_R_tot_z;                # recruitment process errors (z-scored)
   vector<lower=0,upper=1>[max(N_B,1)] B_rate; # true broodstock take rate when B_take > 0
   vector<lower=0>[N_pop] sigma_obs;     # observation error SDs
 }
@@ -102,14 +103,14 @@ transformed parameters {
   # Multivariate Matt trick for within-pop, time-varying age vectors
   for(j in 1:N_pop)
     gamma[j,] = to_row_vector(log(exp_gamma[j,1:(N_age-1)]) - log(exp_gamma[j,N_age]));
-
+  
   # Calculate true total wild and hatchery spawners and spawner age distribution
   # and predict recruitment from brood year t
   for(i in 1:N)
   {
     row_vector[N_age] alr_p; # temp variable: alr(p[i,])
     row_vector[N_age] S_W;   # temp variable: true wild spawners by age
-    
+
     # inverse log-ratio transform of cohort age distn
     # (built-in softmax function doesn't accept row vectors)
     alr_p = rep_row_vector(0,N_age);
@@ -137,10 +138,9 @@ transformed parameters {
     }
     
     S_tot[i] = S_W_tot[i] + S_H_tot[i];
-    R_tot_hat[i] = A[i]*SR(a[pop[i]], b[pop[i]], S_tot[i], A[i]);
+    R_tot_hat[i] = A[i]*SR(a[pop[i]], Rmax[pop[i]], S_tot[i], A[i]);
     if(pop_year_indx[i] == 1) # initial process error
       log_R_tot_proc[i] = log_R_tot_z[i]*sigma_proc[pop[i]]/sqrt(1 - rho_proc[pop[i]]^2);
-    # log_R_tot_proc[i] = log_R_tot_z[i]*sigma_proc[pop[i]];
     else
       log_R_tot_proc[i] = rho_proc[pop[i]]*log_R_tot_proc[i-1] + log_R_tot_z[i]*sigma_proc[pop[i]];
     log_R_tot_proc[i] =  dot_product(X[year[i],], beta_proc[pop[i],]) + log_R_tot_proc[i];
@@ -152,8 +152,8 @@ model {
   vector[max(N_B,1)] B_take; # true broodstock take when B_take_obs > 0
   
   # Priors
-  a ~ normal(0,500);
-  b ~ normal(0,10000);
+  a ~ lognormal(2,2);
+  Rmax ~ lognormal(2,3);
   to_vector(beta_proc) ~ normal(0,5);
   for(j in 1:N_pop)
   {
@@ -176,7 +176,7 @@ model {
   
   # Process model
   log_R_tot_z ~ normal(0,1); # total recruits: R_tot ~ lognormal(log(R_tot_hat), sigma_proc)
-  
+
   # Observation model
   S_tot_obs[which_S_obs] ~ lognormal(log(S_tot[which_S_obs]), sigma_obs[pop[which_S_obs]]);   # observed total spawners
   if(N_H > 0) n_H_obs ~ binomial(n_HW_tot_obs, p_HOS); # observed counts of hatchery vs. wild spawners
@@ -184,11 +184,14 @@ model {
 }
 
 generated quantities {
+  # vector[N_pop] Rmax;                  # asymptotic recruitment
   corr_matrix[N_age-1] R_alr_p[N_pop]; # correlation matrices of within-pop cohort log-ratio age distns
   # vector[N] ll_S_tot_obs;  # pointwise log-likelihood of total spawners
   # vector[N_H] ll_n_H_obs;  # pointwise log-likelihood of hatchery vs. wild frequencies
   # vector[N] ll_n_age_obs;  # pointwise log-likelihood of wild age frequencies
 
+  # Rmax = a ./ b;
+  
   for(j in 1:N_pop)
     R_alr_p[j] = multiply_lower_tri_self_transpose(L_alr_p[j]);
   # ll_S_tot_obs = rep_vector(0,N);

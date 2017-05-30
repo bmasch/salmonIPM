@@ -15,7 +15,6 @@ stan_init <- function(data, chains, model, pool_pops = TRUE)
   if(model == "IPM")
   {
     with(data, {
-      # for(i in names(fish_data)) assign(i, fish_data[[i]])
       S_tot_obs_noNA <- S_tot_obs
       if(N_S_obs < N)
         S_tot_obs[-which_S_obs] <- NA
@@ -65,10 +64,10 @@ stan_init <- function(data, chains, model, pool_pops = TRUE)
           list(mu_log_a = runif(1,1,3),
                sigma_log_a = runif(1,0.1,0.5),
                log_a_z = array(runif(max(pop),-1,1), dim = max(pop)),
-               mu_log_b = runif(1,-1,0),
-               sigma_log_b = runif(1,0.1,0.5),
-               log_b_z = array(runif(max(pop),-1,1), dim = max(pop)),
-               rho_log_ab = runif(1,0,1),
+               mu_log_Rmax = rnorm(1, log(quantile(R_tot/A,0.9)), 0.5),
+               sigma_log_Rmax = runif(1,0.1,0.5),
+               log_Rmax_z = array(runif(max(pop),-1,1), dim = max(pop)),
+               rho_log_aRmax = runif(1,-1,0),
                beta_log_phi = array(rnorm(N_X,0,1), dim = N_X),
                rho_log_phi = runif(1,0.1,0.7),
                sigma_log_phi = runif(1,0.1,0.5),
@@ -83,13 +82,14 @@ stan_init <- function(data, chains, model, pool_pops = TRUE)
                q_init = matrix(colMeans(q_obs), max_age*max(pop), 3, byrow = T),
                p_HOS = p_HOS_obs,
                log_R_tot_z = as.vector(scale(log(R_tot)))*0.1,
+               # F_rate = F_rate_obs[which_F],
                B_rate = B_rate)))
       } else {
         return(lapply(1:chains, function(i)
           list(a = array(exp(runif(max(pop),1,3)), dim = max(pop)),
-               b = array(exp(runif(max(pop),-1,0)), dim = max(pop)),
+               # b = array(exp(runif(max(pop),0,2)), dim = max(pop)),
+               Rmax = array(rlnorm(max(pop), log(tapply(R_tot/A, pop, quantile, 0.9)), 0.5), dim = max(pop)),
                beta_proc = matrix(rnorm(N_X*max(pop),0,1), max(pop), N_X),
-               # logit_rho_proc = array(runif(max(pop),0,2), dim = max(pop)),
                rho_proc = array(runif(max(pop),0.1,0.7), dim = max(pop)),
                sigma_proc = array(runif(max(pop),0.05,2), dim = max(pop)), 
                sigma_obs = array(runif(max(pop),0.5,1), dim = max(pop)),
@@ -112,9 +112,10 @@ stan_init <- function(data, chains, model, pool_pops = TRUE)
           list(mu_log_a = runif(1,3,6), 
                sigma_log_a = runif(1,0.1,0.5),
                log_a_z = array(runif(max(pop),-1,1), dim = max(pop)), 
-               mu_log_b = runif(1,-1,0),
-               sigma_log_b = runif(1,0.1,0.5),
-               log_b_z = array(runif(max(pop),-1,1), dim = max(pop)), 
+               mu_log_Rmax = rnorm(1, log(quantile(S/A, 0.9, na.rm = T)), 0.5),
+               sigma_log_Rmax = runif(1,0.1,0.5),
+               log_Rmax_z = array(runif(max(pop),-1,1), dim = max(pop)), 
+               rho_log_aRmax = runif(1,-1,0),
                rho_log_phi = runif(1,0.1,0.7),
                sigma_log_phi = runif(1,0.1,0.5), 
                log_phi_z = array(rnorm(max(year),0,0.1), dim = max(year)),
@@ -122,7 +123,7 @@ stan_init <- function(data, chains, model, pool_pops = TRUE)
       } else {
         return(lapply(1:chains, function(i)
           list(a = array(exp(runif(max(pop),1,3)), dim = max(pop)),
-               b = array(exp(runif(max(pop),-1,0)), dim = max(pop)),
+               Rmax = array(exp(runif(max(pop),-1,0)), dim = max(pop)),
                rho = array(runif(max(pop),0.1,0.7), dim = max(pop)),
                sigma = array(runif(max(pop),0.5,1), dim = max(pop)))))
       }

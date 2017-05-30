@@ -1,8 +1,8 @@
 functions {
   # spawner-recruit functions
-  real SR(real a, real b, real S, real A) {
+  real SR(real a, real Rmax, real S, real A) {
     real R;
-    R = a * S / (A + b * S);
+    R = a*S/(A + a*S/Rmax);
     return(R);
   }
   
@@ -41,7 +41,7 @@ transformed data {
 
 parameters {
   vector<lower=0>[N_pop] a;             # intrinsic productivity
-  vector<lower=0>[N_pop] b;             # density dependence
+  vector<lower=0>[N_pop] Rmax;          # asymptotic recruitment
   vector<lower=-1,upper=1>[N_pop] rho;  # AR(1) coefs of residuals
   vector<lower=0>[N_pop] sigma;         # residual error SD
 }
@@ -58,11 +58,11 @@ transformed parameters {
     
   for(i in 1:N_fit)
   {
-    R_hat[which_fit[i]] = A[which_fit[i]] * SR(a[pop[which_fit[i]]], b[pop[which_fit[i]]], S[which_fit[i]], A[which_fit[i]]);
+    R_hat[which_fit[i]] = A[which_fit[i]] * SR(a[pop[which_fit[i]]], Rmax[pop[which_fit[i]]], S[which_fit[i]], A[which_fit[i]]);
     if(i==1 || pop[which_fit[i-1]] != pop[which_fit[i]])
     {
       R_ar1[which_fit[i]] = R_hat[which_fit[i]];
-      sigma_ar1[which_fit[i]] = sigma[pop[which_fit[i]]];
+      sigma_ar1[which_fit[i]] = sigma[pop[which_fit[i]]]/sqrt(1 - rho[pop[which_fit[i]]]^2);
     }
     else
     {
@@ -84,11 +84,11 @@ transformed parameters {
 
 model {
   # Priors
-  a ~ lognormal(0,5);
-  b ~ lognormal(0,10);
+  a ~ lognormal(2,2);
+  Rmax ~ lognormal(2,3);
   for(i in 1:N_pop)
   {
-    rho[i] ~ pexp(0,0.85,50);   # mildly regularize rho to ensure stationarity
+    rho[i] ~ pexp(0,0.85,20);   # mildly regularize rho to ensure stationarity
     sigma[i] ~ pexp(0,2,10);
   }
 
@@ -123,6 +123,6 @@ generated quantities {
       err_sim[i] = normal_rng(rho[pop[i]]*err_sim[i-1], sigma[pop[i]]);
     
     if(R_NA[i] == 1)
-      R_sim[i] = A[i]*SR(a[pop[i]], b[pop[i]], S_sim[i], A[i])*exp(err_sim[i]);
+      R_sim[i] = A[i]*SR(a[pop[i]], Rmax[pop[i]], S_sim[i], A[i])*exp(err_sim[i]);
   }
 }

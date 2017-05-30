@@ -23,37 +23,37 @@
 #' @param warmup A positive integer specifying the number of warmup (aka burnin) iterations per chain. If step-size adaptation is on (which it is by default), this also controls the number of iterations for which adaptation is run (and hence these warmup samples should not be used for inference). The number of warmup iterations should not be larger than \code{iter}
 #' @param thin A positive integer specifying the period for saving samples. The default is 1, which is usually the recommended value.
 #' @param cores Number of cores to use when executing the chains in parallel. Defaults to 3.
-#' @param control A named list of parameters to control the sampler's behavior (see \code{rstan::stan} for details). It defaults to NULL so all the default values are used.
-#' 
+#' @param ... Additional arguments to pass to \code{stan}. 
+#' #' 
 #' @return An object of class \code{stanfit} representing the fitted model. See \code{rstan::stan} for details.
 #' 
 #' @importFrom rstan stan
 #'
 #' @export
 salmonIPM <- function(fish_data, env_data = NULL, model, pool_pops = TRUE, init = NULL, pars = NULL, 
-                      chains, iter, warmup, thin = 1, cores = 3, control = NULL)
+                      chains, iter, warmup, thin = 1, cores = 3, ...)
 {
   dat <- stan_data(fish_data, env_data, model)
   if(is.null(pars))
     pars <- switch(model, 
                    IPM = switch(ifelse(pool_pops, "Y", "N"),
                                 Y = c("mu_log_a","sigma_log_a","a",
-                                      "mu_log_b","sigma_log_b","b","rho_log_ab",
+                                      "mu_log_Rmax","sigma_log_Rmax","Rmax","rho_log_aRmax",
                                       "beta_log_phi","sigma_log_phi","rho_log_phi","phi",
                                       "mu_p","sigma_gamma","R_gamma","gamma",
                                       "sigma_alr_p","R_alr_p","p",
                                       "p_HOS","B_rate_all",
                                       "sigma_proc","sigma_obs",
                                       "S_tot","R_tot","q"),
-                                N = c("a","b","beta_proc","rho_proc","sigma_proc",
+                                N = c("a","Rmax","beta_proc","rho_proc","sigma_proc",
                                       "gamma","sigma_alr_p","R_alr_p","p",
                                       "p_HOS","B_rate_all","sigma_obs","S_tot","R_tot","q")),
                    RR = switch(ifelse(pool_pops, "Y", "N"),
                                Y = c("mu_log_a","sigma_log_a","a",
-                                     "mu_log_b","sigma_log_b","b",
+                                     "mu_log_Rmax","sigma_log_Rmax","Rmax","rho_log_aRmax",
                                      "rho_log_phi","sigma_log_phi","phi","sigma",
                                      "R_hat","S_sim","R_sim"),
-                               N = c("a","b","rho","sigma","R_hat","S_sim","R_sim")))
+                               N = c("a","Rmax","rho","sigma","R_hat","S_sim","R_sim")))
   
   stan_path <- file.path(path.package("salmonIPM"), "stan")
   
@@ -64,5 +64,5 @@ salmonIPM <- function(fish_data, env_data = NULL, model, pool_pops = TRUE, init 
               init = stan_init(dat, chains, model, pool_pops), 
               pars = pars,
               chains = chains, iter = iter, warmup = warmup, thin = thin, 
-              cores = cores, control = control)
+              cores = cores, ...)
 }

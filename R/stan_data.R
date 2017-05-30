@@ -73,6 +73,8 @@ stan_data <- function(fish_data, env_data = NULL, model)
                   n_W_obs = array(n_W_obs[fit_p_HOS], dim = max(sum(fit_p_HOS), 1)),
                   n_H_obs = array(n_H_obs[fit_p_HOS], dim = max(sum(fit_p_HOS), 1)),
                   A = A,
+                  # N_F = sum(F_rate > 0),
+                  # which_F = array(which(F_rate > 0), dim = max(sum(F_rate > 0), 1)),
                   F_rate = F_rate,
                   N_B = sum(B_take_obs > 0),
                   which_B = array(which(B_take_obs > 0), dim = max(sum(B_take_obs > 0), 1)),
@@ -90,6 +92,11 @@ stan_data <- function(fish_data, env_data = NULL, model)
         dat$which_B <- array(1, dim = 1)
         dat$B_take_obs <- array(1, dim = 1)
       }
+      # if(dat$N_F == 0)
+      # {
+      #   dat$which_F <- array(1, dim = 1)
+      #   dat$F_rate_obs <- array(1, dim = 1)
+      # }
       
       dat$n_W_obs[is.na(dat$n_W_obs)] <- 0
       dat$n_H_obs[is.na(dat$n_H_obs)] <- 0
