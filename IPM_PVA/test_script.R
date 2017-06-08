@@ -175,6 +175,68 @@ pairs(sapply(c("a[13]","Rmax[13]","sigma_proc[13]","sigma_obs[13]"), function(v)
 
 
 
+#------------------------
+# SIMULATE DATA AND FIT
+#------------------------
+
+dat <- stan_data(fish_data, model = "IPM")
+
+sim_fish_data <- IPM_adult_sim(pars = list(mu_log_a = 2, sigma_log_a = 1,
+                                           mu_log_Rmax = 1, sigma_log_Rmax = 0.8,
+                                           rho_log_aRmax = 0.7,
+                                           beta_log_phi = 0, rho_log_phi = 0.8, sigma_log_phi = 0.5,
+                                           sigma_proc = 0.5, mu_p = c(0.1,0.5,0.4),
+                                           sigma_gamma = c(0.1,0.3), L_gamma = diag(2),
+                                           sigma_alr_p = c(0.2,0.2), L_alr_p = diag(2),
+                                           sigma_obs = 0.5),
+                               pop = dat$pop,
+                               year = dat$year,
+                               N_age = 3,
+                               max_age = 5,
+                               S_H_tot = rep(0,dat$N),
+                               A = dat$A,
+                               F_rate = dat$F_rate,
+                               B_rate = rep(0,dat$N),
+                               n_age_tot_obs = rowSums(dat$n_age_obs),
+                               n_HW_tot_obs = fish_data$n_H_obs + fish_data$n_W_obs)
+
+# Fit hierarchical spawner-recruit model to run reconstruction
+RR_fit <- salmonIPM(fish_data = sim_fish_data$sim_dat, model = "RR", pool_pops = TRUE, chains = 3, iter = 1000, warmup = 500,
+                    control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+print(RR_fit, pars = c("phi","R_hat"), include = FALSE)
+
+# Fit non-hierarchical IPM
+IPM_fix <- salmonIPM(fish_data = sim_fish_data$sim_dat, model = "IPM", pool_pops = FALSE,
+                     pars = c("a","Rmax","sigma_proc","rho_proc","sigma_proc","sigma_obs",
+                              "gamma","sigma_alr_p","R_alr_p","p",
+                              "S_tot","R_tot_hat","R_tot","log_R_tot_proc"),
+                     chains = 3, iter = 2000, warmup = 1000, 
+                     control = list(adapt_delta = 0.95, max_treedepth = 12))
+
+print(IPM_fix, pars = c("a","Rmax","sigma_proc","rho_proc","sigma_proc","sigma_obs",
+                        "gamma","sigma_alr_p","R_alr_p"))
+
+# Fit hierarchical IPM
+IPM_fit <- salmonIPM(fish_data = sim_fish_data$sim_dat, model = "IPM", 
+                     pars = c("mu_log_a","sigma_log_a","a",
+                              "mu_log_Rmax","sigma_log_Rmax","Rmax","rho_log_aRmax",
+                              "sigma_log_phi","rho_log_phi","phi",
+                              "mu_p","sigma_gamma","R_gamma","gamma",
+                              "sigma_alr_p","R_alr_p","p","sigma_proc","sigma_obs",
+                              "S_tot","S_W_tot","S_H_tot","R_tot_hat","R_tot"),
+                     chains = 3, iter = 2000, warmup = 1000, 
+                     control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+
+print(IPM_fit, pars = c("mu_log_a","sigma_log_a",
+                        "mu_log_Rmax","sigma_log_Rmax","rho_log_aRmax",
+                        "sigma_log_phi","rho_log_phi",
+                        "mu_p","sigma_gamma","R_gamma",
+                        "sigma_alr_p","R_alr_p","sigma_proc","sigma_obs"))
+
+
+
+
+
 #-----------------
 # PLOTS
 #-----------------

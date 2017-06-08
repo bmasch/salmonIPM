@@ -13,7 +13,8 @@ Depends:
     R (>= 3.3),
     rstan,
     shinystan,
-    loo
+    loo,
+    MASS
 Imports:
     gtools,
     lattice,

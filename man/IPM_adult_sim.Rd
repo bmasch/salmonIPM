@@ -4,11 +4,11 @@
 \alias{IPM_adult_sim}
 \title{Simulate data under adult-to-adult integrated population model}
 \usage{
-IPM_adult_sim(pars, pop, year, X, N_age, max_age, S_H_tot, A, F_rate, B_rate,
-  SR_func = "BH", n_age_tot_obs, n_HW_tot_obs)
+IPM_adult_sim(pars, pop, year, X = NULL, N_age, max_age, S_H_tot, A, F_rate,
+  B_rate, SR_func = "BH", n_age_tot_obs, n_HW_tot_obs)
 }
 \arguments{
-\item{pars}{Model parameters to b eused for simulations.}
+\item{pars}{Model parameters to be used for simulations.}
 
 \item{pop}{Population ID.}
 
