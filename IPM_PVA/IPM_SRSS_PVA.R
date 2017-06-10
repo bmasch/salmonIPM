@@ -118,6 +118,31 @@ launch_shinystan(PVA_IPM_pp)
 
 
 #===========================================================================
+# HARVEST SIMULATIONS
+# Vary future exploitation rate (fixed-rate policy) and look at
+# impact on quasi-extinction risk under multi-pop IPM
+#===========================================================================
+
+F_rate_future <- seq(0, 0.3, length=11)
+S_tot_F <- array(NA, dim = c(1500, nrow(fish_data_aug), length(F_rate_future)))
+R_tot_F <- array(NA, dim = c(1500, nrow(fish_data_aug), length(F_rate_future)))
+
+for(i in 1:length(F_rate_future))
+{
+  fish_data_F <- fish_data_aug
+  fish_data_F$F_rate[fish_data_F$type=="future"] <- F_rate_future[i]
+  
+  PVA_F <- salmonIPM(fish_data = fish_data_F, model = "IPM", pool_pops = TRUE, 
+                     pars = c("R_tot","S_tot"),
+                     chains = 3, iter = 1000, warmup = 500,
+                     control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+  S_tot_F[,,i] <- extract1(PVA_F,"S_tot")
+  R_tot_F[,,i] <- extract1(PVA_F,"R_tot")
+}
+
+
+
+#===========================================================================
 # FIGURES
 #===========================================================================
 
