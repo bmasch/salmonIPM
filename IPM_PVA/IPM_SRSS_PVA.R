@@ -525,14 +525,14 @@ rm(list = c("mu_log_a_RR","mu_log_a_IPM","Umax_ESU_RR","Umax_ESU_IPM",
 dev.new(width = 7, height = 7)
 # png(filename="Fig_F.png", width=7, height=7, units="in", res=200, type="cairo-png")
 qet <- 50     # set quasi-extinction threshold (4-yr moving average)
-pop <- fish_data_aug$pop[fish_data_aug$type=="future"]
+pop <- fish_data_F$pop[fish_data_F$type=="future"]
 c2 <- "blue4"
 c2t <- col2rgb(c2)
 c2t <- rgb(c2t[1], c2t[2], c2t[3], maxColorValue = 255, alpha = 255*0.7)
 
 plot(range(F_rate_future), 0:1, pch = "", las = 1, cex.lab = 1.5, cex.axis = 1.2, 
      xaxs = "i", yaxs = "i", xlab = "Exploitation rate", ylab = "Probability of quasi-extinction")
-for(i in levels(fish_data_F$pop))
+for(i in levels(pop))
 {
   pqe_F <- S_tot_F[,fish_data_F$pop==i & fish_data_F$type=="future",]
   pqe_F <- colMeans(apply(pqe_F, c(1,3), function(x) any(rollmean(x, 4) < qet)))
