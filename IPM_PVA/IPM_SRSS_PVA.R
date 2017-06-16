@@ -51,8 +51,8 @@ for(i in 1:nrow(table1))
   table1$Years[i] <- paste(min(fish_data$year[pop==table1$Population[i]]), "-", 
                            max(fish_data$year[pop==table1$Population[i]]), sep="")
   table1$St[i] <- paste0(round(median(S_tot_obs[pop==table1$Population[i]], na.rm = T),0), " (", 
-                        paste0(round(quantile(S_tot_obs[pop==table1$Population[i]], c(0.05,0.95), na.rm = T),0), collapse = "-"),
-                        ")")
+                         paste0(round(quantile(S_tot_obs[pop==table1$Population[i]], c(0.05,0.95), na.rm = T),0), collapse = "-"),
+                         ")")
   table1$P.hatchery[i] <- paste(round(mean(Ph[pop==table1$Population[i]]),2), 
                                 ifelse(round(mean(Ph[pop==table1$Population[i]]),2)==0, "",
                                        paste0("(", 
@@ -115,6 +115,83 @@ PVA_IPM_pp <- salmonIPM(fish_data = fish_data_aug, model = "IPM", pool_pops = TR
 
 print(PVA_IPM_pp, pars = c("phi","p_HOS","B_rate_all","q"), include = FALSE)
 launch_shinystan(PVA_IPM_pp)
+
+
+#===========================================================================
+# SIMULATE DATA AND FIT
+#===========================================================================
+
+# Create output objects
+n_sim <- 30  # number of simulated datasets
+RR_fit_sim_pars <- list(median = NULL, CI.025 = NULL, CI.975 = NULL)
+IPM_fit_sim_pars <- list(median = NULL, CI.025 = NULL, CI.975 = NULL)
+for(i in 1:3)
+{
+  RR_fit_sim_pars[[i]] <- data.frame(mu_log_a = rep(NA,n_sim), sigma_log_a = NA,
+                                     mu_log_Rmax = NA, sigma_log_Rmax = NA, rho_log_aRmax = NA,
+                                     rho_log_phi = NA, sigma_log_phi = NA, sigma = NA)
+  
+  IPM_fit_sim_pars[[i]] <- data.frame(mu_log_a = rep(NA,n_sim), sigma_log_a = NA,
+                                      mu_log_Rmax = NA, sigma_log_Rmax = NA, rho_log_aRmax = NA,
+                                      rho_log_phi = NA, sigma_log_phi = NA, sigma_proc = NA, sigma_obs = NA,
+                                      data.frame(matrix(NA, n_sim, 3, dimnames = list(NULL,c("mu_p[1]","mu_p[2]","mu_p[3]")))),
+                                      data.frame(matrix(NA, n_sim, 2, dimnames = list(NULL,c("sigma_gamma[1]","sigma_gamma[2]")))),
+                                      data.frame(matrix(NA, n_sim, 2, dimnames = list(NULL,c("sigma_alr_p[1]","sigma_alr_p[2]")))))
+}
+
+# Loop over n_sim
+for(i in 1:n_sim)
+{
+  cat("simulated dataset", i, "of", n_sim, "\n")
+  
+  # Simulate data
+  dat <- stan_data(fish_data, model = "IPM")
+  sim_fish_data <- IPM_adult_sim(pars = list(mu_log_a = 2, sigma_log_a = 1,
+                                             mu_log_Rmax = 1, sigma_log_Rmax = 0.8,
+                                             rho_log_aRmax = 0.7,
+                                             beta_log_phi = 0, rho_log_phi = 0.8, sigma_log_phi = 0.5,
+                                             sigma_proc = 0.5, mu_p = c(0.1,0.5,0.4),
+                                             sigma_gamma = c(0.1,0.3), L_gamma = diag(2),
+                                             sigma_alr_p = c(0.2,0.2), L_alr_p = diag(2),
+                                             sigma_obs = 0.5),
+                                 pop = dat$pop,
+                                 year = dat$year,
+                                 N_age = 3,
+                                 max_age = 5,
+                                 S_H_tot = rep(0,dat$N),
+                                 A = dat$A,
+                                 F_rate = dat$F_rate,
+                                 B_rate = rep(0,dat$N),
+                                 n_age_tot_obs = rowSums(dat$n_age_obs),
+                                 n_HW_tot_obs = fish_data$n_H_obs + fish_data$n_W_obs)
+  
+  sim_fish_data$sim_dat$S_tot_obs[is.na(fish_data$S_tot_obs)] <- NA
+  
+  # Fit hierarchical spawner-recruit model and store estimates
+  RR_fit_sim <- salmonIPM(fish_data = sim_fish_data$sim_dat, model = "RR", pool_pops = TRUE, chains = 3, iter = 1000, warmup = 500,
+                          control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+  
+  RR_fit_sim <- as.matrix(RR_fit_sim, names(RR_fit_sim_pars$median))
+  RR_fit_sim_pars$median[i,] <- apply(RR_fit_sim, 2, median)
+  RR_fit_sim_pars$CI.025[i,] <- apply(RR_fit_sim, 2, quantile, 0.025)
+  RR_fit_sim_pars$CI.975[i,] <- apply(RR_fit_sim, 2, quantile, 0.975)
+  
+  # Fit hierarchical IPM and store estimates
+  IPM_fit_sim <- salmonIPM(fish_data = sim_fish_data$sim_dat, model = "IPM", 
+                           pars = c("mu_log_a","sigma_log_a","a",
+                                    "mu_log_Rmax","sigma_log_Rmax","Rmax","rho_log_aRmax",
+                                    "sigma_log_phi","rho_log_phi","phi",
+                                    "mu_p","sigma_gamma","R_gamma","gamma",
+                                    "sigma_alr_p","R_alr_p","p","sigma_proc","sigma_obs",
+                                    "S_tot","S_W_tot","S_H_tot","R_tot_hat","R_tot"),
+                           chains = 1, iter = 2000, warmup = 1000, 
+                           control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+  
+  IPM_fit_sim <- as.matrix(IPM_fit_sim, names(IPM_fit_sim_pars$median))
+  IPM_fit_sim_pars$median[i,] <- apply(IPM_fit_sim, 2, median)
+  IPM_fit_sim_pars$CI.025[i,] <- apply(IPM_fit_sim, 2, quantile, 0.025)
+  IPM_fit_sim_pars$CI.975[i,] <- apply(IPM_fit_sim, 2, quantile, 0.975)
+}
 
 
 #===========================================================================
@@ -417,7 +494,7 @@ pqe <- pqe[order(pqe$pqe_IPM),]
 barplot(t(pqe[,-1]), names.arg = pqe$pop, horiz = TRUE, beside = TRUE,
         col = c("orangered3","blue4"), las = 1, cex.axis = 1, cex.lab = 1.2, cex.names = 0.9, cex.main = 1.2,
         xlab = "Probability of quasi-extinction")
-        # main = paste("50-year quasi-extinction risk \n QET = ", qet, " spawners (4-year moving average)", sep = ""))
+# main = paste("50-year quasi-extinction risk \n QET = ", qet, " spawners (4-year moving average)", sep = ""))
 legend("bottomright", inset = 0.1, c("IPM","RR"), pch = 15, pt.cex = 2, cex = 1, col = c("blue4","orangered3"))
 
 rm(list=c("qet","pop","S_tot_RR","S_tot_IPM","pqe_RR","pqe_IPM","pqe"))
@@ -445,10 +522,10 @@ pqe_RR <- sapply(qet, function(qq) mean(apply(apply(S_tot_RR, c(2,3), function(x
 
 S_tot_IPM <- extract1(PVA_IPM_pp, "S_tot")[,fish_data_aug$year > max(fish_data$year)]
 S_tot_IPM <- tapply(as.vector(S_tot_IPM), 
-                   list(iter = rep(1:nrow(S_tot_IPM), ncol(S_tot_IPM)), 
-                        year = rep(year, each = nrow(S_tot_IPM)), 
-                        pop = rep(pop, each = nrow(S_tot_IPM))), 
-                   identity)
+                    list(iter = rep(1:nrow(S_tot_IPM), ncol(S_tot_IPM)), 
+                         year = rep(year, each = nrow(S_tot_IPM)), 
+                         pop = rep(pop, each = nrow(S_tot_IPM))), 
+                    identity)
 S_tot_IPM <- apply(S_tot_IPM, c(1,3), function(x) rollmean(x, 4))
 pqe_IPM <- sapply(qet, function(qq) mean(apply(apply(S_tot_IPM, c(2,3), function(x) any(x < qq)), 1, any)))
 
@@ -509,7 +586,7 @@ bins <- seq(0, 1, 0.05)
 F1 <- hist(fish_data$F_rate[fish_data$year < 1980], breaks = bins, plot = F)$counts
 F2 <- hist(fish_data$F_rate[fish_data$year >= 1980], breaks = bins, plot = F)$counts
 barplot(rbind(F1,F2), names = bins[-1], space = 0, yaxs = "i", xaxt = "n", yaxt = "n", 
-     xlab = "", ylab = "", main = "", col = c("black","gray"), border = "white")
+        xlab = "", ylab = "", main = "", col = c("black","gray"), border = "white")
 
 rm(list = c("mu_log_a_RR","mu_log_a_IPM","Umax_ESU_RR","Umax_ESU_IPM",
             "a_RR","Umax_pop_RR","a_IPM","Umax_pop_IPM","c1","c1t","c2","c2t","bins","F1","F2"))

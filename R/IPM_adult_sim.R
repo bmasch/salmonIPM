@@ -42,7 +42,7 @@ IPM_adult_sim <- function(pars, pop, year, X = NULL, N_age, max_age, S_H_tot, A,
     Sigma_log_aRmax <- diag(c(sigma_log_a, sigma_log_Rmax)^2)
     Sigma_log_aRmax[1,2] <- rho_log_aRmax
     Sigma_log_aRmax[2,1] <- rho_log_aRmax
-    aRmax <- exp(rmvnorm(N_pop, c(mu_log_a, mu_log_Rmax), Sigma_log_aRmax))
+    aRmax <- exp(mvrnorm(N_pop, c(mu_log_a, mu_log_Rmax), Sigma_log_aRmax))
     a <- aRmax[,1]
     Rmax <- aRmax[,2]
     log_phi <- rep(0, max(year))
@@ -102,8 +102,6 @@ IPM_adult_sim <- function(pars, pop, year, X = NULL, N_age, max_age, S_H_tot, A,
                                      n_H_obs = n_H_obs, n_W_obs = n_W_obs, 
                                      B_take_obs = B_take, F_rate = F_rate),
                 pars_out = c(pars, list(S_W = S_W, a = a, Rmax = Rmax, phi = phi, 
-                                        p_HOS = p_HOS, p = p, 
-                                        sigma_proc = sigma_proc, sigma_obs = sigma_obs,
-                                        R_tot_hat = R_tot_hat, R_tot = R_tot))))
+                                        p_HOS = p_HOS, p = p, R_tot_hat = R_tot_hat, R_tot = R_tot))))
   })
 }

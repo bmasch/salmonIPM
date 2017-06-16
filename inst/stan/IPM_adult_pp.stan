@@ -119,6 +119,8 @@ transformed parameters {
   # vector<lower=0,upper=1>[N] F_rate_all; # true fishing mortality rate in all years
   vector<lower=0,upper=1>[N] B_rate_all; # true broodstock take rate in all years
 
+  print("log prob = ", target());
+  
   # Multivariate Matt trick for [log(a), log(b)]
   L_log_aRmax[1,1] = 1;
   L_log_aRmax[2,1] = rho_log_aRmax;
@@ -237,7 +239,6 @@ model {
   
   # Process model
   log_R_tot_z ~ normal(0,1); # total recruits: R_tot ~ lognormal(log(R_tot_hat), sigma_proc)
-  
   # Observation model
   # if(N_F > 0) logit(F_rate_obs[which_F]) ~ normal(logit(F_rate), sigma_F);  # observed fishing mortality rates
   S_tot_obs[which_S_obs] ~ lognormal(log(S_tot[which_S_obs]), sigma_obs);   # observed total spawners
