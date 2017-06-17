@@ -177,7 +177,7 @@ for(i in 1:n_sim)
   RR_fit_sim_pars$CI.975[i,] <- apply(RR_fit_sim, 2, quantile, 0.975)
   
   # Fit hierarchical IPM and store estimates
-  IPM_fit_sim <- salmonIPM(fish_data = sim_fish_data$sim_dat, model = "IPM", 
+  IPM_fit_sim <- salmonIPM(fish_data = sim_fish_data_bad$sim_dat, model = "IPM", 
                            pars = c("mu_log_a","sigma_log_a","a",
                                     "mu_log_Rmax","sigma_log_Rmax","Rmax","rho_log_aRmax",
                                     "sigma_log_phi","rho_log_phi","phi",

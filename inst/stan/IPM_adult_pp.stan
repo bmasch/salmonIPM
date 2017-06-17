@@ -118,8 +118,6 @@ transformed parameters {
   vector<lower=0>[N] R_tot;           # true recruit abundance (not density) by brood year
   # vector<lower=0,upper=1>[N] F_rate_all; # true fishing mortality rate in all years
   vector<lower=0,upper=1>[N] B_rate_all; # true broodstock take rate in all years
-
-  print("log prob = ", target());
   
   # Multivariate Matt trick for [log(a), log(b)]
   L_log_aRmax[1,1] = 1;
