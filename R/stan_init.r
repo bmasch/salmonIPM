@@ -18,7 +18,7 @@ stan_init <- function(data, chains, model, pool_pops = TRUE)
       S_tot_obs_noNA <- S_tot_obs
       if(N_S_obs < N)
         S_tot_obs[-which_S_obs] <- NA
-      p_HOS_obs <- pmin(pmax(n_H_obs/(n_H_obs + n_W_obs), 0.001), 0.999)
+      p_HOS_obs <- pmin(pmax(n_H_obs/(n_H_obs + n_W_obs), 0.01), 0.99)
       p_HOS_all <- rep(0,N)
       if(N_H > 0)
         p_HOS_all[which_H] <- p_HOS_obs
@@ -30,7 +30,7 @@ stan_init <- function(data, chains, model, pool_pops = TRUE)
       R <- matrix(NA, N, N_age)
       S_W_tot_obs <- S_tot_obs*(1 - p_HOS_all)
       B_rate_all <- rep(0,N)
-      B_rate <- B_take_obs/(S_W_tot_obs[which_B]*(1 - q_obs[which_B,1]) + B_take_obs)
+      B_rate <- pmin(pmax(B_take_obs/(S_W_tot_obs[which_B]*(1 - q_obs[which_B,1]) + B_take_obs), 0.01), 0.99)
       B_rate[is.na(B_rate)] <- 0.1
       B_rate_all[which_B] <- B_rate
       

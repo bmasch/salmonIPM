@@ -8,7 +8,6 @@
 #' @param X Covariate(s).
 #' @param N_age The number of adult age classes.
 #' @param max_age Oldest adult age class.
-#' @param S_H_tot Total hatchery-origin spawners.
 #' @param A Area of spawning habitat.
 #' @param F_rate Harvest rate.
 #' @param B_rate Broodstock take rate.
@@ -21,7 +20,7 @@
 #' @importFrom stats rbinom rlnorm rmultinom rnorm runif
 #' 
 #' @export
-IPM_adult_sim <- function(pars, pop, year, X = NULL, N_age, max_age, S_H_tot, A, 
+IPM_adult_sim <- function(pars, pop, year, X = NULL, N_age, max_age, A, 
                           F_rate, B_rate, SR_func = "BH", n_age_tot_obs, n_HW_tot_obs)
 {
   # spawner-recruit functions
@@ -33,15 +32,14 @@ IPM_adult_sim <- function(pars, pop, year, X = NULL, N_age, max_age, S_H_tot, A,
   
   N <- length(pop)                        # number of observations 
   N_pop <- max(pop)                       # number of populations
-  which_pop_H <- unique(pop[S_H_tot > 0]) # populations with hatchery input
   ages <- (max_age - N_age + 1):max_age   # adult ages
   if(is.null(X)) X <- matrix(0, nrow = max(year), ncol = 1)
   
   with(pars, {
     # parameters
     Sigma_log_aRmax <- diag(c(sigma_log_a, sigma_log_Rmax)^2)
-    Sigma_log_aRmax[1,2] <- rho_log_aRmax
-    Sigma_log_aRmax[2,1] <- rho_log_aRmax
+    Sigma_log_aRmax[1,2] <- rho_log_aRmax*sigma_log_a*sigma_log_Rmax
+    Sigma_log_aRmax[2,1] <- Sigma_log_aRmax[1,2]
     aRmax <- exp(mvrnorm(N_pop, c(mu_log_a, mu_log_Rmax), Sigma_log_aRmax))
     a <- aRmax[,1]
     Rmax <- aRmax[,2]
@@ -62,6 +60,7 @@ IPM_adult_sim <- function(pars, pop, year, X = NULL, N_age, max_age, S_H_tot, A,
     # and spawner age distributions
     S_W <- matrix(NA, N, N_age)        # true wild spawners by age  
     S_W_tot <- vector("numeric",N)     # true total wild spawners
+    S_H_tot <- vector("numeric",N)     # true total hatchery spawners
     S_tot <- vector("numeric",N)       # true total spawners
     R_tot_hat <- vector("numeric",N)   # expected recruits
     R_tot <- vector("numeric",N)       # true recruits
@@ -81,6 +80,7 @@ IPM_adult_sim <- function(pars, pop, year, X = NULL, N_age, max_age, S_H_tot, A,
         S_W[i,-1] <- S_W[i,-1]*(1 - B_rate[i])     # broodstock removal (assumes no take of age 1)
       }
       S_W_tot[i] <- sum(S_W[i,])
+      S_H_tot[i] <- S_W_tot[i]*p_HOS[i]/(1 - p_HOS[i])
       S_tot[i] <- S_W_tot[i] + S_H_tot[i]
       R_tot_hat[i] <- switch(SR_func,
                              BH = A[i]*BH(a[pop[i]], Rmax[pop[i]], S_tot[i], A[i]))
@@ -88,10 +88,9 @@ IPM_adult_sim <- function(pars, pop, year, X = NULL, N_age, max_age, S_H_tot, A,
     }
     
     S_tot_obs <- rlnorm(N, log(S_tot), sigma_obs)           # obs total spawners
-    p_HOS <- S_H_tot/(S_W_tot + S_H_tot)                    # true p_HOS
     q <- sweep(S_W, 1, S_W_tot, "/")                        # true spawner age distn 
-    n_age_tot_obs <- round(pmin(n_age_tot_obs, S_tot_obs))  # cap age samples at pop size
-    n_HW_tot_obs <- round(pmin(n_HW_tot_obs, S_tot_obs))    # cap H/W samples at pop size
+    n_age_tot_obs <- pmax(round(pmin(n_age_tot_obs, S_tot_obs)), 1)  # cap age samples at pop size
+    n_HW_tot_obs <- pmax(round(pmin(n_HW_tot_obs, S_tot_obs)), 1)    # cap H/W samples at pop size
     n_age_obs <- t(sapply(1:N, function(i) rmultinom(1, n_age_tot_obs[i], q[i,]))) # obs wild age frequencies
     dimnames(n_age_obs)[[2]] <- paste0("n_age", ages, "_obs")
     n_H_obs <- rbinom(N, n_HW_tot_obs, p_HOS)               # obs count of hatchery spawners
