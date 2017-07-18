@@ -43,7 +43,7 @@ IPM_adult_sim <- function(pars, pop, year, X = NULL, N_age, max_age, A,
     aRmax <- exp(mvrnorm(N_pop, c(mu_log_a, mu_log_Rmax), Sigma_log_aRmax))
     a <- aRmax[,1]
     Rmax <- aRmax[,2]
-    log_phi <- rep(0, max(year))
+    log_phi <- rep(NA, max(year))
     log_phi[1] <- rnorm(1, 0, sigma_log_phi/sqrt(1 - rho_log_phi^2))
     for(i in 2:length(log_phi))
       log_phi[i] <- rnorm(1, rho_log_phi*log_phi[i-1], sigma_log_phi)
@@ -70,7 +70,7 @@ IPM_adult_sim <- function(pars, pop, year, X = NULL, N_age, max_age, A,
     {
       if(year[i] - min(year[pop==pop[i]]) <= max_age)
       {
-        S_W[i,] <- rlnorm(N_age, log(Rmax[pop[i]]/N_age), 0.1) # initialize years 1:max_age
+        S_W[i,] <- rlnorm(N_age, log(A[pop[i]]*Rmax[pop[i]]/N_age), 0.1) # initialize years 1:max_age
       } else
       {
         for(j in 1:N_age)
