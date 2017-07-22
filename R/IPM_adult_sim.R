@@ -89,8 +89,8 @@ IPM_adult_sim <- function(pars, pop, year, X = NULL, N_age, max_age, A,
     
     S_tot_obs <- rlnorm(N, log(S_tot), sigma_obs)           # obs total spawners
     q <- sweep(S_W, 1, S_W_tot, "/")                        # true spawner age distn 
-    n_age_tot_obs <- pmax(round(pmin(n_age_tot_obs, S_tot_obs)), 1)  # cap age samples at pop size
-    n_HW_tot_obs <- pmax(round(pmin(n_HW_tot_obs, S_tot_obs)), 1)    # cap H/W samples at pop size
+    n_age_tot_obs <- pmax(round(pmin(n_age_tot_obs, S_tot)), 1)  # cap age samples at pop size
+    n_HW_tot_obs <- pmax(round(pmin(n_HW_tot_obs, S_tot)), 1)    # cap H/W samples at pop size
     n_age_obs <- t(sapply(1:N, function(i) rmultinom(1, n_age_tot_obs[i], q[i,]))) # obs wild age frequencies
     dimnames(n_age_obs)[[2]] <- paste0("n_age", ages, "_obs")
     n_H_obs <- rbinom(N, n_HW_tot_obs, p_HOS)               # obs count of hatchery spawners
@@ -100,7 +100,7 @@ IPM_adult_sim <- function(pars, pop, year, X = NULL, N_age, max_age, A,
                                      S_tot_obs = S_tot_obs, n_age_obs, 
                                      n_H_obs = n_H_obs, n_W_obs = n_W_obs, 
                                      B_take_obs = B_take, F_rate = F_rate),
-                pars_out = c(pars, list(S_W = S_W, a = a, Rmax = Rmax, phi = phi, 
+                pars_out = c(pars, list(S_W = S_W, a = a, Rmax = Rmax, phi = phi, gamma = gamma, alr_p = alr_p,
                                         p_HOS = p_HOS, p = p, R_tot_hat = R_tot_hat, R_tot = R_tot))))
   })
 }

@@ -54,21 +54,21 @@ parameters {
 }
 
 transformed parameters {
-  matrix[2,2] L_log_aRmax;      # Cholesky factor of correlation matrix of log(a) and log(Rmax)
   vector<lower=0>[N_pop] a;     # intrinsic productivity 
   vector<lower=0>[N_pop] Rmax;  # asymptotic recruitment 
   vector<lower=0>[N_year] phi;  # brood year productivity anomalies
   vector<lower=0>[N] R_hat;     # expected recruit abundance (not density) by brood year
   
   # Multivariate Matt trick for [log(a), log(b)]
-  L_log_aRmax[1,1] = 1;
-  L_log_aRmax[2,1] = rho_log_aRmax;
-  L_log_aRmax[1,2] = 0;
-  L_log_aRmax[2,2] = sqrt(1 - rho_log_aRmax^2);
   {
+    matrix[2,2] L_log_aRmax;      # Cholesky factor of correlation matrix of log(a) and log(Rmax)
     matrix[N_pop,2] aRmax;         # temp variable: matrix of a and Rmax
     vector[2] sigma_log_aRmax;     # temp variable: SD vector of [log(a), log(Rmax)]
     
+    L_log_aRmax[1,1] = 1;
+    L_log_aRmax[2,1] = rho_log_aRmax;
+    L_log_aRmax[1,2] = 0;
+    L_log_aRmax[2,2] = sqrt(1 - rho_log_aRmax^2);
     aRmax = append_col(log_a_z, log_Rmax_z);
     sigma_log_aRmax[1] = sigma_log_a;
     sigma_log_aRmax[2] = sigma_log_Rmax;
@@ -77,6 +77,7 @@ transformed parameters {
     Rmax = exp(mu_log_Rmax + col(aRmax,2));
   }
   
+  # AR(1) model for log(phi)
   phi[1] = log_phi_z[1]*sigma_log_phi/sqrt(1 - rho_log_phi^2); # initial anomaly
   for(i in 2:N_year)
     phi[i] = rho_log_phi*phi[i-1] + log_phi_z[i]*sigma_log_phi;

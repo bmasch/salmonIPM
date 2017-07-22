@@ -182,13 +182,13 @@ pairs(sapply(c("a[13]","Rmax[13]","sigma_proc[13]","sigma_obs[13]"), function(v)
 ### Use data simulator
 
 dat <- stan_data(fish_data, model = "IPM")
-N_sim <- 10  # number of simulated datasets
+N_sim <- 20  # number of simulated datasets
 N_pop <- max(dat$pop)
-sim_pars <- list(mu_log_a = 2, sigma_log_a = 1,
-                 mu_log_Rmax = 1, sigma_log_Rmax = 0.8,
-                 rho_log_aRmax = 0.7,
-                 beta_log_phi = 0, rho_log_phi = 0, sigma_log_phi = 0.2,
-                 sigma_proc = 0.2, mu_p = c(0.1,0.5,0.4),
+sim_pars <- list(mu_log_a = 2, sigma_log_a = 0.2,
+                 mu_log_Rmax = 3, sigma_log_Rmax = 0.2,
+                 rho_log_aRmax = 0,
+                 beta_log_phi = 0, rho_log_phi = 0, sigma_log_phi = 0.1,
+                 sigma_proc = 0.1, mu_p = c(0.1,0.5,0.4),
                  sigma_gamma = c(0.1,0.3), L_gamma = diag(2),
                  sigma_alr_p = c(0.2,0.2), L_alr_p = diag(2),
                  sigma_obs = 0.1,
@@ -216,16 +216,17 @@ for(i in 1:N_sim)
 {
   cat("simulated dataset", i, "of", N_sim, "\n")
   
-  sim_fish_data <- IPM_adult_sim(pars = sim_pars,
+  sim_out <- IPM_adult_sim(pars = sim_pars,
                                  pop = dat$pop,
                                  year = dat$year,
                                  N_age = 3,
                                  max_age = 5,
                                  A = dat$A,
-                                 F_rate = dat$F_rate,
+                                 F_rate = rbeta(dat$N, 4, 1),
                                  B_rate = rep(0,dat$N),
                                  n_age_tot_obs = rep(100,dat$N),
-                                 n_HW_tot_obs = fish_data$n_H_obs + fish_data$n_W_obs)$sim_dat
+                                 n_HW_tot_obs = fish_data$n_H_obs + fish_data$n_W_obs)
+  sim_fish_data <- sim_out$sim_dat
   
   # Fit hierarchical spawner-recruit model and store estimates
   RR_pp_stan_sim <- salmonIPM(fish_data = sim_fish_data, model = "RR", 
