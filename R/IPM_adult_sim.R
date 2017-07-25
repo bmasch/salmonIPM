@@ -34,6 +34,7 @@ IPM_adult_sim <- function(pars, pop, year, X = NULL, N_age, max_age, A,
   N_pop <- max(pop)                       # number of populations
   ages <- (max_age - N_age + 1):max_age   # adult ages
   if(is.null(X)) X <- matrix(0, nrow = max(year), ncol = 1)
+  A_pop <- tapply(A, pop, mean)
   
   with(pars, {
     # parameters
@@ -43,6 +44,7 @@ IPM_adult_sim <- function(pars, pop, year, X = NULL, N_age, max_age, A,
     aRmax <- exp(mvrnorm(N_pop, c(mu_log_a, mu_log_Rmax), Sigma_log_aRmax))
     a <- aRmax[,1]
     Rmax <- aRmax[,2]
+    K <- (a - 1)*Rmax/a
     log_phi <- rep(NA, max(year))
     log_phi[1] <- rnorm(1, 0, sigma_log_phi/sqrt(1 - rho_log_phi^2))
     for(i in 2:length(log_phi))
@@ -55,6 +57,14 @@ IPM_adult_sim <- function(pars, pop, year, X = NULL, N_age, max_age, A,
     alr_p <- t(apply(gamma[pop,], 1, function(x) mvrnorm(1, x, Sigma_alr_p)))
     e_alr_p <- exp(cbind(alr_p, 0))
     p <- sweep(e_alr_p, 1, rowSums(e_alr_p), "/")
+    R_tot_init <- data.frame(pop = rep(1:N_pop, each = max_age), year = NA, R_tot = NA)
+    for(i in 1:N_pop)
+      R_tot_init$year[R_tot_init$pop==i] <- min(year[pop==i]) - (max_age:1)
+    R_tot_init$R_tot <- rlnorm(nrow(R_tot_init), log((A_pop*K)[R_tot_init$pop]), sigma_proc)
+    alr_p_init <- t(apply(gamma[R_tot_init$pop,], 1, function(x) mvrnorm(1, x, Sigma_alr_p)))
+    e_alr_p_init <- exp(cbind(alr_p_init, 0))
+    p_init <- sweep(e_alr_p_init, 1, rowSums(e_alr_p_init), "/")
+    R_init <- sweep(p_init, 1, R_tot_init$R_tot, "*")
     
     # Simulate recruits and calculate total spawners
     # and spawner age distributions
@@ -68,17 +78,17 @@ IPM_adult_sim <- function(pars, pop, year, X = NULL, N_age, max_age, A,
     
     for(i in 1:N)
     {
-      if(year[i] - min(year[pop==pop[i]]) <= max_age)
-      {
-        S_W[i,] <- rlnorm(N_age, log(A[pop[i]]*Rmax[pop[i]]/N_age), 0.1) # initialize years 1:max_age
-      } else
-      {
-        for(j in 1:N_age)
+      for(j in 1:N_age)
+        if(year[i] - ages[j] < min(year[pop==pop[i]])) # initialize years 1:max_age
+        {
+          S_W[i,j] <- R_init[R_tot_init$pop==pop[i] & R_tot_init$year==year[i]-ages[j], j]
+        } else
+        {
           S_W[i,j] <- R_tot[i-ages[j]]*p[i-ages[j],j]
-        S_W[i,-1] <- S_W[i,-1]*(1 - F_rate[i])     # catch (assumes no take of age 1)
-        B_take[i] <- B_rate[i]*sum(S_W[i,-1])
-        S_W[i,-1] <- S_W[i,-1]*(1 - B_rate[i])     # broodstock removal (assumes no take of age 1)
-      }
+        }
+      S_W[i,-1] <- S_W[i,-1]*(1 - F_rate[i])     # catch (assumes no take of age 1)
+      B_take[i] <- B_rate[i]*sum(S_W[i,-1])
+      S_W[i,-1] <- S_W[i,-1]*(1 - B_rate[i])     # broodstock removal (assumes no take of age 1)
       S_W_tot[i] <- sum(S_W[i,])
       S_H_tot[i] <- S_W_tot[i]*p_HOS[i]/(1 - p_HOS[i])
       S_tot[i] <- S_W_tot[i] + S_H_tot[i]

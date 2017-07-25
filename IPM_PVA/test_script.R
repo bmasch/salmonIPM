@@ -183,16 +183,18 @@ pairs(sapply(c("a[13]","Rmax[13]","sigma_proc[13]","sigma_obs[13]"), function(v)
 
 dat <- stan_data(fish_data, model = "IPM")
 N_sim <- 20  # number of simulated datasets
-N_pop <- max(dat$pop)
+N_pop <- 15
+N_year <- 50
+N <- N_pop*N_year
 sim_pars <- list(mu_log_a = 2, sigma_log_a = 0.2,
                  mu_log_Rmax = 3, sigma_log_Rmax = 0.2,
-                 rho_log_aRmax = 0,
-                 beta_log_phi = 0, rho_log_phi = 0, sigma_log_phi = 0.1,
+                 rho_log_aRmax = 0.5,
+                 beta_log_phi = 0, rho_log_phi = 0.6, sigma_log_phi = 0.2,
                  sigma_proc = 0.1, mu_p = c(0.1,0.5,0.4),
-                 sigma_gamma = c(0.1,0.3), L_gamma = diag(2),
-                 sigma_alr_p = c(0.2,0.2), L_alr_p = diag(2),
+                 sigma_gamma = c(0.2,0.3), L_gamma = diag(2),
+                 sigma_alr_p = c(0.1,0.1), L_alr_p = diag(2),
                  sigma_obs = 0.1,
-                 p_HOS = rep(0,dat$N))
+                 p_HOS = rep(0,N))
 
 IPM_pp_fit_sim_pars <- list(median = NULL, CI.025 = NULL, CI.975 = NULL)
 RR_pp_fit_sim_pars <- IPM_pp_fit_sim_pars
@@ -217,15 +219,15 @@ for(i in 1:N_sim)
   cat("simulated dataset", i, "of", N_sim, "\n")
   
   sim_out <- IPM_adult_sim(pars = sim_pars,
-                                 pop = dat$pop,
-                                 year = dat$year,
+                                 pop = rep(1:N_pop, each = N_year),
+                                 year = rep(1:N_year, N_pop),
                                  N_age = 3,
                                  max_age = 5,
-                                 A = dat$A,
-                                 F_rate = rbeta(dat$N, 4, 1),
-                                 B_rate = rep(0,dat$N),
-                                 n_age_tot_obs = rep(100,dat$N),
-                                 n_HW_tot_obs = fish_data$n_H_obs + fish_data$n_W_obs)
+                                 A = rep(1000,N),
+                                 F_rate = runif(N,0,1),
+                                 B_rate = rep(0,N),
+                                 n_age_tot_obs = rep(1000,N),
+                                 n_HW_tot_obs = rep(0,N))
   sim_fish_data <- sim_out$sim_dat
   
   # Fit hierarchical spawner-recruit model and store estimates

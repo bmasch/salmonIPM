@@ -123,7 +123,7 @@ transformed parameters {
     matrix[2,2] L_log_aRmax;    # temp variable: Cholesky factor of correlation matrix of log(a) and log(Rmax)
     matrix[N_pop,2] aRmax;      # temp variable: matrix of a and Rmax
     vector[2] sigma_log_aRmax;  # temp variable: SD vector of [log(a), log(Rmax)]
-    
+
     L_log_aRmax[1,1] = 1;
     L_log_aRmax[2,1] = rho_log_aRmax;
     L_log_aRmax[1,2] = 0;
@@ -135,7 +135,7 @@ transformed parameters {
              a = exp(mu_log_a + col(aRmax,1));
              Rmax = exp(mu_log_Rmax + col(aRmax,2));
   }
-  
+
   # AR(1) model for log(phi)
   phi[1] = log_phi_z[1]*sigma_log_phi/sqrt(1 - rho_log_phi^2); # initial anomaly
   for(i in 2:N_year)
@@ -171,7 +171,7 @@ transformed parameters {
     # (built-in softmax function doesn't accept row vectors)
     exp_p = exp(p[i,]);
     p[i,] = exp_p/sum(exp_p);
-    
+
     if(pop_year_indx[i] <= max_age)
     {
       # use initial values
@@ -201,7 +201,7 @@ model {
   vector[max(N_B,1)] B_take; # true broodstock take when B_take_obs > 0
   
   # Priors
-  mu_log_a ~ normal(0,5);
+  mu_log_a ~ normal(2,5);
   sigma_log_a ~ pexp(0,3,10);
   mu_log_Rmax ~ normal(0,10);
   sigma_log_Rmax ~ pexp(0,3,10);
@@ -218,7 +218,7 @@ model {
   L_alr_p ~ lkj_corr_cholesky(1);
   # sigma_F ~ pexp(0,2,10);
   sigma_obs ~ pexp(0,1,10);
-  S_tot_init ~ lognormal(0,5);
+  S_tot_init ~ lognormal(0,10);
   if(N_B > 0)
   {
     B_take = B_rate .* S_W_tot[which_B] .* (1 - q[which_B,1]) ./ (1 - B_rate);
