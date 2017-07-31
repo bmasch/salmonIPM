@@ -101,11 +101,11 @@ rm(rr);rm(R_hat);rm(which_fit);rm(cc)
 # Fit hierarchical IPM
 IPM_fit <- salmonIPM(fish_data = fish_data, model = "IPM", 
                      pars = c("mu_log_a","sigma_log_a","a",
-                       "mu_log_Rmax","sigma_log_Rmax","Rmax","rho_log_aRmax",
-                       "sigma_log_phi","rho_log_phi","phi",
-                       "mu_p","sigma_gamma","R_gamma","gamma",
-                       "sigma_alr_p","R_alr_p","p","sigma_proc","sigma_obs",
-                       "S_tot","S_W_tot","S_H_tot","R_tot_hat","R_tot"),
+                              "mu_log_Rmax","sigma_log_Rmax","Rmax","rho_log_aRmax",
+                              "sigma_log_phi","rho_log_phi","phi",
+                              "mu_p","sigma_gamma","R_gamma","gamma",
+                              "sigma_alr_p","R_alr_p","p","sigma_proc","sigma_obs",
+                              "S_tot","S_W_tot","S_H_tot","R_tot_hat","R_tot"),
                      chains = 3, iter = 2000, warmup = 1000, 
                      control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
 
@@ -125,7 +125,7 @@ IPM_fix <- salmonIPM(fish_data = fish_data, model = "IPM", pool_pops = FALSE,
                      control = list(adapt_delta = 0.95, max_treedepth = 12))
 
 print(IPM_fix, pars = c("a","Rmax","sigma_proc","rho_proc","sigma_proc","sigma_obs",
-                         "gamma","sigma_alr_p","R_alr_p"))
+                        "gamma","sigma_alr_p","R_alr_p"))
 launch_shinystan(IPM_fix)
 
 windows(width = 14, height = 10)
@@ -183,35 +183,46 @@ pairs(sapply(c("a[13]","Rmax[13]","sigma_proc[13]","sigma_obs[13]"), function(v)
 
 dat <- stan_data(fish_data, model = "IPM")
 N_sim <- 20  # number of simulated datasets
-N_pop <- 15
-N_year <- 50
-N <- N_pop*N_year
+N_pop <- max(dat$pop)
+# N_year <- 50
+N <- dat$N
 sim_pars <- list(mu_log_a = 2, sigma_log_a = 0.2,
                  mu_log_Rmax = 3, sigma_log_Rmax = 0.2,
                  rho_log_aRmax = 0.5,
                  beta_log_phi = 0, rho_log_phi = 0.6, sigma_log_phi = 0.2,
-                 sigma_proc = 0.1, mu_p = c(0.1,0.5,0.4),
+                 sigma_proc = 0.2, mu_p = c(0.1,0.5,0.4),
                  sigma_gamma = c(0.2,0.3), L_gamma = diag(2),
-                 sigma_alr_p = c(0.1,0.1), L_alr_p = diag(2),
-                 sigma_obs = 0.1,
-                 p_HOS = rep(0,N))
+                 sigma_alr_p = c(0.2,0.2), L_alr_p = diag(2),
+                 sigma_obs = 0.2,
+                 p_HOS = replace(rep(0,dat$N), dat$which_H, 
+                                 pmin(dat$n_H_obs/(dat$n_H_obs + dat$n_W_obs), 0.95)))
 
+IPM_npp_fit_sim_pars <- list(median = NULL, CI.025 = NULL, CI.975 = NULL)
 IPM_pp_fit_sim_pars <- list(median = NULL, CI.025 = NULL, CI.975 = NULL)
+RR_npp_fit_sim_pars <- IPM_pp_fit_sim_pars
 RR_pp_fit_sim_pars <- IPM_pp_fit_sim_pars
 for(i in 1:3)
 {
+  RR_npp_fit_sim_pars[[i]] <- as.data.frame(cbind(matrix(NA, N_sim, N_pop, dimnames = list(NULL, paste0("a[", 1:N_pop, "]"))),
+                                                  matrix(NA, N_sim, N_pop, dimnames = list(NULL, paste0("Rmax[", 1:N_pop, "]"))),
+                                                  matrix(NA, N_sim, N_pop, dimnames = list(NULL, paste0("rho[", 1:N_pop, "]"))), 
+                                                  matrix(NA, N_sim, N_pop, dimnames = list(NULL, paste0("sigma[", 1:N_pop, "]")))))
   RR_pp_fit_sim_pars[[i]] <- as.data.frame(cbind(mu_log_a = rep(NA,N_sim), sigma_log_a = NA,
                                                  matrix(NA, N_sim, N_pop, dimnames = list(NULL, paste0("a[", 1:N_pop, "]"))),
                                                  mu_log_Rmax = NA, sigma_log_Rmax = NA, 
                                                  matrix(NA, N_sim, N_pop, dimnames = list(NULL, paste0("Rmax[", 1:N_pop, "]"))),
                                                  rho_log_aRmax = NA, rho_log_phi = NA, sigma_log_phi = NA, sigma = NA))
+  IPM_npp_fit_sim_pars[[i]] <- as.data.frame(matrix(NA, N_sim, N_pop, dimnames = list(NULL, paste0("a[", 1:N_pop, "]"))),
+                                             matrix(NA, N_sim, N_pop, dimnames = list(NULL, paste0("Rmax[", 1:N_pop, "]"))),
+                                             matrix(NA, N_sim, N_pop, dimnames = list(NULL, paste0("rho_proc[", 1:N_pop, "]"))), 
+                                             matrix(NA, N_sim, N_pop, dimnames = list(NULL, paste0("sigma_proc[", 1:N_pop, "]"))), 
+                                             matrix(NA, N_sim, N_pop, dimnames = list(NULL, paste0("sigma_obs[", 1:N_pop, "]"))))
   IPM_pp_fit_sim_pars[[i]] <- as.data.frame(cbind(mu_log_a = rep(NA,N_sim), sigma_log_a = NA,
                                                   matrix(NA, N_sim, N_pop, dimnames = list(NULL, paste0("a[", 1:N_pop, "]"))),
                                                   mu_log_Rmax = NA, sigma_log_Rmax = NA, 
                                                   matrix(NA, N_sim, N_pop, dimnames = list(NULL, paste0("Rmax[", 1:N_pop, "]"))),
                                                   rho_log_aRmax = NA, rho_log_phi = NA, sigma_log_phi = NA, 
                                                   sigma_proc = NA, sigma_obs = NA))
-  
 }
 
 for(i in 1:N_sim)
@@ -219,31 +230,52 @@ for(i in 1:N_sim)
   cat("simulated dataset", i, "of", N_sim, "\n")
   
   sim_out <- IPM_adult_sim(pars = sim_pars,
-                                 pop = rep(1:N_pop, each = N_year),
-                                 year = rep(1:N_year, N_pop),
-                                 N_age = 3,
-                                 max_age = 5,
-                                 A = rep(1000,N),
-                                 F_rate = runif(N,0,1),
-                                 B_rate = rep(0,N),
-                                 n_age_tot_obs = rep(1000,N),
-                                 n_HW_tot_obs = rep(0,N))
+                           pop = dat$pop,
+                           year = dat$year,
+                           N_age = dat$N_age,
+                           max_age = dat$max_age,
+                           A = dat$A,
+                           F_rate = dat$F_rate,
+                           B_rate = replace(rep(0,dat$N), dat$which_B, 
+                                            dat$B_take_obs/(dat$S_tot_obs[dat$which_B] + dat$B_take_obs)),
+                           n_age_tot_obs = rowSums(dat$n_age_obs),
+                           n_HW_tot_obs = rep(0,N))
   sim_fish_data <- sim_out$sim_dat
+  
+  # Fit single-population spawner-recruit model and store estimates
+  RR_npp_stan_sim <- salmonIPM(fish_data = sim_fish_data, model = "RR", pool_pops = FALSE,
+                               chains = 3, iter = 1000, warmup = 500,
+                               control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+  
+  RR_npp_fit_sim <- as.matrix(RR_npp_stan_sim, names(RR_npp_fit_sim_pars$median))
+  RR_npp_fit_sim_pars$median[i,] <- apply(RR_npp_fit_sim, 2, median)
+  RR_npp_fit_sim_pars$CI.025[i,] <- apply(RR_npp_fit_sim, 2, quantile, 0.025)
+  RR_npp_fit_sim_pars$CI.975[i,] <- apply(RR_npp_fit_sim, 2, quantile, 0.975)
   
   # Fit hierarchical spawner-recruit model and store estimates
   RR_pp_stan_sim <- salmonIPM(fish_data = sim_fish_data, model = "RR", 
-                             chains = 3, iter = 1000, warmup = 500,
-                             control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+                              chains = 3, iter = 1000, warmup = 500,
+                              control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
   
   RR_pp_fit_sim <- as.matrix(RR_pp_stan_sim, names(RR_pp_fit_sim_pars$median))
   RR_pp_fit_sim_pars$median[i,] <- apply(RR_pp_fit_sim, 2, median)
   RR_pp_fit_sim_pars$CI.025[i,] <- apply(RR_pp_fit_sim, 2, quantile, 0.025)
   RR_pp_fit_sim_pars$CI.975[i,] <- apply(RR_pp_fit_sim, 2, quantile, 0.975)
   
+  # Fit single-population IPM and store estimates
+  IPM_npp_stan_sim <- salmonIPM(fish_data = sim_fish_data, model = "IPM", pool_pops = FALSE, 
+                                chains = 3, iter = 1000, warmup = 500, 
+                                control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+  
+  IPM_npp_fit_sim <- as.matrix(IPM_npp_stan_sim, names(IPM_npp_fit_sim_pars$median))
+  IPM_npp_fit_sim_pars$median[i,] <- apply(IPM_npp_fit_sim, 2, median)
+  IPM_npp_fit_sim_pars$CI.025[i,] <- apply(IPM_npp_fit_sim, 2, quantile, 0.025)
+  IPM_npp_fit_sim_pars$CI.975[i,] <- apply(IPM_npp_fit_sim, 2, quantile, 0.975)
+  
   # Fit hierarchical IPM and store estimates
   IPM_pp_stan_sim <- salmonIPM(fish_data = sim_fish_data, model = "IPM", 
-                              chains = 3, iter = 1000, warmup = 500, 
-                              control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+                               chains = 3, iter = 1000, warmup = 500, 
+                               control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
   
   IPM_pp_fit_sim <- as.matrix(IPM_pp_stan_sim, names(IPM_pp_fit_sim_pars$median))
   IPM_pp_fit_sim_pars$median[i,] <- apply(IPM_pp_fit_sim, 2, median)
@@ -251,7 +283,7 @@ for(i in 1:N_sim)
   IPM_pp_fit_sim_pars$CI.975[i,] <- apply(IPM_pp_fit_sim, 2, quantile, 0.975)
 }
 
-# Plot estimated and true values of hyperparameters
+# Plot estimated and true values of hyperparameters for RR_pp vs IPM_pp
 dev.new(width = 14, height = 7)
 par(mfrow = c(2,4), mar = c(2,3,2,1), oma = c(3,2,0,0))
 c1 <- "orangered3"
@@ -285,6 +317,7 @@ for(i in c("mu_log_a","sigma_log_a","mu_log_Rmax","sigma_log_Rmax","rho_log_aRma
 
 rm(list = c("c1","c2","RR_pp_median","RR_pp_CI.025","RR_pp_CI.975",
             "IPM_pp_median","IPM_pp_CI.025","IPM_pp_CI.975","theta"))
+
 
 
 
@@ -350,7 +383,7 @@ for(i in 1:N_sim)
   RR_pp_fit_sim_pars$median[i,] <- apply(RR_pp_fit_sim, 2, median)
   RR_pp_fit_sim_pars$CI.025[i,] <- apply(RR_pp_fit_sim, 2, quantile, 0.025)
   RR_pp_fit_sim_pars$CI.975[i,] <- apply(RR_pp_fit_sim, 2, quantile, 0.975)
-
+  
   # Fit hierarchical IPM and store estimates
   IPM_pp_fit_sim <- salmonIPM(fish_data = sim_fish_data, model = "IPM", 
                               chains = 3, iter = 1000, warmup = 500, 

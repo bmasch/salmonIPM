@@ -62,7 +62,6 @@ transformed data {
 parameters {
   vector<lower=0>[N_pop] a;             # intrinsic productivity
   vector<lower=0>[N_pop] Rmax;          # asymptotic recruitment
-  # vector<lower=0>[N_pop] b;             # density dependence
   matrix[N_pop,N_X] beta_proc;          # regression coefs for log productivity anomalies
   vector<lower=-1,upper=1>[N_pop] rho_proc; # AR(1) coefs for log productivity anomalies
   vector<lower=0>[N_pop] sigma_proc;    # process error SDs
@@ -100,7 +99,7 @@ transformed parameters {
   if(N_B > 0)
     B_rate_all[which_B] = B_rate;
   
-  # Multivariate Matt trick for within-pop, time-varying age vectors
+  # Log-ratio transform of pop-specific mean cohort age distributions
   for(j in 1:N_pop)
     gamma[j,] = to_row_vector(log(exp_gamma[j,1:(N_age-1)]) - log(exp_gamma[j,N_age]));
   
@@ -111,8 +110,7 @@ transformed parameters {
     row_vector[N_age] alr_p; # temp variable: alr(p[i,])
     row_vector[N_age] S_W;   # temp variable: true wild spawners by age
 
-    # inverse log-ratio transform of cohort age distn
-    # (built-in softmax function doesn't accept row vectors)
+    # Multivariate Matt trick for within-pop, time-varying age vectors
     alr_p = rep_row_vector(0,N_age);
     alr_p[1:(N_age-1)] = gamma[pop[i],] + to_row_vector(diag_matrix(to_vector(sigma_alr_p[pop[i],])) * L_alr_p[pop[i]] * to_vector(alr_p_z[i,]));
     alr_p = exp(alr_p);
@@ -143,7 +141,7 @@ transformed parameters {
       log_R_tot_proc[i] = log_R_tot_z[i]*sigma_proc[pop[i]]/sqrt(1 - rho_proc[pop[i]]^2);
     else
       log_R_tot_proc[i] = rho_proc[pop[i]]*log_R_tot_proc[i-1] + log_R_tot_z[i]*sigma_proc[pop[i]];
-    log_R_tot_proc[i] =  dot_product(X[year[i],], beta_proc[pop[i],]) + log_R_tot_proc[i];
+    log_R_tot_proc[i] = dot_product(X[year[i],], beta_proc[pop[i],]) + log_R_tot_proc[i];
     R_tot[i] = R_tot_hat[i]*exp(log_R_tot_proc[i]);
   }
 }
