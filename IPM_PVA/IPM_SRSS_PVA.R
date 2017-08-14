@@ -611,7 +611,7 @@ rm(list = c("pop","S_tot_RR","S_tot_IPM","qet","year","pqe_RR","pqe_IPM"))
 #------------------------------------------------------------------------------
 
 dev.new(width = 7, height = 8)
-# png(filename="Fig_5.png", width=7, height=8, units="in", res=200, type="cairo-png")
+png(filename="Fig_5.png", width=7, height=8, units="in", res=200, type="cairo-png")
 layout(matrix(c(2,1)), heights = c(1.5,7))
 
 mu_log_a_RR <- extract1(PVA_RR_pp,"mu_log_a")
@@ -645,7 +645,8 @@ for(i in 1:ncol(Umax_pop_IPM))
   lines(sort(Umax_pop_RR[,i]), (1:M)/M, lwd = 1, col = c1t)
   lines(sort(Umax_pop_IPM[,i]), (1:M)/M, lwd = 1, col = c2t)
 }
-legend("topleft", c("IPM","RR"), col = c("blue4","orangered3"), lwd = 3, cex = 1.2)
+legend("topleft", c("IPM (populations)","IPM (metapopulation)","RR (populations)","RR (metapopulation)"), 
+       col = c("blue4","blue4","orangered3","orangered3"), lwd = c(1,4,1,4), cex = 1.2)
 
 par(mar = c(0.1,3.1,0.5,1.5))
 bins <- seq(0, 1, 0.05)
@@ -653,11 +654,13 @@ F1 <- hist(fish_data$F_rate[fish_data$year < 1980], breaks = bins, plot = F)$cou
 F2 <- hist(fish_data$F_rate[fish_data$year >= 1980], breaks = bins, plot = F)$counts
 barplot(rbind(F1,F2), names = bins[-1], space = 0, yaxs = "i", xaxt = "n", yaxt = "n", 
         xlab = "", ylab = "", main = "", col = c("black","gray"), border = "white")
+text(2, max(F2)*0.8, "post-1980 harvest", pos = 4, cex = 1.2, col = "darkgray")
+text(8, max(F1)*1.5, "pre-1980 harvest", pos = 4, cex = 1.2)
 
 rm(list = c("mu_log_a_RR","mu_log_a_IPM","Umax_ESU_RR","Umax_ESU_IPM",
             "a_RR","Umax_pop_RR","a_IPM","Umax_pop_IPM","c1","c1t","c2","c2t","bins","F1","F2"))
 
-# dev.off()
+dev.off()
 
 
 #------------------------------------------------------------------------------------
