@@ -93,7 +93,7 @@ parameters {
   vector<lower=0,upper=1>[max(N_H,1)] p_HOS; # true p_HOS in years which_H
   vector[N] log_R_tot_z;                # log true recruit abundance (not density) by brood year (z-scores)
   vector<lower=0,upper=1>[max(N_B,1)] B_rate; # true broodstock take rate when B_take > 0
-  real<lower=0> sigma_obs;              # observation error SD
+  real<lower=0> sigma_obs;              # observation error SD of total spawners
 }
 
 transformed parameters {
