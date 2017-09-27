@@ -4,7 +4,7 @@
 \alias{stan_data}
 \title{Assembles input data in a format that can be passed to Stan for fitting either integrated or run-reconstruction spawner-recruit models.}
 \usage{
-stan_data(fish_data, env_data = NULL, model)
+stan_data(fish_data, env_data = NULL, catch_data = NULL, model)
 }
 \arguments{
 \item{fish_data}{Data frame that includes the following \code{colnames}, in no particular order except where noted:
@@ -17,13 +17,20 @@ stan_data(fish_data, env_data = NULL, model)
 \item{\code{n_W_obs}}{Observed frequency of natural-origin spawners.}
 \item{\code{n_H_obs}}{Observed frequency of hatchery-origin spawners.}
 \item{\code{fit_p_HOS}}{Logical or 0/1 indicating for each row in fish_data whether the model should estimate p_HOS > 0. This is only required if model == "IPM".}
-\item{\code{F_rate}}{Total harvest rate (proportion) of natural-origin fish.}
+\item{\code{F_rate}}{Total harvest rate (proportion) of natural-origin fish, only if model != "IPM_F".}
 \item{\code{B_take_obs}}{Number of adults taken for hatchery broodstock.}
 }}
 
 \item{env_data}{Optional data frame whose variables are time-varying environmental covariates, sequentially ordered with each row corresponding to a unique year in fish_data.}
 
-\item{model}{One of \code{"IPM"} or \code{"RR"}, indicating whether the data are intended for an integrated or run-reconstruction model.}
+\item{catch_data}{Only if model == "IPM_F", a data frame with numeric columns
+\describe{
+\item{\code{year}}{Year for fishery data. Must be identical to \code{unique(fish_data$year)}.}
+\item{\code{R_F_obs}}{Total recruits to the fishery.}
+\item{\code{C_obs}}{Total catch.}
+}}
+
+\item{model}{One of \code{"IPM"}, \code{"RR"}, or \code{"IPM_F"}, indicating whether the data are intended for an integrated or run-reconstruction model or the integrated "harvest" model.}
 }
 \value{
 A named list that can be passed to \code{stan} as the \code{data} argument.

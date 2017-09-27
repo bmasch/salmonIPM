@@ -14,8 +14,9 @@
 #' \item{\code{B_take_obs}}{Number of adults taken for hatchery broodstock.}
 #' }
 #' @param env_data Optional data frame whose variables are time-varying environmental covariates, sequentially ordered with each row corresponding to a unique year in fish_data.
-#' @param model One of \code{"IPM"} or \code{"RR"}, indicating whether the data are intended for an integrated or run-reconstruction model.
-#' @param pool_pops Logical, with default \code{TRUE}, indicating whether or not to treat the different populations as hierarchical rather than fixed/independent.
+#' @param catch_data Only if model == "IPM_F", a data frame with numeric columns
+#' @param model One of \code{"IPM"}, \code{"RR"}, or \code{"IPM_F"}, indicating whether the data are intended for an integrated or run-reconstruction model or the integrated "harvest" model.
+#' @param pool_pops Logical, with default \code{TRUE}, indicating whether or not to treat the different populations as hierarchical rather than fixed/independent. Must be TRUE if model == "IPM_F".
 #' @param init A list of named lists of initial values to be passed to \code{stan}. If \code{NULL}, initial values will be automatically generated from the supplied data using \code{stan_init}. 
 #' @param pars A vector of character strings specifying parameters to monitor. If NULL, default values are used. If a non-default value is supplied, it is the user's responsibility to make sure the parameters requested appear in the model configuration specified.
 #' @param chains A positive integer specifying the number of Markov chains.
@@ -30,10 +31,10 @@
 #' @importFrom rstan stan
 #'
 #' @export
-salmonIPM <- function(fish_data, env_data = NULL, model, pool_pops = TRUE, init = NULL, pars = NULL, 
-                      chains, iter, warmup, thin = 1, cores = 3, ...)
+salmonIPM <- function(fish_data, env_data = NULL, catch_data = NULL, model, pool_pops = TRUE, 
+                      init = NULL, pars = NULL, chains, iter, warmup, thin = 1, cores = 3, ...)
 {
-  dat <- stan_data(fish_data, env_data, model)
+  dat <- stan_data(fish_data, env_data, catch_data, model)
   if(is.null(pars))
     pars <- switch(model, 
                    IPM = switch(ifelse(pool_pops, "Y", "N"),
@@ -48,6 +49,14 @@ salmonIPM <- function(fish_data, env_data = NULL, model, pool_pops = TRUE, init 
                                 N = c("a","Rmax","beta_proc","rho_proc","sigma_proc",
                                       "gamma","sigma_alr_p","R_alr_p","p",
                                       "p_HOS","B_rate_all","sigma_obs","S_tot","R_tot","q")),
+                   IPM_F = c("mu_log_a","sigma_log_a","a",
+                                      "mu_log_Rmax","sigma_log_Rmax","Rmax","rho_log_aRmax",
+                                      "beta_log_phi","sigma_log_phi","rho_log_phi","phi",
+                                      "mu_p","sigma_gamma","R_gamma","gamma",
+                                      "sigma_alr_p","R_alr_p","p",
+                                      "p_HOS","c1","c2","F_rate","sigma_log_C","B_rate_all",
+                                      "sigma_proc","sigma_obs",
+                                      "S_tot","R_tot","q"),
                    RR = switch(ifelse(pool_pops, "Y", "N"),
                                Y = c("mu_log_a","sigma_log_a","a",
                                      "mu_log_Rmax","sigma_log_Rmax","Rmax","rho_log_aRmax",
@@ -59,6 +68,7 @@ salmonIPM <- function(fish_data, env_data = NULL, model, pool_pops = TRUE, init 
   
   fit <- stan(file = switch(model,
                             IPM = file.path(stan_path, ifelse(pool_pops, "IPM_adult_pp.stan", "IPM_adult_npp.stan")),
+                            IPM_F = file.path(stan_path, ifelse(pool_pops, "IPM_adult_pp_F.stan", "IPM_adult_npp.stan")),
                             RR = file.path(stan_path, ifelse(pool_pops, "SR_RR_pp.stan", "SR_RR_npp.stan"))),
               data = dat, 
               init = stan_init(dat, chains, model, pool_pops), 

@@ -54,6 +54,7 @@ transformed data {
   int<lower=2> ages[N_age];              # adult ages
   int<lower=1> pop_year_indx[N];         # index of years within each pop, starting at 1
   int<lower=0> n_HW_tot_obs[max(N_H,1)]; # total sample sizes for H/W frequencies
+  vector[max(year)] R_F_obs_std;         # observed total wild recruits to the fishery (Z-scores)
 
   N_pop = max(pop);
   N_year = max(year);
@@ -68,6 +69,8 @@ transformed data {
       pop_year_indx[i] = pop_year_indx[i-1] + 1;
   }
   for(i in 1:max(N_H,1)) n_HW_tot_obs[i] = n_H_obs[i] + n_W_obs[i];
+  
+  R_F_obs_std = (R_F_obs - mean(R_F_obs))/sd(R_F_obs);
 }
 
 parameters {
@@ -94,7 +97,8 @@ parameters {
   simplex[N_age] q_init[max_age*N_pop]; # true wild spawner age distributions in years 1-max_age
   vector<lower=0,upper=1>[max(N_H,1)] p_HOS; # true p_HOS in years which_H
   vector[N] log_R_tot_z;                # log true recruit abundance (not density) by brood year (z-scores)
-  vector<lower=0,upper=1>[N_year] F_rate; # annual harvest rate of wild adults, assumed to apply to all pops
+  real c1;                              # logit-intercept of harvest rate
+  real c2;                              # logit-slope of harvest rate
   real<lower=0> sigma_log_C;            # observation error SD of total wild catch
   vector<lower=0,upper=1>[max(N_B,1)] B_rate; # true broodstock take rate when B_take > 0
   real<lower=0> sigma_obs;              # observation error SD of total spawners
@@ -114,6 +118,7 @@ transformed parameters {
   vector[N] p_HOS_all;                # true p_HOS in all years (can == 0)
   vector<lower=0>[N] R_tot_hat;       # expected recruit abundance (not density) by brood year
   vector<lower=0>[N] R_tot;           # true recruit abundance (not density) by brood year
+  vector<lower=0,upper=1>[N_year] F_rate; # annual harvest rate of wild adults, assumed to apply to all pops
   vector<lower=0,upper=1>[N] B_rate_all; # true broodstock take rate in all years
   
   # Multivariate Matt trick for [log(a), log(b)]
@@ -148,6 +153,9 @@ transformed parameters {
   B_rate_all = rep_vector(0,N);
   if(N_B > 0)
     B_rate_all[which_B] = B_rate;
+  
+  # Harvest rate modeled as a function of total recruitment to fishery
+  F_rate = inv_logit(c1 + c2*R_F_obs_std);
 
   # Multivariate Matt trick for age vectors (pop-specific mean and within-pop, time-varying)
   mu_alr_p = to_row_vector(log(mu_p[1:(N_age-1)]) - log(mu_p[N_age]));
@@ -210,7 +218,9 @@ model {
   }
   L_gamma ~ lkj_corr_cholesky(1);
   L_alr_p ~ lkj_corr_cholesky(1);
-  sigma_obs_C ~ pexp(0,2,5);
+  c1 ~ normal(0,5);
+  c2 ~ normal(0,5);
+  sigma_log_C ~ pexp(0,2,5); 
   sigma_obs ~ pexp(0,1,10);
   S_tot_init ~ lognormal(0,10);
   if(N_B > 0)
@@ -232,7 +242,7 @@ model {
   # Process model
   log_R_tot_z ~ normal(0,1); # total recruits: R_tot ~ lognormal(log(R_tot_hat), sigma_proc)
   # Observation model
-  C_obs ~ lognormal(R_F_obs .* F_rate, sigma_log_C);   # observed total wild catch 
+  C_obs ~ lognormal(log(R_F_obs) + log(F_rate), sigma_log_C);   # observed total wild catch 
   S_tot_obs[which_S_obs] ~ lognormal(log(S_tot[which_S_obs]), sigma_obs);   # observed total spawners
   if(N_H > 0) n_H_obs ~ binomial(n_HW_tot_obs, p_HOS); # observed counts of hatchery vs. wild spawners
   target += sum(n_age_obs .* log(q));                  # obs wild age freq: n_age_obs[i] ~ multinomial(q[i])

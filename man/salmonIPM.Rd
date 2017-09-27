@@ -4,9 +4,9 @@
 \alias{salmonIPM}
 \title{Fits an integrated or run-reconstruction spawner-recruit model.}
 \usage{
-salmonIPM(fish_data, env_data = NULL, model, pool_pops = TRUE,
-  init = NULL, pars = NULL, chains, iter, warmup, thin = 1, cores = 3,
-  ...)
+salmonIPM(fish_data, env_data = NULL, catch_data = NULL, model,
+  pool_pops = TRUE, init = NULL, pars = NULL, chains, iter, warmup,
+  thin = 1, cores = 3, ...)
 }
 \arguments{
 \item{fish_data}{Data frame that includes the following \code{colnames}, in no particular order except where noted:
@@ -25,9 +25,11 @@ salmonIPM(fish_data, env_data = NULL, model, pool_pops = TRUE,
 
 \item{env_data}{Optional data frame whose variables are time-varying environmental covariates, sequentially ordered with each row corresponding to a unique year in fish_data.}
 
-\item{model}{One of \code{"IPM"} or \code{"RR"}, indicating whether the data are intended for an integrated or run-reconstruction model.}
+\item{catch_data}{Only if model == "IPM_F", a data frame with numeric columns}
 
-\item{pool_pops}{Logical, with default \code{TRUE}, indicating whether or not to treat the different populations as hierarchical rather than fixed/independent.}
+\item{model}{One of \code{"IPM"}, \code{"RR"}, or \code{"IPM_F"}, indicating whether the data are intended for an integrated or run-reconstruction model or the integrated "harvest" model.}
+
+\item{pool_pops}{Logical, with default \code{TRUE}, indicating whether or not to treat the different populations as hierarchical rather than fixed/independent. Must be TRUE if model == "IPM_F".}
 
 \item{init}{A list of named lists of initial values to be passed to \code{stan}. If \code{NULL}, initial values will be automatically generated from the supplied data using \code{stan_init}.}
 

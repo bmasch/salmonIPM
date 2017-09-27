@@ -11,9 +11,9 @@ stan_init(data, chains, model, pool_pops = TRUE)
 
 \item{chains}{A positive integer specifying the number of Markov chains.}
 
-\item{model}{One of \code{"IPM"} or \code{"RR"}, indicating whether to fit an integrated or run-reconstruction model.}
+\item{model}{One of \code{"IPM"}, \code{"RR"}, or \code{"IPM_F"}, indicating whether the data are intended for an integrated or run-reconstruction model or the integrated "harvest" model.}
 
-\item{pool_pops}{Logical, with default \code{TRUE}, indicating whether or not to treat the different populations as hierarchical rather than fixed/independent.}
+\item{pool_pops}{Logical, with default \code{TRUE}, indicating whether or not to treat the different populations as hierarchical rather than fixed/independent. Must be TRUE if model == "IPM_F".}
 }
 \value{
 A list with initial starting values for all of the parameters and states in the Stan model.

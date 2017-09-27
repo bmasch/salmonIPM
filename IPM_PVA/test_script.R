@@ -8,6 +8,7 @@ library(rethinking)
 
 # Load data
 fish_data <- read.table(file.path("~", "SalmonIPM", "IPM_PVA", "fish_data.txt"), sep = "\t", header = T)
+fish_data <- fish_data[fish_data$year >= 1960,]
 
 # Impute one NA value of S_tot_obs in Chamberlain 1986
 fish_data$S_tot_obs[fish_data$pop == "Chamberlain" & fish_data$year == 1986] <- 
@@ -22,6 +23,10 @@ fish_data$Aw <- IP$Aw[match(fish_data$code, IP$code)]
 fish_data2 <- fish_data
 fish_data2$A <- 1
 
+# Load catch data by year
+catch_data0 <- read.table(file.path("~", "SalmonIPM", "IPM_PVA", "catch_data.txt"), sep = "\t", header = T)
+catch_data <- catch_data0[catch_data0$year %in% fish_data$year,]
+catch_data <- catch_data[order(catch_data$year),]
 
 #-----------------
 # FIT MODELS
@@ -172,6 +177,26 @@ for(i in 1:24)
 
 windows()
 pairs(sapply(c("a[13]","Rmax[13]","sigma_proc[13]","sigma_obs[13]"), function(v) extract1(IPM_fix,v)), log = "xy")
+
+
+# Fit extended "harvest" IPM
+IPM_F_fit <- salmonIPM(fish_data = fish_data, catch_data = catch_data, model = "IPM_F", 
+                     pars = c("mu_log_a","sigma_log_a","a",
+                              "mu_log_Rmax","sigma_log_Rmax","Rmax","rho_log_aRmax",
+                              "sigma_log_phi","rho_log_phi","phi",
+                              "mu_p","sigma_gamma","R_gamma","gamma",
+                              "sigma_alr_p","R_alr_p","p","sigma_proc","sigma_obs",
+                              "c1","c2","F_rate", "sigma_log_C",
+                              "S_tot","S_W_tot","S_H_tot","R_tot_hat","R_tot"),
+                     chains = 3, iter = 2000, warmup = 1000, 
+                     control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+
+print(IPM_F_fit, pars = c("mu_log_a","sigma_log_a",
+                        "mu_log_Rmax","sigma_log_Rmax","rho_log_aRmax",
+                        "sigma_log_phi","rho_log_phi",
+                        "mu_p","sigma_gamma","R_gamma","gamma","c1","c2","F_rate","sigma_log_C",
+                        "sigma_alr_p","R_alr_p","sigma_proc","sigma_obs"))
+launch_shinystan(IPM_F_fit)
 
 
 
