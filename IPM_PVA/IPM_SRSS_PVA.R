@@ -611,7 +611,7 @@ rm(list = c("pop","S_tot_RR","S_tot_IPM","qet","year","pqe_RR","pqe_IPM"))
 #------------------------------------------------------------------------------
 
 dev.new(width = 7, height = 8)
-png(filename="Fig_5.png", width=7, height=8, units="in", res=200, type="cairo-png")
+# png(filename="Fig_5.png", width=7, height=8, units="in", res=200, type="cairo-png")
 layout(matrix(c(2,1)), heights = c(1.5,7))
 
 mu_log_a_RR <- extract1(PVA_RR_pp,"mu_log_a")
@@ -660,7 +660,7 @@ text(8, max(F1)*1.5, "pre-1980 harvest", pos = 4, cex = 1.2)
 rm(list = c("mu_log_a_RR","mu_log_a_IPM","Umax_ESU_RR","Umax_ESU_IPM",
             "a_RR","Umax_pop_RR","a_IPM","Umax_pop_IPM","c1","c1t","c2","c2t","bins","F1","F2"))
 
-dev.off()
+# dev.off()
 
 
 #------------------------------------------------------------------------------------
