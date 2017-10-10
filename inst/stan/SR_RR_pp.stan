@@ -81,7 +81,7 @@ transformed parameters {
   phi[1] = log_phi_z[1]*sigma_log_phi/sqrt(1 - rho_log_phi^2); # initial anomaly
   for(i in 2:N_year)
     phi[i] = rho_log_phi*phi[i-1] + log_phi_z[i]*sigma_log_phi;
-  phi = exp(phi);
+  phi = exp(phi - mean(phi));  # constrain log anomalies to sum to zero
 
   # Predict recruitment
   R_hat = rep_vector(0,N);

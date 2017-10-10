@@ -1,0 +1,1243 @@
+pop	old_name	code	MPG	A	year	fit_p_HOS	category	period	S_tot_obs	n_age3_obs	n_age4_obs	n_age5_obs	n_H_obs	n_W_obs	p_HOS	B_take_obs	F_rate
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1955	0	impact	before	122	7	33	11	0	50	0	0	0
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1956	0	impact	before	2606	5	34	12	0	50	0	0	0
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1957	0	impact	before	1754	4	36	11	0	50	0	0	0
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1958	0	impact	before	486	3	42	5	0	50	0	0	0.79
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1959	0	impact	before	712	4	38	9	0	50	0	0	0.7
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1960	0	impact	before	3161	3	41	6	0	50	0	0	0.6
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1961	0	impact	before	347	9	35	7	0	50	0	0	0.57
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1962	0	impact	before	1146	3	39	8	0	50	0	0	0.74
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1963	0	impact	before	313	9	25	17	0	50	0	0	0.67
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1964	0	impact	before	208	6	37	7	0	50	0	0	0.85
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1965	0	impact	before	770	2	46	2	0	50	0	0	0.66
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1966	0	impact	before	626	10	37	4	0	50	0	0	0.8
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1967	0	impact	before	1625	8	26	16	0	50	0	0	0.59
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1968	0	impact	before	822	6	36	8	0	50	0	0	0.45
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1969	0	impact	before	1882	2	49	0	0	50	0	0	0.39
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1970	0	impact	before	992	4	43	4	0	50	0	0	0.44
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1971	0	impact	before	2319	3	45	3	0	50	0	0	0.35
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1972	0	impact	before	1106	1	37	11	0	50	0	0	0.5
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1973	0	impact	before	1855	1	41	9	0	50	0	0	0.61
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1974	0	impact	before	753	1	38	12	0	50	0	0	0.37
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1975	0	impact	before	399	5	17	28	0	50	0	0	0
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1976	0	impact	before	1028	3	39	9	0	50	0	0	0.01
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1977	0	impact	before	104	0	0	0	0	50	0	0	0.78
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1978	0	impact	before	878	0	7	44	0	50	0	0	0.06
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1979	0	impact	before	579	0	0	0	0	50	0	0	0.04
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1980	0	impact	before	1034	0	0	0	0	50	0	0	0.03
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1981	0	impact	before	275	0	0	0	0	50	0	0	0.07
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1982	0	impact	before	745	0	0	0	0	50	0	0	0.09
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1983	0	impact	before	733	0	6	44	0	50	0	0	0.09
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1984	0	impact	before	378	0	35	16	0	50	0	0	0.1
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1985	0	impact	before	386	2	37	12	0	50	0	0	0.07
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1986	1	impact	nonlocal	399	2	32	17	10	40	0.2	0	0.08
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1987	1	impact	nonlocal	685	1	47	2	39	11	0.78	0	0.08
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1988	1	impact	nonlocal	690	1	30	20	38	12	0.76	0	0.14
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1989	1	impact	nonlocal	191	0	35	15	31	19	0.62	0	0.1
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1990	1	impact	nonlocal	145	0	0	0	50	0	1	0	0.12
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1991	1	impact	nonlocal	64	6	21	24	44	7	0.87	0	0.1
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1992	1	impact	nonlocal	162	0	42	8	38	13	0.75	0	0.08
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1993	1	impact	nonlocal	268	4	4	43	30	20	0.6	0	0.07
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1994	1	impact	nonlocal	28	0	20	31	25	25	0.5	0	0.1
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1995	0	impact	post	38	5	45	0	0	50	0	0	0.05
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1996	0	impact	post	35	2	48	1	0	50	0	0	0.05
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1997	0	impact	post	103	3	41	6	0	50	0	0	0.07
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1998	0	impact	post	91	0	11	40	0	50	0	0	0.06
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	1999	0	impact	post	43	0	49	1	0	50	0	0	0.04
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	2000	0	impact	post	58	6	38	6	0	50	0	2	0.06
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	2001	1	impact	local	512	3	43	4	12	39	0.23	25	0.15
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	2002	1	impact	local	430	2	37	12	25	25	0.5	39	0.13
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	2003	1	impact	local	424	0	13	37	30	21	0.59	53	0.09
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	2004	1	impact	local	215	3	39	8	42	9	0.83	19	0.11
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	2005	1	impact	local	143	4	37	9	37	13	0.74	9	0.08
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	2006	1	impact	local	251	5	45	1	32	19	0.63	21	0.08
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	2007	1	impact	local	171	6	27	18	36	15	0.71	31	0.09
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	2008	1	impact	local	216	4	42	5	33	18	0.65	18	0.15
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	2009	1	impact	local	276	14	28	7	27	23	0.54	35	0.09
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	2010	1	impact	local	979	3	46	1	26	24	0.52	28	0.15
+Catherine	CathCr	GRCAT	Grande Ronde / Imnaha	29.1522	2011	1	impact	local	1674	8	34	8	33	18	0.65	39	0.09
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1959	0	impact	before	657	4	38	9	0	50	0	0	0.65
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1960	0	impact	before	606	7	38	6	0	50	0	0	0.58
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1961	0	impact	before	281	7	36	7	0	50	0	0	0.5
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1962	0	impact	before	338	15	28	8	0	50	0	0	0.63
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1963	0	impact	before	1104	5	27	19	0	50	0	0	0.62
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1964	0	impact	before	1585	4	38	8	0	50	0	0	0.59
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1965	0	impact	before	956	8	41	2	0	50	0	0	0.74
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1966	0	impact	before	1284	9	30	11	0	50	0	0	0.44
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1967	0	impact	before	1106	6	23	21	0	50	0	0	0.58
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1968	0	impact	before	1152	1	25	24	0	50	0	0	0.52
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1969	0	impact	before	914	2	31	18	0	50	0	0	0.38
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1970	0	impact	before	813	0	39	12	0	50	0	0	0.44
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1971	0	impact	before	797	9	32	9	0	50	0	0	0.33
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1972	0	impact	before	1169	3	8	40	0	50	0	0	0.53
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1973	0	impact	before	1263	0	23	27	0	50	0	0	0.54
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1974	0	impact	before	947	0	25	25	0	50	0	0	0.37
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1975	0	impact	before	328	0	19	31	0	50	0	0	0
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1976	0	impact	before	664	3	39	9	0	50	0	0	0.22
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1977	0	impact	before	221	3	29	18	0	50	0	0	0.34
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1978	0	impact	before	1097	0	4	46	0	50	0	0	0.06
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1979	0	impact	before	157	0	0	0	0	50	0	0	0.12
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1980	0	impact	before	155	0	0	0	0	50	0	0	0.03
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1981	0	impact	before	76	0	0	0	0	50	0	0	0.07
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1982	0	impact	before	520	0	0	0	0	50	0	0	0.09
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1983	0	impact	before	375	0	6	44	0	50	0	0	0.09
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1984	0	impact	before	492	0	35	16	0	50	0	0	0.1
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1985	0	impact	before	675	2	37	12	0	50	0	0	0.07
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1986	1	impact	nonlocal	419	1	32	18	12	39	0.23	0	0.08
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1987	1	impact	nonlocal	640	0	33	18	16	34	0.32	0	0.08
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1988	1	impact	nonlocal	975	0	13	38	23	28	0.45	0	0.14
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1989	1	impact	nonlocal	296	4	29	17	38	12	0.76	0	0.1
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1990	1	impact	nonlocal	95	0	38	13	20	30	0.4	0	0.12
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1991	1	impact	nonlocal	163	0	11	40	18	33	0.35	0	0.1
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1992	1	impact	nonlocal	196	0	38	12	38	13	0.75	0	0.08
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1993	1	impact	nonlocal	501	0	10	40	26	25	0.51	0	0.07
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1994	1	impact	nonlocal	67	0	20	31	13	38	0.25	0	0.1
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1995	1	impact	local	37	5	45	0	0	50	0	0	0.05
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1996	1	impact	local	96	2	45	2	0	50	0	0	0.05
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1997	1	impact	local	195	4	45	2	3	48	0.05	0	0.07
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1998	1	impact	local	185	5	42	4	0	50	0	0	0.06
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	1999	1	impact	local	95	0	48	2	4	46	0.08	1	0.04
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	2000	1	impact	local	231	6	41	3	9	42	0.17	22	0.06
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	2001	1	impact	local	651	1	45	5	12	39	0.23	68	0.21
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	2002	1	impact	local	861	2	40	9	27	24	0.53	53	0.13
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	2003	1	impact	local	818	3	20	27	25	26	0.49	41	0.09
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	2004	1	impact	local	858	5	40	6	39	12	0.77	46	0.11
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	2005	1	impact	local	678	6	35	8	38	13	0.75	34	0.1
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	2006	1	impact	local	480	4	40	7	32	18	0.64	34	0.09
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	2007	1	impact	local	391	0	34	16	34	17	0.67	43	0.23
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	2008	1	impact	local	1480	4	40	6	36	14	0.72	42	0.17
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	2009	1	impact	local	1095	5	39	6	29	22	0.57	46	0.16
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	2010	1	impact	local	4065	4	43	3	37	14	0.73	43	0.18
+Lostine	Lostine	GRLOS	Grande Ronde / Imnaha	74.6631	2011	1	impact	local	3688	11	29	11	34	17	0.67	56	0.12
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1954	0	impact	before	794	5	30	15	0	50	0	0	0
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1955	0	impact	before	1082	7	33	11	0	50	0	0	0
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1956	0	impact	before	2020	12	29	10	0	50	0	0	0
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1957	0	impact	before	4104	4	36	11	0	50	0	0	0.54
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1958	0	impact	before	305	3	42	5	0	50	0	0	0.77
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1959	0	impact	before	1984	4	38	9	0	50	0	0	0.63
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1960	0	impact	before	898	7	38	6	0	50	0	0	0.57
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1961	0	impact	before	438	7	36	7	0	50	0	0	0.47
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1962	0	impact	before	1474	6	32	13	0	50	0	0	0.6
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1963	0	impact	before	778	5	28	18	0	50	0	0	0.6
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1964	0	impact	before	1003	11	32	6	0	50	0	0	0.54
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1965	0	impact	before	869	8	41	2	0	50	0	0	0.64
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1966	0	impact	before	822	4	42	4	0	50	0	0	0.43
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1967	0	impact	before	305	8	26	16	0	50	0	0	0.55
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1968	0	impact	before	657	10	37	4	0	50	0	0	0.42
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1969	0	impact	before	931	4	41	6	0	50	0	0	0.48
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1970	0	impact	before	942	6	35	10	0	50	0	0	0.49
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1971	0	impact	before	652	7	41	3	0	50	0	0	0.34
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1972	0	impact	before	871	4	39	7	0	50	0	0	0.5
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1973	0	impact	before	683	2	40	9	0	50	0	0	0.55
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1974	0	impact	before	459	2	36	11	0	50	0	0	0.37
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1975	0	impact	before	377	0	19	31	0	50	0	0	0
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1976	0	impact	before	547	3	39	9	0	50	0	0	0.01
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1977	0	impact	before	267	4	34	13	0	50	0	0	0.38
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1978	0	impact	before	1446	0	7	44	0	50	0	0	0.06
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1979	0	impact	before	92	0	0	0	0	50	0	0	0.04
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1980	0	impact	before	102	0	0	0	0	50	0	0	0.03
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1981	0	impact	before	140	0	0	0	0	50	0	0	0.07
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1982	0	impact	before	228	0	0	0	0	50	0	0	0.09
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1983	0	impact	before	216	0	6	44	0	50	0	0	0.09
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1984	0	impact	before	233	0	35	16	0	50	0	0	0.1
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1985	0	impact	before	1209	2	37	12	0	50	0	0	0.07
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1986	1	impact	nonlocal	655	1	32	18	25	25	0.5	0	0.08
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1987	1	impact	nonlocal	908	1	43	7	25	25	0.5	0	0.08
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1988	1	impact	nonlocal	868	2	18	31	19	32	0.37	0	0.14
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1989	1	impact	nonlocal	319	2	36	12	0	50	0	0	0.1
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1990	1	impact	nonlocal	528	0	38	13	28	22	0.56	0	0.12
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1991	1	impact	nonlocal	399	1	24	24	19	31	0.38	0	0.1
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1992	1	impact	nonlocal	394	0	37	13	45	5	0.9	0	0.08
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1993	1	impact	nonlocal	415	0	18	33	22	28	0.44	0	0.07
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1994	1	impact	nonlocal	54	0	20	31	22	28	0.44	0	0.1
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1995	1	impact	nonlocal	70	5	45	0	0	50	0	0	0.05
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1996	1	impact	nonlocal	311	2	48	0	3	48	0.05	0	0.05
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1997	1	impact	nonlocal	188	1	45	4	2	48	0.04	0	0.07
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1998	1	impact	nonlocal	209	0	11	40	0	50	0	0	0.06
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	1999	1	impact	nonlocal	149	0	30	20	3	48	0.05	0	0.04
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	2000	1	impact	nonlocal	461	2	48	0	2	49	0.03	0	0.06
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	2001	1	impact	nonlocal	608	2	36	12	3	47	0.06	0	0.15
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	2002	1	impact	nonlocal	664	1	39	11	1	50	0.01	0	0.13
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	2003	1	impact	nonlocal	559	1	13	37	1	50	0.01	0	0.09
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	2004	1	impact	nonlocal	493	0	44	7	1	50	0.01	0	0.11
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	2005	1	impact	nonlocal	348	7	34	9	0	50	0	0	0.08
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	2006	1	impact	nonlocal	448	2	39	10	0	50	0	0	0.08
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	2007	1	impact	nonlocal	313	0	21	29	0	50	0	0	0.09
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	2008	1	impact	nonlocal	553	0	38	12	6	44	0.12	0	0.15
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	2009	1	impact	nonlocal	765	5	32	14	0	50	0	0	0.09
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	2010	1	impact	nonlocal	941	2	48	1	18	33	0.35	0	0.15
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	2011	1	impact	nonlocal	842	5	40	6	9	42	0.17	0	0.09
+Minam	Minam	GRMIN	Grande Ronde / Imnaha	37.7946	2012	1	impact	nonlocal	652	2	42	6	5	46	0.09	0	0.11
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1959	0	impact	before	179	4	38	9	0	50	0	0	0.74
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1960	0	impact	before	346	7	38	6	0	50	0	0	0.58
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1961	0	impact	before	579	7	36	7	0	50	0	0	0.49
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1962	0	impact	before	973	6	36	8	0	50	0	0	0.66
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1963	0	impact	before	115	5	28	18	0	50	0	0	0.73
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1964	0	impact	before	550	6	40	5	0	50	0	0	0.62
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1965	0	impact	before	620	8	41	2	0	50	0	0	0.71
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1966	0	impact	before	508	4	42	4	0	50	0	0	0.57
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1967	0	impact	before	768	8	26	16	0	50	0	0	0.59
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1968	0	impact	before	1014	17	28	6	0	50	0	0	0.47
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1969	0	impact	before	1029	9	38	4	0	50	0	0	0.4
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1970	0	impact	before	418	4	43	3	0	50	0	0	0.48
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1971	0	impact	before	644	7	41	3	0	50	0	0	0.35
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1972	0	impact	before	612	3	28	20	0	50	0	0	0.51
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1973	0	impact	before	252	2	40	9	0	50	0	0	0.56
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1974	0	impact	before	278	2	36	11	0	50	0	0	0.37
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1975	0	impact	before	220	0	19	31	0	50	0	0	0
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1976	0	impact	before	324	3	39	9	0	50	0	0	0.01
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1977	0	impact	before	593	4	34	13	0	50	0	0	0.35
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1978	0	impact	before	217	0	7	44	0	50	0	0	0.06
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1979	0	impact	before	25	4	34	13	0	50	0	0	0.04
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1980	0	impact	before	165	4	34	13	0	50	0	0	0.03
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1981	0	impact	before	224	4	34	13	0	50	0	0	0.07
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1982	0	impact	before	161	4	34	13	0	50	0	0	0.09
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1983	0	impact	before	190	0	6	44	0	50	0	0	0.09
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1984	0	impact	before	150	0	35	16	0	50	0	0	0.1
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1985	0	impact	before	345	2	37	12	0	50	0	0	0.07
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1986	1	impact	nonlocal	214	1	32	18	7	43	0.14	0	0.08
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1987	1	impact	nonlocal	707	0	49	1	41	9	0.82	0	0.08
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1988	1	impact	nonlocal	554	2	22	27	46	4	0.92	0	0.14
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1989	1	impact	nonlocal	3	2	36	12	50	0	1	0	0.1
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1990	1	impact	nonlocal	106	0	38	13	25	25	0.5	0	0.12
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1991	1	impact	nonlocal	45	1	24	24	20	30	0.4	0	0.1
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1992	1	impact	nonlocal	394	0	46	5	40	11	0.79	0	0.08
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1993	1	impact	nonlocal	333	0	4	47	39	12	0.77	0	0.07
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1994	1	impact	nonlocal	13	0	20	31	34	17	0.67	0	0.1
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1995	0	impact	post	22	5	45	0	0	50	0	0	0.05
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1996	0	impact	post	70	2	48	1	0	50	0	0	0.05
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1997	0	impact	post	61	2	42	7	0	50	0	0	0.07
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1998	0	impact	post	83	0	14	37	0	50	0	4	0.06
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	1999	0	impact	post	4	0	49	1	0	50	0	0	0.04
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	2000	0	impact	post	46	2	48	0	0	50	0	8	0.06
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	2001	0	impact	post	50	0	49	2	0	50	0	10	0.15
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	2002	0	impact	post	54	0	36	14	3	48	0.05	51	0.13
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	2003	1	impact	local	174	1	2	48	10	41	0.19	61	0.09
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	2004	1	impact	local	590	6	44	0	48	3	0.95	15	0.11
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	2005	1	impact	local	319	3	38	10	48	2	0.96	7	0.08
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	2006	1	impact	local	56	6	41	4	26	24	0.52	28	0.08
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	2007	1	impact	local	17	4	35	11	8	42	0.16	17	0.09
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	2008	1	impact	local	419	16	32	2	43	8	0.85	9	0.15
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	2009	1	impact	local	219	7	36	7	42	8	0.84	57	0.09
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	2010	1	impact	local	2137	4	42	5	48	3	0.95	35	0.16
+Upper Grande Ronde	GrandRUpperMain	GRUMA	Grande Ronde / Imnaha	32.2713	2011	1	impact	local	1342	4	32	14	45	5	0.9	10	0.09
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1964	0	impact	before	1586	6	37	7	0	50	0	0	0.55
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1965	0	impact	before	759	8	41	2	0	50	0	0	0.65
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1966	0	impact	before	2672	4	42	4	0	50	0	0	0.39
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1967	0	impact	before	1778	2	30	19	0	50	0	0	0.53
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1968	0	impact	before	1230	22	24	5	0	50	0	0	0.41
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1969	0	impact	before	2442	4	42	5	0	50	0	0	0.38
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1970	0	impact	before	2682	2	44	3	0	50	0	0	0.44
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1971	0	impact	before	1576	5	42	3	0	50	0	0	0.36
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1972	0	impact	before	682	1	29	21	0	50	0	0	0.49
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1973	0	impact	before	1971	1	41	9	0	50	0	0	0.54
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1974	0	impact	before	471	2	36	11	0	50	0	0	0.37
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1975	0	impact	before	288	0	19	31	0	50	0	0	0
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1976	0	impact	before	192	3	39	9	0	50	0	0	0.01
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1977	0	impact	before	577	1	32	18	0	50	0	0	0.3
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1978	0	impact	before	740	0	7	44	0	50	0	0	0.06
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1979	0	impact	before	48	0	0	0	0	50	0	0	0.16
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1980	0	impact	before	231	0	0	0	0	50	0	0	0.06
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1981	0	impact	before	192	0	0	0	0	50	0	0	0.07
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1982	0	impact	before	260	0	0	0	0	50	0	0	0.09
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1983	0	impact	before	221	0	6	44	0	50	0	0	0.09
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1984	0	impact	before	115	0	35	16	0	50	0	0	0.1
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1985	0	impact	before	346	2	37	12	0	50	0	0	0.07
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1986	0	impact	before	654	0	0	0	0	50	0	0	0.08
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1987	1	impact	nonlocal	552	0	43	7	46	5	0.91	0	0.08
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1988	1	impact	nonlocal	610	0	8	42	36	14	0.72	0	0.14
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1989	1	impact	nonlocal	65	3	33	14	13	38	0.25	0	0.1
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1990	1	impact	nonlocal	302	0	37	13	39	11	0.78	0	0.12
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1991	1	impact	nonlocal	272	2	23	26	34	17	0.67	0	0.1
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1992	1	impact	nonlocal	636	1	35	13	46	5	0.91	0	0.08
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1993	1	impact	nonlocal	337	0	10	41	23	27	0.46	0	0.07
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1994	1	impact	nonlocal	150	0	20	31	40	10	0.8	0	0.1
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1995	1	impact	nonlocal	85	5	45	0	17	34	0.33	0	0.05
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1996	1	impact	nonlocal	433	3	47	1	1	49	0.02	0	0.05
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1997	1	impact	nonlocal	281	1	35	15	2	49	0.03	0	0.07
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1998	1	impact	nonlocal	258	1	27	22	1	49	0.02	0	0.06
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	1999	1	impact	nonlocal	84	1	37	12	8	43	0.15	0	0.04
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	2000	1	impact	nonlocal	471	2	49	0	2	49	0.03	0	0.06
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	2001	1	impact	nonlocal	899	2	40	9	8	43	0.15	0	0.15
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	2002	1	impact	nonlocal	685	0	39	12	0	50	0	0	0.13
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	2003	1	impact	nonlocal	541	0	11	40	0	50	0	0	0.09
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	2004	1	impact	nonlocal	676	3	45	3	1	49	0.02	0	0.11
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	2005	1	impact	nonlocal	478	2	42	7	2	49	0.03	0	0.08
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	2006	1	impact	nonlocal	359	2	43	6	0	50	0	0	0.08
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	2007	1	impact	nonlocal	293	0	23	28	2	48	0.04	0	0.09
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	2008	1	impact	nonlocal	365	4	38	8	3	47	0.06	0	0.15
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	2009	1	impact	nonlocal	348	8	31	12	0	50	0	0	0.09
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	2010	1	impact	nonlocal	692	2	43	5	7	43	0.14	0	0.15
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	2011	1	impact	nonlocal	845	2	37	12	15	35	0.3	0	0.09
+Wenaha	Wenaha	GRWEN	Grande Ronde / Imnaha	49.2735	2012	1	impact	nonlocal	658	2	36	13	7	43	0.14	0	0.11
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1952	0	impact	before	3574	0	0	0	0	50	0	0	0
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1953	0	impact	before	2920	0	0	0	0	50	0	0	0
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1954	0	impact	before	3054	0	0	0	0	50	0	0	0
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1955	0	impact	before	5856	0	0	0	0	50	0	0	0
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1956	0	impact	before	1728	0	0	0	0	50	0	0	0
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1957	0	impact	before	6267	0	0	0	0	50	0	0	0.47
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1958	0	impact	before	1399	0	0	0	0	50	0	0	0.63
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1959	0	impact	before	965	0	0	0	0	50	0	0	0.67
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1960	0	impact	before	2710	0	0	0	0	50	0	0	0.54
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1961	0	impact	before	1854	0	0	0	0	50	0	0	0.49
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1962	0	impact	before	2081	0	0	0	0	50	0	0	0.45
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1963	0	impact	before	1116	0	0	0	0	50	0	0	0.51
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1964	0	impact	before	2097	0	0	0	0	50	0	0	0.39
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1965	0	impact	before	1586	0	0	0	0	50	0	0	0.4
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1966	0	impact	before	1871	0	0	0	0	50	0	0	0.23
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1967	0	impact	before	1804	0	0	0	0	50	0	0	0.34
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1968	0	impact	before	2022	0	0	0	0	50	0	0	0.29
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1969	0	impact	before	2534	0	0	0	0	50	0	0	0.25
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1970	0	impact	before	1477	0	0	0	0	50	0	0	0.3
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1971	0	impact	before	3071	0	0	0	0	50	0	0	0.27
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1972	0	impact	before	2819	0	0	0	0	50	0	0	0.33
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1973	0	impact	before	4363	0	0	0	0	50	0	0	0.37
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1974	0	impact	before	2324	0	0	0	0	50	0	0	0.19
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1975	0	impact	before	1250	0	0	0	0	50	0	0	0
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1976	0	impact	before	1065	0	0	0	0	50	0	0	0
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1977	0	impact	before	1200	0	0	0	0	50	0	0	0.24
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1978	0	impact	before	3482	0	0	0	0	50	0	0	0.05
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1979	0	impact	before	436	0	0	0	0	50	0	0	0.04
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1980	0	impact	before	336	0	0	0	0	50	0	0	0.04
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1981	0	impact	before	831	0	0	0	0	50	0	0	0.06
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1982	0	impact	before	1082	0	0	0	0	50	0	28	0.07
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1983	0	impact	before	797	0	0	0	0	50	0	64	0.06
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1984	0	impact	before	948	0	0	0	0	50	0	36	0.06
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1985	1	impact	local	1592	11	33	6	4	46	0.08	115	0.06
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1986	1	impact	local	769	4	32	15	3	47	0.06	315	0.06
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1987	1	impact	local	503	2	36	13	5	45	0.1	83	0.07
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1988	1	impact	local	704	4	9	38	8	43	0.15	140	0.09
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1989	1	impact	local	347	10	22	19	14	37	0.27	105	0.05
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1990	1	impact	local	387	4	34	13	25	26	0.49	81	0.06
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1991	1	impact	local	493	4	27	20	28	23	0.55	51	0.06
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1992	1	impact	local	758	3	31	17	38	12	0.76	54	0.04
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1993	1	impact	local	1106	2	14	35	31	20	0.61	58	0.05
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1994	1	impact	local	258	0	24	27	22	28	0.44	20	0.05
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1995	1	impact	local	313	29	20	2	22	28	0.44	38	0.04
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1996	1	impact	local	386	2	42	6	12	38	0.24	72	0.04
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1997	1	impact	local	469	2	35	13	33	18	0.65	23	0.04
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1998	1	impact	local	387	2	19	30	27	24	0.53	76	0.04
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	1999	1	impact	local	864	4	36	11	25	25	0.5	21	0.03
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	2000	1	impact	local	1277	18	29	4	26	25	0.51	48	0.03
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	2001	1	impact	local	2295	2	42	7	25	26	0.49	107	0.13
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	2002	1	impact	local	2875	1	29	21	31	19	0.62	43	0.16
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	2003	1	impact	local	2811	3	21	26	25	26	0.49	66	0.15
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	2004	1	impact	local	1462	10	30	11	33	18	0.65	63	0.21
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	2005	1	impact	local	748	5	33	13	33	18	0.65	63	0.08
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	2006	1	impact	local	727	2	44	5	35	16	0.69	56	0.05
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	2007	1	impact	local	750	10	21	20	40	11	0.79	49	0.09
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	2008	1	impact	local	1936	21	25	5	43	7	0.86	63	0.19
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	2009	1	impact	local	1947	17	27	6	39	11	0.78	82	0.22
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	2010	1	impact	local	2744	9	38	4	37	14	0.73	77	0.28
+Imnaha	Imnaha	IRMAI	Grande Ronde / Imnaha	57.2092	2011	1	impact	local	2266	8	34	9	31	20	0.61	81	0.4
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1957	0	control	control	2004	0	0	0	0	50	0	0	0.62
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1958	0	control	control	1270	0	0	0	0	50	0	0	0.75
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1959	0	control	control	1588	0	0	0	0	50	0	0	0.69
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1960	0	control	control	1386	12	106	41	0	50	0	0	0.71
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1961	0	control	control	2377	51	417	533	0	50	0	0	0.58
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1962	0	control	control	1722	21	381	415	0	50	0	0	0.69
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1963	0	control	control	2109	19	164	378	0	50	0	0	0.71
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1964	0	control	control	1895	19	191	236	0	50	0	0	0.62
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1965	0	control	control	954	31	151	190	0	50	0	0	0.64
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1966	0	control	control	2004	32	408	561	0	50	0	0	0.49
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1967	0	control	control	1637	56	153	504	0	50	0	0	0.58
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1968	0	control	control	2001	32	332	308	0	50	0	0	0.49
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1969	0	control	control	1334	17	223	212	0	50	0	0	0.47
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1970	0	control	control	1204	9	133	297	0	50	0	0	0.49
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1971	0	control	control	532	13	96	121	0	50	0	0	0.39
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1972	0	control	control	820	2	118	128	0	50	0	0	0.55
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1973	0	control	control	1442	5	55	512	0	50	0	0	0.61
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1974	0	control	control	450	2	76	113	0	50	0	0	0.41
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1975	0	control	control	727	0	8	37	0	50	0	0	0
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1976	0	control	control	259	1	5	8	0	50	0	0	0.01
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1977	0	control	control	407	0	137	55	0	50	0	0	0.36
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1978	0	control	control	742	0	28	268	0	50	0	0	0.18
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1979	0	control	control	223	0	3	14	0	50	0	0	0.04
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1980	0	control	control	44	0	4	7	0	50	0	0	0.03
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1981	0	control	control	157	0	9	6	0	50	0	0	0.07
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1982	0	control	control	91	0	0	0	0	50	0	0	0.09
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1983	0	control	control	178	0	0	0	0	50	0	0	0.09
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1984	0	control	control	155	0	0	0	0	50	0	0	0.1
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1985	0	control	control	307	0	7	10	0	50	0	0	0.07
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1986	0	control	control	244	5	43	62	0	50	0	0	0.08
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1987	0	control	control	475	0	17	27	0	50	0	0	0.08
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1988	0	control	control	1160	0	27	146	0	50	0	0	0.14
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1989	0	control	control	95	0	3	6	0	50	0	0	0.1
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1990	0	control	control	197	0	4	4	0	50	0	0	0.12
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1991	0	control	control	191	0	3	9	0	50	0	0	0.1
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1992	0	control	control	185	0	15	18	0	50	0	0	0.08
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1993	0	control	control	738	0	30	178	0	50	0	0	0.07
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1994	0	control	control	34	0	2	4	0	50	0	0	0.1
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1995	0	control	control	17	0	0	0	0	50	0	0	0.05
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1996	0	control	control	61	1	18	7	0	50	0	0	0.05
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1997	0	control	control	235	0	16	14	0	50	0	0	0.07
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1998	0	control	control	392	0	3	71	0	50	0	0	0.06
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	1999	0	control	control	81	3	11	4	0	50	0	0	0.04
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	2000	0	control	control	326	0	22	5	0	50	0	0	0.06
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	2001	0	control	control	740	0	81	19	0	50	0	0	0.15
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	2002	0	control	control	1177	1	28	41	0	50	0	0	0.13
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	2003	0	control	control	1315	0	3	78	0	50	0	0	0.09
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	2004	0	control	control	343	2	59	5	0	50	0	0	0.11
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	2005	0	control	control	307	0	24	28	0	50	0	0	0.08
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	2006	0	control	control	159	0	14	7	0	50	0	0	0.08
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	2007	0	control	control	312	2	17	84	0	50	0	0	0.09
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	2008	0	control	control	437	2	35	33	0	50	0	0	0.15
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	2009	0	control	control	502	8	74	23	0	50	0	0	0.09
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	2010	0	control	control	791	7	89	34	0	50	0	0	0.15
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	2011	0	control	control	757	4	63	43	0	50	0	0	0.09
+Bear Valley	BearValley	MFBEA	Middle Fork Salmon River	75.6181	2012	0	control	control	941	3	49	94	0	50	0	0	0.11
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1957	0	control	control	1097	0	0	0	0	50	0	0	0.62
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1958	0	control	control	463	0	0	0	0	50	0	0	0.75
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1959	0	control	control	429	0	0	0	0	50	0	0	0.69
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1960	0	control	control	756	1	21	8	0	50	0	0	0.71
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1961	0	control	control	1839	25	76	71	0	50	0	0	0.58
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1962	0	control	control	1088	7	34	30	0	50	0	0	0.69
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1963	0	control	control	722	7	33	44	0	50	0	0	0.71
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1964	0	control	control	249	5	17	21	0	50	0	0	0.62
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1965	0	control	control	356	1	9	11	0	50	0	0	0.64
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1966	0	control	control	600	0	0	0	0	50	0	0	0.49
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1967	0	control	control	327	9	28	42	0	50	0	0	0.58
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1968	0	control	control	439	7	18	13	0	50	0	0	0.49
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1969	0	control	control	317	1	10	15	0	50	0	0	0.47
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1970	0	control	control	332	1	8	25	0	50	0	0	0.49
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1971	0	control	control	156	1	4	5	0	50	0	0	0.39
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1972	0	control	control	293	0	5	7	0	50	0	0	0.55
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1973	0	control	control	468	0	0	0	0	50	0	0	0.61
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1974	0	control	control	137	0	13	12	0	50	0	0	0.41
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1975	0	control	control	376	0	3	13	0	50	0	0	0
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1976	0	control	control	107	0	0	0	0	50	0	0	0.01
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1977	0	control	control	44	0	5	2	0	50	0	0	0.36
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1978	0	control	control	463	0	1	27	0	50	0	0	0.18
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1979	0	control	control	73	0	1	4	0	50	0	0	0.04
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1980	0	control	control	20	0	1	1	0	50	0	0	0.03
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1981	0	control	control	107	0	0	0	0	50	0	0	0.07
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1982	0	control	control	34	0	0	0	0	50	0	0	0.09
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1983	0	control	control	132	1	3	4	0	50	0	0	0.09
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1984	0	control	control	205	1	7	10	0	50	0	0	0.1
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1985	0	control	control	341	0	2	2	0	50	0	0	0.07
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1986	0	control	control	327	0	8	27	0	50	0	0	0.08
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1987	0	control	control	176	0	3	5	0	50	0	0	0.08
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1988	0	control	control	493	0	19	49	0	50	0	0	0.14
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1989	0	control	control	146	0	5	10	0	50	0	0	0.1
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1990	0	control	control	107	0	8	9	0	50	0	0	0.12
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1991	0	control	control	63	0	3	8	0	50	0	0	0.1
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1992	0	control	control	98	0	19	9	0	50	0	0	0.08
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1993	0	control	control	273	1	5	21	0	50	0	0	0.07
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1994	0	control	control	15	0	2	2	0	50	0	0	0.1
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1995	0	control	control	10	0	0	1	0	50	0	0	0.05
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1996	0	control	control	5	0	0	0	0	50	0	0	0.05
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1997	0	control	control	161	0	0	0	0	50	0	0	0.07
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1998	0	control	control	73	0	0	0	0	50	0	0	0.06
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	1999	0	control	control	49	0	1	0	0	50	0	0	0.04
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	2000	0	control	control	63	0	0	0	0	50	0	0	0.06
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	2001	0	control	control	683	1	47	1	0	50	0	0	0.15
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	2002	0	control	control	551	0	14	19	0	50	0	0	0.13
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	2003	0	control	control	439	0	7	3	0	50	0	0	0.09
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	2004	0	control	control	244	0	18	6	0	50	0	0	0.11
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	2005	0	control	control	68	1	3	2	0	50	0	0	0.08
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	2006	0	control	control	44	0	1	2	0	50	0	0	0.08
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	2007	0	control	control	98	3	5	3	0	50	0	0	0.09
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	2008	0	control	control	205	0	5	2	0	50	0	0	0.15
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	2009	0	control	control	449	0	0	0	0	50	0	0	0.09
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	2010	0	control	control	224	2	31	5	0	50	0	0	0.15
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	2011	0	control	control	298	9	30	28	0	50	0	0	0.09
+Big	BigCr	MFBIG	Middle Fork Salmon River	140.545	2012	0	control	control	385	4	63	38	0	50	0	0	0.11
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1960	0	control	control	351	0	0	0	0	50	0	0	0.71
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1961	0	control	control	445	0	0	0	0	50	0	0	0.58
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1962	0	control	control	388	0	0	0	0	50	0	0	0.69
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1963	0	control	control	473	0	0	0	0	50	0	0	0.71
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1964	0	control	control	554	0	0	0	0	50	0	0	0.62
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1965	0	control	control	69	0	0	0	0	50	0	0	0.64
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1966	0	control	control	369	0	0	0	0	50	0	0	0.49
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1967	0	control	control	341	0	0	0	0	50	0	0	0.58
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1968	0	control	control	513	0	0	0	0	50	0	0	0.49
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1969	0	control	control	157	0	0	0	0	50	0	0	0.47
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1970	0	control	control	153	0	0	0	0	50	0	0	0.49
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1971	0	control	control	216	0	0	0	0	50	0	0	0.39
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1972	0	control	control	385	0	9	11	0	50	0	0	0.55
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1973	0	control	control	551	0	2	18	0	50	0	0	0.61
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1974	0	control	control	413	0	8	12	0	50	0	0	0.41
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1975	0	control	control	307	0	3	17	0	50	0	0	0
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1976	0	control	control	66	1	7	12	0	50	0	0	0.01
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1977	0	control	control	203	0	14	6	0	50	0	0	0.36
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1978	0	control	control	319	0	2	18	0	50	0	0	0.18
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1979	0	control	control	41	1	3	17	0	50	0	0	0.04
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1980	0	control	control	34	0	0	0	0	50	0	0	0.03
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1981	0	control	control	191	0	13	8	0	50	0	0	0.07
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1982	0	control	control	91	0	0	0	0	50	0	0	0.09
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1983	0	control	control	81	0	0	0	0	50	0	0	0.09
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1984	0	control	control	19	0	0	0	0	50	0	0	0.1
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1985	0	control	control	66	0	8	12	0	50	0	0	0.07
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1986	0	control	control	34	1	7	12	0	50	0	0	0.08
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1987	0	control	control	100	0	9	11	0	50	0	0	0.08
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1988	0	control	control	NA	0	4	16	0	50	0	0	0.14
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1989	0	control	control	91	0	7	13	0	50	0	0	0.1
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1990	0	control	control	9	0	9	11	0	50	0	0	0.12
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1991	0	control	control	34	0	5	15	0	50	0	0	0.1
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1992	0	control	control	22	0	11	8	0	50	0	0	0.08
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1993	0	control	control	81	0	3	17	0	50	0	0	0.07
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1994	0	control	control	6	1	7	12	0	50	0	0	0.1
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1995	0	control	control	0	1	7	12	0	50	0	0	0.05
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1996	0	control	control	3	1	13	6	0	50	0	0	0.05
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1997	0	control	control	22	1	10	9	0	50	0	0	0.07
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1998	0	control	control	50	0	0	0	0	50	0	0	0.06
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	1999	0	control	control	9	0	0	0	0	50	0	0	0.04
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	2000	0	control	control	16	0	0	0	0	50	0	0	0.06
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	2001	0	control	control	294	0	39	1	0	50	0	0	0.15
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	2002	0	control	control	263	0	12	29	0	50	0	0	0.13
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	2003	0	control	control	291	1	5	24	0	50	0	0	0.09
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	2004	0	control	control	59	0	4	2	0	50	0	0	0.11
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	2005	0	control	control	63	2	17	6	0	50	0	0	0.08
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	2006	0	control	control	41	0	5	1	0	50	0	0	0.08
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	2007	0	control	control	34	0	0	0	0	50	0	0	0.09
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	2008	0	control	control	47	0	0	0	0	50	0	0	0.15
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	2009	0	control	control	38	0	0	0	0	50	0	0	0.09
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	2010	0	control	control	53	0	5	0	0	50	0	0	0.15
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	2011	0	control	control	9	0	0	0	0	50	0	0	0.09
+Camas	Camas	MFCAM	Middle Fork Salmon River	63.4086	2012	0	control	control	69	0	0	0	0	50	0	0	0.11
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	1985	0	control	control	286	0	8	12	0	50	0	0	0.07
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	1986	0	control	control	NA	1	7	13	0	50	0	0	0.08
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	1987	0	control	control	275	0	8	12	0	50	0	0	0.08
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	1988	0	control	control	298	0	4	16	0	50	0	0	0.14
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	1989	0	control	control	504	0	7	13	0	50	0	0	0.1
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	1990	0	control	control	595	0	9	11	0	50	0	0	0.12
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	1991	0	control	control	NA	0	5	15	0	50	0	0	0.1
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	1992	0	control	control	446	0	11	8	0	50	0	0	0.08
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	1993	0	control	control	229	0	3	17	0	50	0	0	0.07
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	1994	0	control	control	137	1	7	12	0	50	0	0	0.1
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	1995	0	control	control	69	1	7	12	0	50	0	0	0.05
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	1996	0	control	control	80	1	13	6	0	50	0	0	0.05
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	1997	0	control	control	149	1	10	9	0	50	0	0	0.07
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	1998	0	control	control	23	0	0	0	0	50	0	0	0.06
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	1999	0	control	control	252	0	5	0	0	50	0	0	0.04
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	2000	0	control	control	NA	0	0	0	0	50	0	0	0.06
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	2001	0	control	control	1328	0	43	0	0	50	0	0	0.15
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	2002	0	control	control	1259	1	19	3	0	50	0	0	0.13
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	2003	0	control	control	1248	3	24	2	0	50	0	0	0.09
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	2004	0	control	control	744	0	14	2	0	50	0	0	0.11
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	2005	0	control	control	446	1	5	3	0	50	0	0	0.08
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	2006	0	control	control	401	0	13	1	0	50	0	0	0.08
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	2007	0	control	control	343	1	5	1	0	50	0	0	0.09
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	2008	0	control	control	584	0	3	0	0	50	0	0	0.15
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	2009	0	control	control	664	0	0	0	0	50	0	0	0.09
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	2010	0	control	control	893	0	18	1	0	50	0	0	0.15
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	2011	0	control	control	1305	5	16	7	0	50	0	0	0.09
+Chamberlain	Chamberlain	MFCHA	Middle Fork Salmon River	74.7337	2012	0	control	control	1099	0	9	3	0	50	0	0	0.11
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1957	0	control	control	1091	0	0	0	0	50	0	0	0.62
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1958	0	control	control	495	0	0	0	0	50	0	0	0.75
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1959	0	control	control	316	0	0	0	0	50	0	0	0.69
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1960	0	control	control	857	0	0	0	0	50	0	0	0.71
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1961	0	control	control	336	0	0	0	0	50	0	0	0.58
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1962	0	control	control	403	0	0	0	0	50	0	0	0.69
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1963	0	control	control	670	0	0	0	0	50	0	0	0.71
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1964	0	control	control	926	0	0	0	0	50	0	0	0.62
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1965	0	control	control	426	0	0	0	0	50	0	0	0.64
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1966	0	control	control	126	0	0	0	0	50	0	0	0.49
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1967	0	control	control	421	2	5	14	0	50	0	0	0.58
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1968	0	control	control	346	1	10	9	0	50	0	0	0.49
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1969	0	control	control	282	1	9	10	0	50	0	0	0.47
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1970	0	control	control	110	0	6	14	0	50	0	0	0.49
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1971	0	control	control	203	1	8	11	0	50	0	0	0.39
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1972	0	control	control	385	0	9	11	0	50	0	0	0.55
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1973	0	control	control	200	0	2	18	0	50	0	0	0.61
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1974	0	control	control	121	0	8	12	0	50	0	0	0.41
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1975	0	control	control	82	0	3	17	0	50	0	0	0
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1976	0	control	control	80	1	7	12	0	50	0	0	0.01
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1977	0	control	control	159	0	14	6	0	50	0	0	0.36
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1978	0	control	control	74	0	2	18	0	50	0	0	0.18
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1979	0	control	control	NA	1	3	17	0	50	0	0	0.04
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1980	0	control	control	23	1	7	12	0	50	0	0	0.03
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1981	0	control	control	77	0	13	8	0	50	0	0	0.07
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1982	0	control	control	59	1	7	12	0	50	0	0	0.09
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1983	0	control	control	18	1	7	12	0	50	0	0	0.09
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1984	0	control	control	10	1	7	12	0	50	0	0	0.1
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1985	0	control	control	72	0	8	12	0	50	0	0	0.07
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1986	0	control	control	54	1	7	12	0	50	0	0	0.08
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1987	0	control	control	59	0	9	11	0	50	0	0	0.08
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1988	0	control	control	13	0	4	16	0	50	0	0	0.14
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1989	0	control	control	41	0	7	13	0	50	0	0	0.1
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1990	0	control	control	NA	0	9	11	0	50	0	0	0.12
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1991	0	control	control	41	0	5	15	0	50	0	0	0.1
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1992	0	control	control	56	0	11	8	0	50	0	0	0.08
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1993	0	control	control	80	0	3	17	0	50	0	0	0.07
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1994	0	control	control	3	1	7	12	0	50	0	0	0.1
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1995	0	control	control	0	1	7	12	0	50	0	0	0.05
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1996	0	control	control	3	1	13	6	0	50	0	0	0.05
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1997	0	control	control	56	1	10	9	0	50	0	0	0.07
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1998	0	control	control	108	0	0	0	0	50	0	0	0.06
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	1999	0	control	control	15	0	0	0	0	50	0	0	0.04
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	2000	0	control	control	26	1	1	0	0	50	0	0	0.06
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	2001	0	control	control	654	1	18	0	0	50	0	0	0.15
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	2002	0	control	control	539	0	2	6	0	50	0	0	0.13
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	2003	0	control	control	490	2	3	16	0	50	0	0	0.09
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	2004	0	control	control	133	0	2	3	0	50	0	0	0.11
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	2005	0	control	control	80	0	2	2	0	50	0	0	0.08
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	2006	0	control	control	36	0	0	0	0	50	0	0	0.08
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	2007	0	control	control	54	0	1	3	0	50	0	0	0.09
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	2008	0	control	control	98	0	5	0	0	50	0	0	0.15
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	2009	0	control	control	72	0	0	0	0	50	0	0	0.09
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	2010	0	control	control	51	0	3	0	0	50	0	0	0.15
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	2011	0	control	control	38	4	7	2	0	50	0	0	0.09
+Loon	Loon	MFLOO	Middle Fork Salmon River	74.1852	2012	0	control	control	87	0	0	0	0	50	0	0	0.11
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1957	0	control	control	906	0	0	0	0	50	0	0	0.62
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1958	0	control	control	682	0	0	0	0	50	0	0	0.75
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1959	0	control	control	229	0	0	0	0	50	0	0	0.69
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1960	0	control	control	778	5	56	67	0	50	0	0	0.71
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1961	0	control	control	1369	3	63	89	0	50	0	0	0.58
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1962	0	control	control	887	3	90	91	0	50	0	0	0.69
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1963	0	control	control	968	6	69	125	0	50	0	0	0.71
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1964	0	control	control	1845	6	85	189	0	50	0	0	0.62
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1965	0	control	control	1051	6	38	62	0	50	0	0	0.64
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1966	0	control	control	1057	3	86	110	0	50	0	0	0.49
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1967	0	control	control	1692	9	28	95	0	50	0	0	0.58
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1968	0	control	control	1213	2	69	69	0	50	0	0	0.49
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1969	0	control	control	578	1	30	55	0	50	0	0	0.47
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1970	0	control	control	1187	0	36	78	0	50	0	0	0.49
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1971	0	control	control	731	5	36	63	0	50	0	0	0.39
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1972	0	control	control	812	1	13	31	0	50	0	0	0.55
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1973	0	control	control	1348	1	12	80	0	50	0	0	0.61
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1974	0	control	control	547	0	15	21	0	50	0	0	0.41
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1975	0	control	control	523	1	16	78	0	50	0	0	0
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1976	0	control	control	125	0	0	0	0	50	0	0	0.01
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1977	0	control	control	255	0	17	7	0	50	0	0	0.36
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1978	0	control	control	703	0	20	169	0	50	0	0	0.18
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1979	0	control	control	122	0	1	3	0	50	0	0	0.04
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1980	0	control	control	23	0	0	0	0	50	0	0	0.03
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1981	0	control	control	164	0	3	2	0	50	0	0	0.07
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1982	0	control	control	104	0	0	0	0	50	0	0	0.09
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1983	0	control	control	86	0	0	0	0	50	0	0	0.09
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1984	0	control	control	156	0	0	0	0	50	0	0	0.1
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1985	0	control	control	281	0	0	0	0	50	0	0	0.07
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1986	0	control	control	263	0	0	0	0	50	0	0	0.08
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1987	0	control	control	390	0	0	0	0	50	0	0	0.08
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1988	0	control	control	565	0	2	19	0	50	0	0	0.14
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1989	0	control	control	115	0	4	7	0	50	0	0	0.1
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1990	0	control	control	148	0	7	7	0	50	0	0	0.12
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1991	0	control	control	104	0	5	14	0	50	0	0	0.1
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1992	0	control	control	169	1	19	12	0	50	0	0	0.08
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1993	0	control	control	328	0	16	88	0	50	0	0	0.07
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1994	0	control	control	13	0	2	4	0	50	0	0	0.1
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1995	0	control	control	0	0	0	0	0	50	0	0	0.05
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1996	0	control	control	26	0	1	1	0	50	0	0	0.05
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1997	0	control	control	161	0	3	3	0	50	0	0	0.07
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1998	0	control	control	229	0	2	40	0	50	0	0	0.06
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	1999	0	control	control	0	0	0	0	0	50	0	0	0.04
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	2000	0	control	control	94	2	10	1	0	50	0	0	0.06
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	2001	0	control	control	508	0	75	9	0	50	0	0	0.15
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	2002	0	control	control	484	0	40	42	0	50	0	0	0.13
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	2003	0	control	control	872	0	1	83	0	50	0	0	0.09
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	2004	0	control	control	94	0	18	1	0	50	0	0	0.11
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	2005	0	control	control	65	0	11	10	0	50	0	0	0.08
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	2006	0	control	control	125	0	23	14	0	50	0	0	0.08
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	2007	0	control	control	130	0	1	21	0	50	0	0	0.09
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	2008	0	control	control	177	3	17	23	0	50	0	0	0.15
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	2009	0	control	control	167	7	50	5	0	50	0	0	0.09
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	2010	0	control	control	632	0	96	13	0	50	0	0	0.15
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	2011	0	control	control	674	3	35	55	0	50	0	0	0.09
+Marsh	MarshCR	MFMAR	Middle Fork Salmon River	44.3858	2012	0	control	control	411	2	37	66	0	50	0	0	0.11
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1957	0	control	control	693	0	0	0	0	50	0	0	0.62
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1958	0	control	control	238	0	0	0	0	50	0	0	0.75
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1959	0	control	control	169	0	0	0	0	50	0	0	0.69
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1960	0	control	control	160	0	0	0	0	50	0	0	0.71
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1961	0	control	control	498	0	0	0	0	50	0	0	0.58
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1962	0	control	control	321	0	0	0	0	50	0	0	0.69
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1963	0	control	control	576	0	0	0	0	50	0	0	0.71
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1964	0	control	control	202	0	0	0	0	50	0	0	0.62
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1965	0	control	control	132	0	0	0	0	50	0	0	0.64
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1966	0	control	control	584	0	0	0	0	50	0	0	0.49
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1967	0	control	control	551	14	28	75	0	50	0	0	0.58
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1968	0	control	control	584	8	24	19	0	50	0	0	0.49
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1969	0	control	control	568	8	31	34	0	50	0	0	0.47
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1970	0	control	control	383	3	11	20	0	50	0	0	0.49
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1971	0	control	control	239	1	5	7	0	50	0	0	0.39
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1972	0	control	control	292	0	7	8	0	50	0	0	0.55
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1973	0	control	control	321	0	21	71	0	50	0	0	0.61
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1974	0	control	control	123	0	2	4	0	50	0	0	0.41
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1975	0	control	control	206	0	0	2	0	50	0	0	0
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1976	0	control	control	58	0	0	1	0	50	0	0	0.01
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1977	0	control	control	21	0	1	1	0	50	0	0	0.36
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1978	0	control	control	263	0	0	5	0	50	0	0	0.18
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1979	0	control	control	62	0	0	2	0	50	0	0	0.04
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1980	0	control	control	8	0	0	0	0	50	0	0	0.03
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1981	0	control	control	29	0	1	0	0	50	0	0	0.07
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1982	0	control	control	12	0	0	0	0	50	0	0	0.09
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1983	0	control	control	33	0	0	0	0	50	0	0	0.09
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1984	0	control	control	0	0	0	0	0	50	0	0	0.1
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1985	0	control	control	41	0	0	0	0	50	0	0	0.07
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1986	0	control	control	267	0	0	0	0	50	0	0	0.08
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1987	0	control	control	45	0	0	0	0	50	0	0	0.08
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1988	0	control	control	303	0	3	18	0	50	0	0	0.14
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1989	0	control	control	22	0	0	0	0	50	0	0	0.1
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1990	0	control	control	87	0	3	4	0	50	0	0	0.12
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1991	0	control	control	108	0	4	12	0	50	0	0	0.1
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1992	0	control	control	11	0	0	0	0	50	0	0	0.08
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1993	0	control	control	132	0	1	6	0	50	0	0	0.07
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1994	0	control	control	0	0	0	0	0	50	0	0	0.1
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1995	0	control	control	2	0	0	0	0	50	0	0	0.05
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1996	0	control	control	28	0	0	0	0	50	0	0	0.05
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1997	0	control	control	37	0	0	0	0	50	0	0	0.07
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1998	0	control	control	102	0	0	3	0	50	0	0	0.06
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	1999	0	control	control	0	0	0	0	0	50	0	0	0.04
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	2000	0	control	control	11	0	0	1	0	50	0	0	0.06
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	2001	0	control	control	87	0	31	1	0	50	0	0	0.15
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	2002	0	control	control	201	0	13	11	0	50	0	0	0.13
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	2003	0	control	control	191	0	1	28	0	50	0	0	0.09
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	2004	0	control	control	15	0	0	0	0	50	0	0	0.11
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	2005	0	control	control	28	0	1	0	0	50	0	0	0.08
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	2006	0	control	control	54	0	0	0	0	50	0	0	0.08
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	2007	0	control	control	56	0	0	0	0	50	0	0	0.09
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	2008	0	control	control	71	0	3	4	0	50	0	0	0.15
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	2009	0	control	control	50	0	0	0	0	50	0	0	0.09
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	2010	0	control	control	113	0	46	4	0	50	0	0	0.15
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	2011	0	control	control	171	0	6	4	0	50	0	0	0.09
+Sulphur	SulphurCr	MFSUL	Middle Fork Salmon River	14.8618	2012	0	control	control	41	0	5	4	0	50	0	0	0.11
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1957	0	impact	before	804	0	0	0	0	50	0	0	0.44
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1958	0	impact	before	282	0	0	0	0	50	0	0	0.55
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1959	0	impact	before	679	0	0	0	0	50	0	0	0.55
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1960	0	impact	before	1183	17	364	70	0	50	0	0	0.63
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1961	0	impact	before	478	56	91	80	0	50	0	0	0.62
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1962	0	impact	before	760	61	221	73	0	50	0	0	0.48
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1963	0	impact	before	684	52	138	66	0	50	0	0	0.58
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1964	0	impact	before	797	21	157	59	0	50	0	0	0.38
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1965	0	impact	before	298	33	47	22	0	50	0	0	0.16
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1966	0	impact	before	284	18	54	21	0	50	0	0	0.05
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1967	0	impact	before	737	27	176	149	0	50	0	0	0.14
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1968	0	impact	before	328	82	286	104	0	50	0	0	0.1
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1969	0	impact	before	702	40	324	107	0	50	0	0	0.13
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1970	0	impact	before	335	19	69	46	0	50	0	0	0.16
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1971	0	impact	before	471	24	239	120	0	50	0	0	0.19
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1972	0	impact	before	566	12	338	184	0	50	0	0	0.14
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1973	0	impact	before	698	11	121	174	0	50	0	0	0.11
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1974	0	impact	before	275	4	95	65	0	50	0	0	0
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1975	0	impact	before	178	0	12	25	0	50	0	0	0
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1976	0	impact	before	176	2	12	18	0	50	0	0	0
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1977	0	impact	before	208	5	206	39	0	50	0	0	0.03
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1978	0	impact	before	291	0	46	159	0	50	0	0	0.03
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1979	0	impact	before	92	2	3	5	0	50	0	0	0.04
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1980	0	impact	before	62	2	30	11	0	50	0	0	0.04
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1981	0	impact	before	116	1	7	5	0	50	0	0	0.06
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1982	0	impact	before	95	0	0	0	0	50	0	0	0.06
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1983	0	impact	before	162	1	6	21	0	50	0	0	0.03
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1984	0	impact	before	44	0	0	0	0	50	0	0	0.03
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1985	0	impact	before	194	2	42	25	0	50	0	0	0.06
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1986	0	impact	before	136	1	15	14	0	50	0	0	0.05
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1987	0	impact	before	185	1	20	10	0	50	0	0	0.05
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1988	1	impact	nonlocal	353	4	25	76	2	48	0.04	0	0.05
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1989	1	impact	nonlocal	109	1	16	17	2	48	0.04	0	0.01
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1990	1	impact	nonlocal	143	0	29	7	2	48	0.04	0	0.01
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1991	1	impact	nonlocal	164	3	18	28	2	48	0.04	0	0.01
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1992	1	impact	nonlocal	196	3	56	12	2	48	0.04	0	0.01
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1993	1	impact	nonlocal	365	0	45	109	2	48	0.04	0	0.02
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1994	1	impact	nonlocal	51	0	2	4	2	48	0.04	0	0.01
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1995	1	impact	nonlocal	23	0	1	1	2	48	0.04	0	0.03
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1996	1	impact	nonlocal	60	3	13	4	0	50	0	0	0.03
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1997	1	impact	nonlocal	243	0	114	37	1	49	0.02	0	0.01
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1998	1	impact	nonlocal	125	0	0	5	0	50	0	53	0.02
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	1999	1	impact	local	55	3	14	4	0	50	0	0	0.02
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	2000	1	impact	local	125	8	14	1	6	44	0.12	73	0.01
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	2001	1	impact	local	1392	6	46	6	10	41	0.19	141	0.01
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	2002	1	impact	local	1067	0	16	15	19	32	0.37	97	0.03
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	2003	1	impact	local	747	1	6	25	12	39	0.23	79	0.06
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	2004	1	impact	local	352	2	22	5	18	32	0.36	57	0
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	2005	1	impact	local	160	2	17	9	21	30	0.41	74	0.02
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	2006	1	impact	local	156	1	66	13	29	21	0.58	60	0.02
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	2007	1	impact	local	360	17	42	40	32	19	0.63	52	0.02
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	2008	1	impact	local	595	10	153	63	28	22	0.56	77	0.02
+East Fork South Fork Salmon	SFSEast	SFEFS	South Fork Salmon River	123.279	2009	1	impact	local	821	37	123	36	35	15	0.7	68	0.02
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1958	0	impact	before	2786	0	0	0	0	50	0	0	0.55
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1959	0	impact	before	3015	0	0	0	0	50	0	0	0.55
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1960	0	impact	before	5029	22	440	101	0	50	0	0	0.63
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1961	0	impact	before	2444	256	365	236	0	50	0	0	0.62
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1962	0	impact	before	3671	154	685	256	0	50	0	0	0.48
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1963	0	impact	before	2442	54	130	67	0	50	0	0	0.58
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1964	0	impact	before	908	27	126	50	0	50	0	0	0.38
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1965	0	impact	before	1515	118	155	58	0	50	0	0	0.16
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1966	0	impact	before	2264	29	151	48	0	50	0	0	0.05
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1967	0	impact	before	2084	80	197	92	0	50	0	0	0.14
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1968	0	impact	before	1190	197	309	87	0	50	0	0	0.1
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1969	0	impact	before	1469	39	231	53	0	50	0	0	0.13
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1970	0	impact	before	1217	77	397	190	0	50	0	0	0.16
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1971	0	impact	before	973	36	243	119	0	50	0	0	0.19
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1972	0	impact	before	1310	19	160	83	0	50	0	0	0.14
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1973	0	impact	before	1354	36	269	294	0	50	0	0	0.11
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1974	0	impact	before	504	8	89	55	0	50	0	0	0
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1975	0	impact	before	550	10	78	60	0	50	0	0	0
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1976	0	impact	before	557	7	9	8	0	50	0	0	0
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1977	0	impact	before	522	10	293	64	0	50	0	0	0.03
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1978	0	impact	before	580	0	101	290	0	50	0	0	0.03
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1979	0	impact	before	266	3	4	8	0	50	0	0	0.04
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1980	0	impact	before	268	0	5	2	0	50	0	0	0.04
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1981	0	impact	before	291	0	3	2	0	50	0	0	0.06
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1982	1	impact	local	256	0	0	0	2	48	0.04	0	0.06
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1983	1	impact	local	427	0	3	11	4	47	0.07	0	0.03
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1984	1	impact	local	381	0	0	0	11	39	0.22	0	0.03
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1985	1	impact	local	746	12	90	63	19	32	0.37	0	0.06
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1986	1	impact	local	668	4	8	13	9	42	0.17	0	0.05
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1987	1	impact	local	1737	4	55	18	10	40	0.2	0	0.05
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1988	1	impact	local	1659	6	72	248	13	38	0.25	0	0.05
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1989	1	impact	local	501	6	28	18	7	44	0.13	0	0.01
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1990	1	impact	local	892	1	63	17	9	41	0.18	0	0.01
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1991	1	impact	local	908	9	38	70	5	45	0.1	0	0.01
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1992	1	impact	local	1582	2	106	49	32	19	0.63	0	0.01
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1993	1	impact	local	2169	4	80	214	22	28	0.44	0	0.02
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1994	1	impact	local	552	1	25	78	17	34	0.33	0	0.01
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1995	1	impact	local	224	1	5	3	23	28	0.45	0	0.03
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1996	1	impact	local	367	1	11	4	12	39	0.23	0	0.03
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1997	1	impact	local	1257	0	50	24	32	18	0.64	0	0.01
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1998	1	impact	local	1204	0	0	1	20	30	0.4	0	0.02
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	1999	1	impact	local	926	2	53	5	13	38	0.25	0	0.02
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	2000	1	impact	local	1511	3	13	9	26	25	0.51	0	0.01
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	2001	1	impact	local	2529	0	19	1	16	34	0.32	0	0.01
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	2002	1	impact	local	3021	0	22	11	20	30	0.4	0	0.03
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	2003	1	impact	local	3130	0	8	35	17	34	0.33	0	0.06
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	2004	1	impact	local	1231	1	32	17	24	27	0.47	0	0
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	2005	1	impact	local	901	4	16	20	26	25	0.51	0	0.02
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	2006	1	impact	local	NA	0	82	23	28	22	0.555	0	0.02
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	2007	1	impact	local	NA	10	43	42	28	22	0.555	0	0.02
+South Fork Salmon	SFSMain	SFMAI	South Fork Salmon River	309.2499	2008	1	impact	local	1033	7	70	24	30	20	0.6	0	0.02
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1957	0	impact	before	870	0	0	0	0	50	0	0	0.44
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1958	0	impact	before	986	0	0	0	0	50	0	0	0.55
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1959	0	impact	before	630	0	0	0	0	50	0	0	0.55
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1960	0	impact	before	1320	7	165	37	0	50	0	0	0.63
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1961	0	impact	before	502	36	42	19	0	50	0	0	0.62
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1962	0	impact	before	740	16	54	18	0	50	0	0	0.48
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1963	0	impact	before	418	11	17	7	0	50	0	0	0.58
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1964	0	impact	before	661	3	35	16	0	50	0	0	0.38
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1965	0	impact	before	356	5	6	2	0	50	0	0	0.16
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1966	0	impact	before	511	19	62	24	0	50	0	0	0.05
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1967	0	impact	before	511	32	126	58	0	50	0	0	0.14
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1968	0	impact	before	211	8	30	7	0	50	0	0	0.1
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1969	0	impact	before	379	15	39	15	0	50	0	0	0.13
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1970	0	impact	before	231	5	14	5	0	50	0	0	0.16
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1971	0	impact	before	349	6	45	21	0	50	0	0	0.19
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1972	0	impact	before	324	2	52	38	0	50	0	0	0.14
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1973	0	impact	before	250	0	15	20	0	50	0	0	0.11
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1974	0	impact	before	74	0	2	2	0	50	0	0	0
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1975	0	impact	before	48	0	0	0	0	50	0	0	0
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1976	0	impact	before	63	1	2	2	0	50	0	0	0
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1977	0	impact	before	106	0	30	7	0	50	0	0	0.03
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1978	0	impact	before	333	0	6	30	0	50	0	0	0.03
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1979	0	impact	before	72	0	0	0	0	50	0	0	0.04
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1980	0	impact	before	72	0	3	1	0	50	0	0	0.04
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1981	0	impact	before	194	1	7	5	0	50	0	0	0.06
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1982	0	impact	before	238	1	9	5	0	50	0	0	0.06
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1983	0	impact	before	358	0	4	12	0	50	0	0	0.03
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1984	0	impact	before	156	1	3	2	0	50	0	0	0.03
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1985	0	impact	before	384	0	17	9	0	50	0	0	0.06
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1986	0	impact	before	306	1	18	8	0	50	0	0	0.05
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1987	0	impact	before	321	3	45	27	0	50	0	0	0.05
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1988	1	impact	nonlocal	412	7	30	76	2	48	0.04	0	0.05
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1989	1	impact	nonlocal	260	9	71	23	2	48	0.04	0	0.01
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1990	1	impact	nonlocal	146	0	29	13	2	48	0.04	0	0.01
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1991	1	impact	nonlocal	298	4	32	36	2	48	0.04	0	0.01
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1992	1	impact	nonlocal	333	2	69	10	2	48	0.04	0	0.01
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1993	1	impact	nonlocal	346	0	32	42	2	48	0.04	0	0.02
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1994	1	impact	nonlocal	101	0	4	9	2	48	0.04	0	0.01
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1995	1	impact	nonlocal	71	3	15	7	2	48	0.04	0	0.03
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1996	1	impact	nonlocal	177	1	52	16	0	50	0	0	0.03
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1997	1	impact	nonlocal	349	0	51	20	2	49	0.03	0	0.01
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1998	1	impact	nonlocal	110	0	0	0	5	45	0.1	0	0.02
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	1999	1	impact	nonlocal	189	5	32	2	1	50	0.01	0	0.02
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	2000	1	impact	nonlocal	518	4	47	1	1	50	0.01	0	0.01
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	2001	1	impact	nonlocal	1358	3	127	20	4	47	0.07	0	0.01
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	2002	1	impact	nonlocal	1030	1	62	14	4	46	0.08	0	0.03
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	2003	1	impact	nonlocal	1107	2	22	46	1	50	0.01	0	0.06
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	2004	1	impact	nonlocal	872	1	69	5	2	49	0.03	0	0
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	2005	1	impact	nonlocal	322	3	37	27	1	50	0.01	0	0.02
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	2006	1	impact	nonlocal	213	1	29	2	4	47	0.07	0	0.02
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	2007	1	impact	nonlocal	290	10	45	21	5	45	0.1	0	0.02
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	2008	1	impact	nonlocal	874	5	65	9	4	47	0.07	0	0.02
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	2009	1	impact	nonlocal	1083	8	56	15	1	49	0.02	0	0.02
+Secesh	Secesh	SFSEC	South Fork Salmon River	71.078	2010	1	impact	nonlocal	2392	5	112	9	1	50	0.01	0	0.02
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1979	0	impact	before	420	0	0	0	0	50	0	0	0.04
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1980	0	impact	before	512	0	0	0	0	50	0	0	0.03
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1981	0	impact	before	835	0	0	0	0	50	0	0	0.07
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1982	0	impact	before	512	0	0	0	0	50	0	0	0.09
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1983	0	impact	before	579	0	0	0	0	50	0	0	0.09
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1984	0	impact	before	337	0	0	0	0	50	0	0	0.1
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1985	0	impact	before	569	13	17	21	0	50	0	22	0.07
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1986	0	impact	before	520	0	36	15	0	50	0	116	0.08
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1987	0	impact	before	481	0	43	7	0	50	0	101	0.08
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1988	1	impact	local	304	1	31	19	2	48	0.04	116	0.14
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1989	1	impact	local	276	2	31	16	12	38	0.24	67	0.1
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1990	1	impact	local	611	0	38	12	17	33	0.34	60	0.12
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1991	1	impact	local	390	0	38	12	26	25	0.51	41	0.1
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1992	1	impact	local	564	1	32	18	22	28	0.44	47	0.08
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1993	1	impact	local	436	2	40	9	23	27	0.46	50	0.07
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1994	1	impact	local	70	1	19	30	15	35	0.3	36	0.1
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1995	1	impact	local	11	0	37	14	31	20	0.61	10	0.05
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1996	1	impact	local	136	6	11	34	19	32	0.37	35	0.05
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1997	1	impact	local	146	1	49	1	27	24	0.53	43	0.07
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1998	1	impact	local	51	0	40	10	21	30	0.41	48	0.06
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	1999	1	impact	local	107	0	6	44	50	1	0.99	1	0.04
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	2000	1	impact	local	239	9	39	3	38	12	0.76	12	0.06
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	2001	1	impact	local	894	1	49	1	15	36	0.29	52	0.15
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	2002	1	impact	local	897	1	37	12	33	18	0.65	42	0.13
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	2003	1	impact	local	366	1	25	25	22	28	0.44	42	0.09
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	2004	1	impact	local	480	0	49	1	15	35	0.3	51	0.11
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	2005	1	impact	local	317	1	41	9	16	35	0.31	49	0.08
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	2006	1	impact	local	161	3	44	4	23	28	0.45	36	0.08
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	2007	1	impact	local	250	2	29	19	21	29	0.42	54	0.09
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	2008	1	impact	local	1056	6	39	6	28	23	0.55	42	0.15
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	2009	1	impact	local	1676	5	42	3	30	20	0.6	89	0.09
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	2010	1	impact	local	2341	1	49	1	22	29	0.43	86	0.15
+Tucannon	Tucannon	SNTUC	Lower Snake	24.2421	2011	1	impact	local	1128	3	31	17	21	29	0.42	89	0.09
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1957	0	impact	before	2163	0	0	0	0	50	0	0	0.62
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1958	0	impact	before	1100	0	0	0	0	50	0	0	0.75
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1959	0	impact	before	950	0	0	0	0	50	0	0	0.69
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1960	0	impact	before	1351	5	16	16	0	50	0	0	0.71
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1961	0	impact	before	2955	6	32	76	0	50	0	0	0.58
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1962	0	impact	before	1067	6	51	59	0	50	0	0	0.69
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1963	0	impact	before	2449	6	51	224	0	50	0	0	0.71
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1964	0	impact	before	1672	8	30	110	0	50	0	0	0.62
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1965	0	impact	before	660	2	12	17	0	50	0	0	0.64
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1966	0	impact	before	1773	10	64	113	0	50	0	0	0.49
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1967	0	impact	before	1936	6	53	159	0	50	0	0	0.58
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1968	0	impact	before	2011	1	27	86	0	50	0	0	0.49
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1969	0	impact	before	781	3	30	42	0	50	0	0	0.47
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1970	0	impact	before	1404	6	50	135	0	50	0	0	0.49
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1971	0	impact	before	1250	6	39	116	0	50	0	0	0.39
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1972	0	impact	before	1423	0	24	99	0	50	0	0	0.55
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1973	0	impact	before	1870	0	11	281	0	50	0	0	0.61
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1974	0	impact	before	898	1	10	35	0	50	0	0	0.41
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1975	0	impact	before	873	0	7	59	0	50	0	0	0
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1976	0	impact	before	310	0	1	2	0	50	0	0	0.01
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1977	0	impact	before	682	1	10	57	0	50	0	0	0.36
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1978	0	impact	before	2537	0	24	325	0	50	0	0	0.18
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1979	0	impact	before	202	0	0	2	0	50	0	0	0.04
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1980	0	impact	before	18	0	0	0	0	50	0	0	0.03
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1981	0	impact	before	282	0	5	2	0	50	0	0	0.07
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1982	0	impact	before	106	0	0	0	0	50	0	0	0.09
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1983	0	impact	before	341	0	0	0	0	50	0	0	0.09
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1984	0	impact	before	100	0	0	0	0	50	0	52	0.1
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1985	0	impact	before	195	0	0	0	0	50	0	161	0.07
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1986	1	impact	nonlocal	293	0	0	0	0	50	0	0	0.08
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1987	1	impact	nonlocal	402	0	0	0	0	50	0	166	0.08
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1988	1	impact	nonlocal	512	0	0	0	1	49	0.02	346	0.14
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1989	1	impact	nonlocal	384	0	0	0	9	41	0.18	59	0.1
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1990	1	impact	nonlocal	202	0	0	0	18	32	0.36	57	0.12
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1991	1	impact	nonlocal	101	0	0	0	19	32	0.37	19	0.1
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1992	1	impact	nonlocal	64	0	0	0	26	25	0.51	25	0.08
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1993	1	impact	nonlocal	222	0	2	10	9	41	0.18	25	0.07
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1994	1	impact	nonlocal	24	0	5	9	18	32	0.36	0	0.1
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1995	1	impact	nonlocal	11	0	0	0	18	32	0.36	0	0.05
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1996	1	impact	nonlocal	22	0	0	0	28	23	0.55	0	0.05
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1997	1	impact	nonlocal	48	0	0	0	9	41	0.18	0	0.07
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1998	1	impact	nonlocal	121	0	0	0	4	47	0.07	0	0.06
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	1999	0	impact	post	73	0	0	0	0	50	0	0	0.04
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	2000	0	impact	post	136	0	0	0	0	50	0	0	0.06
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	2001	0	impact	post	348	0	2	0	0	50	0	0	0.15
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	2002	0	impact	post	744	0	7	13	0	50	0	0	0.13
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	2003	0	impact	post	649	0	0	19	0	50	0	0	0.09
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	2004	0	impact	post	350	0	2	6	0	50	0	0	0.11
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	2005	0	impact	post	194	1	2	3	0	50	0	0	0.08
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	2006	0	impact	post	88	0	0	0	0	50	0	0	0.08
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	2007	0	impact	post	194	0	4	11	0	50	0	0	0.09
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	2008	0	impact	post	385	1	14	11	0	50	0	0	0.15
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	2009	0	impact	post	207	2	14	8	0	50	0	0	0.09
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	2010	0	impact	post	871	1	23	11	0	50	0	0	0.15
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	2011	0	impact	post	568	0	11	33	0	50	0	0	0.09
+East Fork Salmon	SREastFork	SREFS	Upper Salmon River	88.661	2012	0	impact	post	605	0	19	77	0	50	0	0	0.11
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1957	0	control	control	1438	0	0	0	0	50	0	0	0.62
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1958	0	control	control	1110	0	0	0	0	50	0	0	0.75
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1959	0	control	control	936	0	0	0	0	50	0	0	0.69
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1960	0	control	control	2524	4	73	73	0	50	0	0	0.71
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1961	0	control	control	3440	9	194	154	0	50	0	0	0.58
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1962	0	control	control	2618	1	190	113	0	50	0	0	0.69
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1963	0	control	control	728	2	31	59	0	50	0	0	0.71
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1964	0	control	control	2076	1	139	73	0	50	0	0	0.62
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1965	0	control	control	866	0	16	10	0	50	0	0	0.64
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1966	0	control	control	1476	0	107	63	0	50	0	0	0.49
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1967	0	control	control	1572	2	54	100	0	50	0	0	0.58
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1968	0	control	control	1144	0	52	50	0	50	0	0	0.49
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1969	0	control	control	656	0	20	21	0	50	0	0	0.47
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1970	0	control	control	688	1	29	51	0	50	0	0	0.49
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1971	0	control	control	784	2	71	31	0	50	0	0	0.39
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1972	0	control	control	946	0	44	104	0	50	0	0	0.55
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1973	0	control	control	866	0	23	94	0	50	0	0	0.61
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1974	0	control	control	474	0	8	24	0	50	0	0	0.41
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1975	0	control	control	730	0	9	20	0	50	0	0	0
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1976	0	control	control	454	0	7	7	0	50	0	0	0.01
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1977	0	control	control	886	0	8	8	0	50	0	0	0.36
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1978	0	control	control	1406	0	11	58	0	50	0	0	0.18
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1979	0	control	control	292	0	2	2	0	50	0	0	0.04
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1980	0	control	control	50	0	0	0	0	50	0	0	0.03
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1981	0	control	control	230	0	3	3	0	50	0	0	0.07
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1982	0	control	control	298	0	0	0	0	50	0	0	0.09
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1983	0	control	control	92	0	0	0	0	50	0	0	0.09
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1984	0	control	control	70	0	0	0	0	50	0	0	0.1
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1985	0	control	control	186	0	0	0	0	50	0	0	0.07
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1986	0	control	control	314	0	0	0	0	50	0	0	0.08
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1987	0	control	control	310	0	0	0	0	50	0	0	0.08
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1988	0	control	control	358	0	0	0	0	50	0	0	0.14
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1989	0	control	control	64	0	0	0	0	50	0	0	0.1
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1990	0	control	control	160	0	0	0	0	50	0	0	0.12
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1991	0	control	control	110	0	0	0	0	50	0	0	0.1
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1992	0	control	control	30	0	0	0	0	50	0	0	0.08
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1993	0	control	control	46	0	0	0	0	50	0	0	0.07
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1994	0	control	control	14	0	0	0	0	50	0	0	0.1
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1995	0	control	control	10	0	0	0	0	50	0	0	0.05
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1996	0	control	control	58	0	0	0	0	50	0	0	0.05
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1997	0	control	control	100	0	0	0	0	50	0	0	0.07
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1998	0	control	control	80	0	0	0	0	50	0	0	0.06
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	1999	0	control	control	70	0	1	1	0	50	0	0	0.04
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	2000	0	control	control	170	0	0	0	0	50	0	0	0.06
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	2001	0	control	control	632	0	12	1	0	50	0	0	0.15
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	2002	0	control	control	270	2	7	10	0	50	0	0	0.13
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	2003	0	control	control	94	2	5	1	0	50	0	0	0.09
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	2004	0	control	control	60	0	3	2	0	50	0	0	0.11
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	2005	0	control	control	74	0	8	2	0	50	0	0	0.08
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	2006	0	control	control	50	0	7	1	0	50	0	0	0.08
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	2007	0	control	control	38	0	2	5	0	50	0	0	0.09
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	2008	0	control	control	50	1	5	2	0	50	0	0	0.15
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	2009	0	control	control	122	0	10	3	0	50	0	0	0.09
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	2010	0	control	control	158	0	31	0	0	50	0	0	0.15
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	2011	0	control	control	198	0	37	11	0	50	0	0	0.09
+Lemhi	Lemhi	SRLEM	Upper Salmon River	148.3443	2012	0	control	control	126	0	13	7	0	50	0	0	0.11
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1957	0	control	control	4889	0	0	0	0	50	0	0	0.62
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1958	0	control	control	888	0	0	0	0	50	0	0	0.75
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1959	0	control	control	679	0	0	0	0	50	0	0	0.69
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1960	0	control	control	1565	0	0	0	0	50	0	0	0.71
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1961	0	control	control	687	0	0	0	0	50	0	0	0.58
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1962	0	control	control	901	0	0	0	0	50	0	0	0.69
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1963	0	control	control	376	0	0	0	0	50	0	0	0.71
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1964	0	control	control	801	0	0	0	0	50	0	0	0.62
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1965	0	control	control	388	0	0	0	0	50	0	0	0.64
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1966	0	control	control	753	0	0	0	0	50	0	0	0.49
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1967	0	control	control	704	0	0	0	0	50	0	0	0.58
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1968	0	control	control	430	0	0	0	0	50	0	0	0.49
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1969	0	control	control	232	0	0	0	0	50	0	0	0.47
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1970	0	control	control	290	0	0	0	0	50	0	0	0.49
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1971	0	control	control	425	0	0	0	0	50	0	0	0.39
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1972	0	control	control	795	0	0	0	0	50	0	0	0.55
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1973	0	control	control	432	0	0	0	0	50	0	0	0.61
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1974	0	control	control	77	0	0	0	0	50	0	0	0.41
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1975	0	control	control	87	0	0	0	0	50	0	0	0
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1976	0	control	control	85	0	0	0	0	50	0	0	0.01
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1977	0	control	control	181	0	0	0	0	50	0	0	0.36
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1978	0	control	control	693	0	0	0	0	50	0	0	0.18
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1979	0	control	control	NA	0	0	0	0	50	0	0	0.04
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1980	0	control	control	21	0	0	0	0	50	0	0	0.03
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1981	0	control	control	145	0	0	0	0	50	0	0	0.07
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1982	0	control	control	75	0	0	0	0	50	0	0	0.09
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1983	0	control	control	214	0	0	0	0	50	0	0	0.09
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1984	0	control	control	98	0	0	0	0	50	0	0	0.1
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1985	0	control	control	158	0	0	0	0	50	0	0	0.07
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1986	0	control	control	201	0	0	0	0	50	0	0	0.08
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1987	0	control	control	386	0	0	0	0	50	0	0	0.08
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1988	0	control	control	290	0	0	0	0	50	0	0	0.14
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1989	0	control	control	149	0	0	0	0	50	0	0	0.1
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1990	0	control	control	98	0	0	0	0	50	0	0	0.12
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1991	0	control	control	131	0	0	0	0	50	0	0	0.1
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1992	0	control	control	50	0	0	0	0	50	0	0	0.08
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1993	0	control	control	93	0	0	0	0	50	0	0	0.07
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1994	0	control	control	17	0	0	0	0	50	0	0	0.1
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1995	0	control	control	15	0	0	0	0	50	0	0	0.05
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1996	0	control	control	44	0	0	0	0	50	0	0	0.05
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1997	0	control	control	93	0	0	0	0	50	0	0	0.07
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1998	0	control	control	60	0	0	0	0	50	0	0	0.06
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	1999	0	control	control	44	0	0	0	0	50	0	0	0.04
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	2000	0	control	control	154	0	0	0	0	50	0	0	0.06
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	2001	0	control	control	232	1	44	4	0	50	0	0	0.15
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	2002	0	control	control	450	4	15	25	0	50	0	0	0.13
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	2003	0	control	control	224	1	10	27	0	50	0	0	0.09
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	2004	0	control	control	158	0	17	6	0	50	0	0	0.11
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	2005	0	control	control	102	0	5	14	0	50	0	0	0.08
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	2006	0	control	control	100	1	19	17	0	50	0	0	0.08
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	2007	0	control	control	95	2	15	24	0	50	0	0	0.09
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	2008	0	control	control	110	3	29	20	0	50	0	0	0.15
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	2009	0	control	control	93	9	62	16	0	50	0	0	0.09
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	2010	0	control	control	122	1	35	8	0	50	0	0	0.15
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	2011	0	control	control	230	7	27	18	0	50	0	0	0.09
+Lower Upper Salmon	SRLMA	SRLMA	Upper Salmon River	612.2623	2012	0	control	control	183	1	35	40	0	50	0	0	0.11
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	1989	1	impact	local	82	5	0	0	50	1	0.99	0	0.1
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	1990	1	impact	local	149	1	14	0	48	3	0.95	0	0.12
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	1991	1	impact	local	75	1	8	6	46	4	0.92	0	0.1
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	1992	1	impact	local	43	0	5	1	47	4	0.93	0	0.08
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	1993	1	impact	local	136	0	0	1	46	4	0.92	0	0.07
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	1994	1	impact	local	36	0	0	0	36	14	0.72	0	0.1
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	1995	1	impact	local	27	0	0	0	22	28	0.44	0	0.05
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	1996	1	impact	local	51	0	0	0	2	48	0.04	0	0.05
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	1997	1	impact	local	72	1	11	14	15	36	0.29	26	0.07
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	1998	1	impact	local	80	0	6	17	18	33	0.35	23	0.06
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	1999	1	impact	local	184	3	17	3	31	19	0.62	23	0.04
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	2000	1	impact	local	98	5	21	6	18	32	0.36	32	0.06
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	2001	1	impact	local	306	1	23	1	24	27	0.47	83	0.15
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	2002	1	impact	local	286	1	9	1	24	27	0.47	44	0.13
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	2003	1	impact	local	763	1	17	3	29	22	0.57	1	0.09
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	2004	1	impact	local	481	0	11	6	29	21	0.58	0	0.11
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	2005	1	impact	local	633	0	14	1	24	26	0.48	0	0.08
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	2006	1	impact	local	173	0	4	7	22	28	0.44	0	0.08
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	2007	1	impact	local	155	0	6	13	5	45	0.1	0	0.09
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	2008	1	impact	local	214	2	16	10	1	50	0.01	0	0.15
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	2009	1	impact	local	322	0	16	5	0	50	0	0	0.09
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	2010	1	impact	local	295	0	12	3	1	50	0.01	0	0.15
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	2011	1	impact	local	376	2	17	12	0	50	0	0	0.09
+Pahsimeroi	Pahsimeroi	SRPAH	Upper Salmon River	66.6608	2012	1	impact	local	216	3	7	2	0	50	0	0	0.11
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1957	0	impact	before	3653	0	0	0	0	50	0	0	0.62
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1958	0	impact	before	1496	0	0	0	0	50	0	0	0.75
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1959	0	impact	before	1327	0	0	0	0	50	0	0	0.69
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1960	0	impact	before	1591	6	21	25	0	50	0	0	0.71
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1961	0	impact	before	2077	31	60	105	0	50	0	0	0.58
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1962	0	impact	before	2270	26	65	68	0	50	0	0	0.69
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1963	0	impact	before	2149	56	139	232	0	50	0	0	0.71
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1964	0	impact	before	2275	32	68	189	0	50	0	0	0.62
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1965	0	impact	before	1662	16	38	32	0	50	0	0	0.64
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1966	0	impact	before	3087	31	106	110	0	50	0	0	0.49
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1967	0	impact	before	2936	27	81	116	0	50	0	0	0.58
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1968	0	impact	before	2379	11	87	84	0	50	0	0	0.49
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1969	0	impact	before	961	11	46	65	0	50	0	0	0.47
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1970	0	impact	before	1414	9	59	52	0	50	0	0	0.49
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1971	0	impact	before	1866	13	122	139	0	50	0	0	0.39
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1972	0	impact	before	2850	12	68	162	0	50	0	0	0.55
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1973	0	impact	before	1618	4	38	176	0	50	0	0	0.61
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1974	0	impact	before	1198	0	21	48	0	50	0	0	0.41
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1975	0	impact	before	2075	8	82	360	0	50	0	0	0
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1976	0	impact	before	1152	7	29	51	0	50	0	0	0.01
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1977	0	impact	before	2364	31	409	258	0	50	0	0	0.36
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1978	0	impact	before	6335	0	44	601	0	50	0	0	0.18
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1979	0	impact	before	704	2	6	33	0	50	0	0	0.04
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1980	1	impact	nonlocal	184	0	0	0	0	50	0	0	0.03
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1981	1	impact	nonlocal	476	0	39	12	0	50	0	300	0.07
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1982	1	impact	nonlocal	88	0	0	0	0	50	0	164	0.09
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1983	1	impact	nonlocal	99	0	0	0	0	50	0	256	0.09
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1984	1	impact	nonlocal	185	0	0	0	1	49	0.02	196	0.1
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1985	1	impact	nonlocal	563	0	0	0	18	32	0.36	664	0.07
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1986	1	impact	nonlocal	788	0	0	0	20	30	0.4	286	0.08
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1987	1	impact	nonlocal	455	0	0	0	9	42	0.17	563	0.08
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1988	1	impact	nonlocal	497	0	0	0	1	49	0.02	901	0.14
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1989	1	impact	nonlocal	423	0	0	0	4	47	0.07	365	0.1
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1990	1	impact	nonlocal	501	0	0	0	15	36	0.29	599	0.12
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1991	1	impact	nonlocal	170	1	4	8	12	38	0.24	265	0.1
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1992	1	impact	nonlocal	120	0	0	0	19	31	0.38	142	0.08
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1993	1	impact	nonlocal	374	0	0	0	14	36	0.28	96	0.07
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1994	1	impact	nonlocal	69	0	4	7	2	48	0.04	13	0.1
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1995	1	impact	nonlocal	18	0	0	0	5	45	0.1	1	0.05
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1996	1	impact	nonlocal	68	0	0	0	3	48	0.05	34	0.05
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1997	1	impact	nonlocal	89	0	0	1	3	47	0.06	62	0.07
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1998	1	impact	nonlocal	83	0	0	0	5	45	0.1	44	0.06
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	1999	1	impact	nonlocal	115	5	15	2	19	32	0.37	42	0.04
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	2000	1	impact	nonlocal	473	3	63	8	4	46	0.08	52	0.06
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	2001	1	impact	nonlocal	1108	1	24	1	25	25	0.5	54	0.15
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	2002	1	impact	nonlocal	1206	0	19	10	21	30	0.41	58	0.13
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	2003	1	impact	nonlocal	658	1	4	9	13	37	0.26	0	0.09
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	2004	1	impact	nonlocal	638	2	27	2	16	34	0.32	0	0.11
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	2005	1	impact	nonlocal	418	1	14	11	20	30	0.4	0	0.08
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	2006	1	impact	nonlocal	394	2	103	27	13	38	0.25	15	0.08
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	2007	1	impact	nonlocal	204	17	41	110	6	45	0.11	0	0.09
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	2008	1	impact	nonlocal	389	15	139	42	0	50	0	0	0.15
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	2009	1	impact	nonlocal	440	27	136	57	4	46	0.08	2	0.09
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	2010	1	impact	nonlocal	748	8	121	45	4	47	0.07	26	0.15
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	2011	1	impact	nonlocal	597	34	72	87	0	50	0	2	0.09
+Upper Salmon	SRUMA	SRUMA	Upper Salmon River	80.1029	2012	1	impact	nonlocal	504	3	124	73	0	50	0	0	0.11
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1957	0	control	control	1508	0	0	0	0	50	0	0	0.62
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1958	0	control	control	312	0	0	0	0	50	0	0	0.75
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1959	0	control	control	255	0	0	0	0	50	0	0	0.69
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1960	0	control	control	607	2	27	24	0	50	0	0	0.71
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1961	0	control	control	1044	7	36	63	0	50	0	0	0.58
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1962	0	control	control	738	2	26	31	0	50	0	0	0.69
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1963	0	control	control	518	0	6	33	0	50	0	0	0.71
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1964	0	control	control	732	4	19	37	0	50	0	0	0.62
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1965	0	control	control	708	2	16	18	0	50	0	0	0.64
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1966	0	control	control	1093	6	57	80	0	50	0	0	0.49
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1967	0	control	control	900	5	21	94	0	50	0	0	0.58
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1968	0	control	control	1066	5	94	90	0	50	0	0	0.49
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1969	0	control	control	155	4	35	69	0	50	0	0	0.47
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1970	0	control	control	659	1	6	5	0	50	0	0	0.49
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1971	0	control	control	640	6	75	74	0	50	0	0	0.39
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1972	0	control	control	599	1	19	42	0	50	0	0	0.55
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1973	0	control	control	548	0	5	69	0	50	0	0	0.61
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1974	0	control	control	466	1	15	25	0	50	0	0	0.41
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1975	0	control	control	729	0	14	71	0	50	0	0	0
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1976	0	control	control	117	0	0	0	0	50	0	0	0.01
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1977	0	control	control	220	0	0	0	0	50	0	0	0.36
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1978	0	control	control	976	0	3	28	0	50	0	0	0.18
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1979	0	control	control	108	0	0	1	0	50	0	0	0.04
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1980	0	control	control	27	0	0	0	0	50	0	0	0.03
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1981	0	control	control	52	0	0	0	0	50	0	0	0.07
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1982	0	control	control	24	0	0	0	0	50	0	0	0.09
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1983	0	control	control	98	0	0	0	0	50	0	0	0.09
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1984	0	control	control	57	0	0	0	0	50	0	0	0.1
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1985	0	control	control	5	0	0	1	0	50	0	0	0.07
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1986	0	control	control	79	0	0	0	0	50	0	0	0.08
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1987	0	control	control	244	0	0	0	0	50	0	0	0.08
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1988	0	control	control	122	0	0	0	0	50	0	0	0.14
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1989	0	control	control	133	0	0	0	0	50	0	0	0.1
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1990	0	control	control	33	0	0	0	0	50	0	0	0.12
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1991	0	control	control	14	0	0	0	0	50	0	0	0.1
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1992	0	control	control	19	0	0	0	0	50	0	0	0.08
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1993	0	control	control	62	0	6	18	0	50	0	0	0.07
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1994	0	control	control	24	0	1	1	0	50	0	0	0.1
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1995	0	control	control	0	0	0	0	0	50	0	0	0.05
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1996	0	control	control	8	0	0	1	0	50	0	0	0.05
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1997	0	control	control	33	0	0	0	0	50	0	0	0.07
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1998	0	control	control	100	0	0	0	0	50	0	0	0.06
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	1999	0	control	control	19	0	0	0	0	50	0	0	0.04
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	2000	0	control	control	14	0	0	0	0	50	0	0	0.06
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	2001	0	control	control	176	0	10	1	0	50	0	0	0.15
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	2002	0	control	control	279	0	2	3	0	50	0	0	0.13
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	2003	0	control	control	301	0	1	18	0	50	0	0	0.09
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	2004	0	control	control	84	2	15	16	0	50	0	0	0.11
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	2005	0	control	control	54	1	10	5	0	50	0	0	0.08
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	2006	0	control	control	62	0	12	2	0	50	0	0	0.08
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	2007	0	control	control	76	2	20	14	0	50	0	0	0.09
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	2008	0	control	control	163	3	37	31	0	50	0	0	0.15
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	2009	0	control	control	117	1	29	13	0	50	0	0	0.09
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	2010	0	control	control	118	1	37	4	0	50	0	0	0.15
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	2011	0	control	control	119	9	65	14	0	50	0	0	0.09
+Valley	Valley	SRVAL	Upper Salmon River	42.6649	2012	0	control	control	120	0	65	48	0	50	0	0	0.11
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1957	0	control	control	406	0	0	0	0	50	0	0	0.62
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1958	0	control	control	269	0	0	0	0	50	0	0	0.75
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1959	0	control	control	113	0	0	0	0	50	0	0	0.69
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1960	0	control	control	204	0	0	0	0	50	0	0	0.71
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1961	0	control	control	584	0	0	0	0	50	0	0	0.578707313
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1962	0	control	control	302	0	0	0	0	50	0	0	0.693792187
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1963	0	control	control	868	0	0	0	0	50	0	0	0.710131395
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1964	0	control	control	622	0	0	0	0	50	0	0	0.619816219
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1965	0	control	control	562	0	0	0	0	50	0	0	0.642881096
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1966	0	control	control	1136	0	0	0	0	50	0	0	0.490027963
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1967	0	control	control	1434	0	0	0	0	50	0	0	0.584850277
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1968	0	control	control	1487	0	0	0	0	50	0	0	0.490129952
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1969	0	control	control	253	0	0	0	0	50	0	0	0.466907789
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1970	0	control	control	553	0	0	0	0	50	0	0	0.493483474
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1971	0	control	control	269	0	0	0	0	50	0	0	0.385802014
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1972	0	control	control	650	0	0	0	0	50	0	0	0.548664396
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1973	0	control	control	546	0	0	0	0	50	0	0	0.608659608
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1974	0	control	control	226	0	0	0	0	50	0	0	0.409038961
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1975	0	control	control	355	0	0	0	0	50	0	0	0.002
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1976	0	control	control	118	0	0	0	0	50	0	0	0.005
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1977	0	control	control	147	0	0	0	0	50	0	0	0.355808656
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1978	0	control	control	410	0	0	0	0	50	0	0	0.184946463
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1979	0	control	control	60	0	0	0	0	50	0	0	0.043
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1980	0	control	control	4	0	0	0	0	50	0	0	0.032
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1981	0	control	control	86	0	0	0	0	50	0	0	0.066
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1982	0	control	control	2	0	0	0	0	50	0	0	0.085
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1983	0	control	control	15	0	0	0	0	50	0	0	0.091
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1984	0	control	control	NA	0	0	0	0	50	0	0	0.1
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1985	0	control	control	11	0	0	0	0	50	0	0	0.068
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1986	0	control	control	46	0	0	0	0	50	0	0	0.08
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1987	0	control	control	36	0	0	0	0	50	0	0	0.08
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1988	0	control	control	42	0	0	0	0	50	0	0	0.135
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1989	0	control	control	29	0	0	0	0	50	0	0	0.099
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1990	0	control	control	44	0	0	0	0	50	0	0	0.121
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1991	0	control	control	24	0	0	0	0	50	0	0	0.101
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1992	0	control	control	27	0	0	0	0	50	0	0	0.079
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1993	0	control	control	20	0	0	0	0	50	0	0	0.071
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1994	0	control	control	2	0	0	0	0	50	0	0	0.095
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1995	0	control	control	0	0	0	0	0	50	0	0	0.05
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1996	0	control	control	4	0	0	0	0	50	0	0	0.05
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1997	0	control	control	7	0	0	0	0	50	0	0	0.072
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1998	0	control	control	22	0	0	0	0	50	0	0	0.057
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	1999	0	control	control	2	0	0	0	0	50	0	0	0.042
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	2000	0	control	control	20	0	0	0	0	50	0	0	0.057
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	2001	0	control	control	96	0	6	0	0	50	0	0	0.145
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	2002	0	control	control	93	0	6	4	0	50	0	0	0.12586598
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	2003	0	control	control	160	0	1	37	0	50	0	0	0.093881579
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	2004	0	control	control	29	1	3	1	0	50	0	0	0.108
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	2005	0	control	control	11	0	3	3	0	50	0	0	0.079
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	2006	0	control	control	7	0	3	2	0	50	0	0	0.079
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	2007	0	control	control	0	0	1	0	0	50	0	0	0.088
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	2008	1	control	nonlocal	340	0	2	3	48	3	0.95	0	0.152
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	2009	1	control	nonlocal	688	0	2	3	48	2	0.96	0	0.089
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	2010	1	control	nonlocal	9	0	0	0	14	37	0.27	0	0.149
+Yankee	Yankee	SRYFS	Upper Salmon River	52.2566	2011	0	control	control	20	3	6	2	0	50	0	0	0.087886959

@@ -9,7 +9,7 @@ library(zoo)
 #===========================================================================
 
 # Load data
-fish_data <- read.table(file.path("~", "SalmonIPM", "IPM_PVA", "fish_data.txt"), sep = "\t", header = T)
+fish_data <- read.table(file.path("~", "salmonIPM", "IPM_PVA", "fish_data.txt"), sep = "\t", header = T)
 fish_data <- fish_data[order(fish_data$code, fish_data$year),]
 
 # Impute one NA value of S_tot_obs in Chamberlain 1986
@@ -113,7 +113,7 @@ PVA_IPM_pp <- salmonIPM(fish_data = fish_data_aug, model = "IPM", pool_pops = TR
                         chains = 3, iter = 1000, warmup = 500,
                         control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
 
-print(PVA_IPM_pp, pars = c("phi","p_HOS","B_rate_all","q"), include = FALSE)
+print(PVA_IPM_pp, pars = c("phi","p_HOS","B_rate_all","q","gamma","p","S_tot","R_tot"), include = FALSE)
 launch_shinystan(PVA_IPM_pp)
 
 
@@ -266,7 +266,7 @@ rm(list = c("c1","c2","RR_pp_median","RR_pp_CI.025","RR_pp_CI.975",
 # impact on quasi-extinction risk under multi-pop IPM
 #===========================================================================
 
-F_rate_future <- seq(0, 0.3, length=11)
+F_rate_future <- seq(0, 0.3, length=7)
 S_tot_F <- array(NA, dim = c(1500, nrow(fish_data_aug), length(F_rate_future)))
 R_tot_F <- array(NA, dim = c(1500, nrow(fish_data_aug), length(F_rate_future)))
 
@@ -385,9 +385,9 @@ rm(list = c("pops","S_tot_IPM","S_tot_obs_IPM","R_tot_IPM","RS_IPM","RS_RR","sd"
 dev.new(width = 11, height = 3.5)
 # png(filename="Fig_2.png", width=11, height=3.5, units="in", res=200, type="cairo-png")
 par(mfrow = c(1,3), mar = c(5.1,5.1,1,1))
-BH <- function(a, b, S) 
+BH <- function(a, Rmax, S) 
 {
-  a*S/(1 + b*S)
+  a*S/(1 + a*S/Rmax)
 }
 
 S <- matrix(seq(0, quantile(fish_data$S_tot_obs/fish_data$A, 0.9, na.rm = T), length = 100),
@@ -395,11 +395,11 @@ S <- matrix(seq(0, quantile(fish_data$S_tot_obs/fish_data$A, 0.9, na.rm = T), le
 
 # S-R curves
 mu_log_a <- as.vector(extract1(PVA_RR_pp,"mu_log_a"))
-mu_log_b <- as.vector(extract1(PVA_RR_pp,"mu_log_b"))
-R_ESU_RR <- BH(a = exp(mu_log_a), b = exp(mu_log_b), S = S)
+mu_log_Rmax <- as.vector(extract1(PVA_RR_pp,"mu_log_Rmax"))
+R_ESU_RR <- BH(a = exp(mu_log_a), Rmax = exp(mu_log_Rmax), S = S)
 mu_log_a <- as.vector(extract1(PVA_IPM_pp,"mu_log_a"))
-mu_log_b <- as.vector(extract1(PVA_IPM_pp,"mu_log_b"))
-R_ESU_IPM <- BH(a = exp(mu_log_a), b = exp(mu_log_b), S = S)
+mu_log_Rmax <- as.vector(extract1(PVA_IPM_pp,"mu_log_Rmax"))
+R_ESU_IPM <- BH(a = exp(mu_log_a), Rmax = exp(mu_log_Rmax), S = S)
 
 bb <- "orangered3"
 plot(S[1,], apply(R_ESU_RR, 2, median), type = "l", lwd=3, col = bb, las = 1,
@@ -446,14 +446,14 @@ for(i in 1:length(dd_RR_pop))
 text(par("usr")[1], par("usr")[4], adj = c(-1,1.5), "B", cex = 2)
 
 # Posterior densities of log(Rmax)
-dd_IPM_ESU <- density(extract1(PVA_IPM_pp,"mu_log_a") - extract1(PVA_IPM_pp,"mu_log_b"))
+dd_IPM_ESU <- density(extract1(PVA_IPM_pp,"mu_log_Rmax"))
 dd_IPM_pop <- vector("list", length(levels(fish_data$pop)))
 for(i in 1:length(dd_IPM_pop))
-  dd_IPM_pop[[i]] <- density(log(extract1(PVA_IPM_pp,"a")[,i]) - log(extract1(PVA_IPM_pp,"b")[,i]))
-dd_RR_ESU <- density(extract1(PVA_RR_pp,"mu_log_a") - extract1(PVA_RR_pp,"mu_log_b"))
+  dd_IPM_pop[[i]] <- density(log(extract1(PVA_IPM_pp,"Rmax")[,i]))
+dd_RR_ESU <- density(extract1(PVA_RR_pp,"mu_log_Rmax"))
 dd_RR_pop <- vector("list", length(levels(fish_data$pop)))
 for(i in 1:length(dd_RR_pop))
-  dd_RR_pop[[i]] <- density(log(extract1(PVA_RR_pp,"a")[,i]) - log(extract1(PVA_RR_pp,"b")[,i]))
+  dd_RR_pop[[i]] <- density(log(extract1(PVA_RR_pp,"Rmax")[,i]))
 
 bb <- "blue4"
 plot(dd_IPM_ESU$x, dd_IPM_ESU$y, type = "l", lwd = 3, col = bb, las = 1, cex.lab = 2, cex.axis = 1.5,
@@ -474,7 +474,7 @@ for(i in 1:length(dd_RR_pop))
 text(par("usr")[1], par("usr")[4], adj = c(-1,1.5), "C", cex = 2)
 legend("topright", c("IPM","RR"), col = c("blue4","orangered3"), lwd = 3, cex = 1.5)
 
-rm(list=c("mu_log_a","mu_log_b","S","R_ESU_RR","R_ESU_IPM","BH",
+rm(list=c("mu_log_a","mu_log_Rmax","S","R_ESU_RR","R_ESU_IPM","BH",
           "bb","dd_IPM_ESU","dd_RR_ESU","dd_IPM_pop","dd_RR_pop"))
 # dev.off()
 
@@ -485,9 +485,9 @@ rm(list=c("mu_log_a","mu_log_b","S","R_ESU_RR","R_ESU_IPM","BH",
 
 dev.new(width = 7, height = 7)
 # png(filename="Fig_2.5(3).png", width=7, height=7, units="in", res=200, type="cairo-png")
-BH <- function(a, b, S, A) 
+BH <- function(a, Rmax, S, A) 
 {
-  a*S/(A + b*S)
+  a*S/(A + a*S/Rmax)
 }
 
 pop <- "Sulphur"
@@ -502,11 +502,11 @@ R_adj_IPM <- (extract1(PVA_IPM_pp,"R_tot")/extract1(PVA_IPM_pp,"phi")[,yy])[,fis
 S <- matrix(seq(0, max(S_tot_RR, apply(S_tot_IPM, 2, median), na.rm = T)*1.02, length = 500),
             nrow = sum(PVA_RR_pp@sim$n_save - PVA_RR_pp@sim$warmup2), ncol = 500, byrow = T)
 a <- as.vector(extract1(PVA_RR_pp,"a")[,which(levels(fish_data$pop)==pop)])
-b <- as.vector(extract1(PVA_RR_pp,"b")[,which(levels(fish_data$pop)==pop)])
-R_RR <- BH(a = a, b = b, S = S, AA) * AA
+Rmax <- as.vector(extract1(PVA_RR_pp,"Rmax")[,which(levels(fish_data$pop)==pop)])
+R_RR <- BH(a = a, Rmax = Rmax, S = S, AA) * AA
 a <- as.vector(extract1(PVA_IPM_pp,"a")[,which(levels(fish_data$pop)==pop)])
-b <- as.vector(extract1(PVA_IPM_pp,"b")[,which(levels(fish_data$pop)==pop)])
-R_IPM <- BH(a = a, b = b, S = S, AA) * AA
+Rmax <- as.vector(extract1(PVA_IPM_pp,"Rmax")[,which(levels(fish_data$pop)==pop)])
+R_IPM <- BH(a = a, Rmax = Rmax, S = S, AA) * AA
 
 # layer 1
 c1 <- "orangered3"
@@ -535,7 +535,7 @@ segments(x0 = apply(S_tot_IPM, 2, median), y0 = apply(R_adj_IPM, 2, quantile, 0.
 lines(S[1,], apply(R_IPM, 2, median), lwd = 3, col = c2)
 polygon(c(S[1,], rev(S[1,])), c(apply(R_IPM, 2, quantile, 0.025), rev(apply(R_IPM, 2, quantile, 0.975))), col = c2tt, border = NA)
 
-rm(list = c("yy","AA","BH","pop","S","a","b","R_RR","R_IPM","S_tot_RR","S_tot_IPM",
+rm(list = c("yy","AA","BH","pop","S","a","Rmax","R_RR","R_IPM","S_tot_RR","S_tot_IPM",
             "R_adj_RR","R_adj_IPM","c1","c1t","c2","c2t","c2tt"))
 
 # dev.off()

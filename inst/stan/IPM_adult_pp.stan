@@ -79,7 +79,7 @@ parameters {
   vector[N_X] beta_log_phi;             # regression coefs for log productivity anomalies
   real<lower=-1,upper=1> rho_log_phi;   # AR(1) coef for log productivity anomalies
   real<lower=0> sigma_log_phi;          # hyper-SD of brood year log productivity anomalies
-  vector[max(year)] log_phi_z;          # log brood year productivity anomalies (Z-scores)
+  vector[N_year] log_phi_z;             # log brood year productivity anomalies (Z-scores)
   real<lower=0> sigma_proc;             # unique process error SD
   simplex[N_age] mu_p;                  # mean of cohort age distributions
   vector<lower=0>[N_age-1] sigma_gamma; # among-pop SD of mean log-ratio age distributions
@@ -134,7 +134,7 @@ transformed parameters {
   phi[1] = log_phi_z[1]*sigma_log_phi/sqrt(1 - rho_log_phi^2); # initial anomaly
   for(i in 2:N_year)
     phi[i] = rho_log_phi*phi[i-1] + log_phi_z[i]*sigma_log_phi;
-  phi = exp(phi + X*beta_log_phi);
+  phi = exp(phi - mean(phi) + X*beta_log_phi);  # constrain log anomalies to sum to zero
 
   # Pad p_HOS and B_rate
   p_HOS_all = rep_vector(0,N);
