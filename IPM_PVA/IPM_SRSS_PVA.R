@@ -261,47 +261,6 @@ rm(list = c("c1","c2","RR_pp_median","RR_pp_CI.025","RR_pp_CI.975",
 
 
 #===========================================================================
-# HARVEST SIMULATIONS
-# Vary future exploitation rate (fixed-rate policy) and look at
-# impact on quasi-extinction risk under multi-pop IPM
-#===========================================================================
-
-n_chains <- 3
-n_warmup <- 500
-n_save <- 500
-
-F_rate_future <- seq(0, 0.3, length=7)
-S_tot_F <- array(NA, dim = c(n_chains*n_save, nrow(fish_data_aug), length(F_rate_future)))
-R_tot_F <- array(NA, dim = c(n_chains*n_save, nrow(fish_data_aug), length(F_rate_future)))
-log_phi_F <- array(NA, dim = c(n_chains*n_save, length(unique(fish_data_aug$year)), length(F_rate_future)))
-
-for(i in 1:length(F_rate_future))
-{
-  fish_data_F <- fish_data_aug
-  fish_data_F$F_rate[fish_data_F$type=="future"] <- F_rate_future[i]
-  
-  PVA_F <- salmonIPM(fish_data = fish_data_F, model = "IPM", pool_pops = TRUE, 
-                     pars = c("R_tot","S_tot"),
-                     chains = n_chains, iter = n_warmup + n_save, warmup = n_warmup,
-                     control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
-  S_tot_F[,,i] <- extract1(PVA_F,"S_tot")
-  R_tot_F[,,i] <- extract1(PVA_F,"R_tot")
-  log_phi_F[,,i] <- log(extract1(PVA_F,"phi"))
-}
-
-rm(list = c("n_chains","n_warmup","n_save"))
-##
-# for(j in 1:length(F_rate_future))
-#   for(i in 1:1500)
-#   {
-#     logRS <- log(R_tot_F[i,,j]) - log(S_tot_F[i,,j])
-#     log_phi_F[i,,j] <- tapply(logRS, fish_data_aug$year, mean)
-#   }
-##
-
-
-
-#===========================================================================
 # FIGURES
 #===========================================================================
 
@@ -676,32 +635,6 @@ text(8, max(F1)*1.5, "pre-1980 harvest", pos = 4, cex = 1.2)
 rm(list = c("mu_log_a_RR","mu_log_a_IPM","Umax_ESU_RR","Umax_ESU_IPM",
             "a_RR","Umax_pop_RR","a_IPM","Umax_pop_IPM","c1","c1t","c2","c2t","bins","F1","F2"))
 
-# dev.off()
-
-
-#------------------------------------------------------------------------------------
-# Pop- and ESU-level probabilities of quasi-extinction under multi-pop IPM
-# as a function of harvest rate
-#------------------------------------------------------------------------------------
-
-dev.new(width = 7, height = 7)
-# png(filename="Fig_F.png", width=7, height=7, units="in", res=200, type="cairo-png")
-qet <- 50     # set quasi-extinction threshold (4-yr moving average)
-pop <- fish_data_F$pop[fish_data_F$type=="future"]
-c2 <- "blue4"
-c2t <- col2rgb(c2)
-c2t <- rgb(c2t[1], c2t[2], c2t[3], maxColorValue = 255, alpha = 255*0.7)
-
-plot(range(F_rate_future), 0:1, pch = "", las = 1, cex.lab = 1.5, cex.axis = 1.2, 
-     xaxs = "i", yaxs = "i", xlab = "Exploitation rate", ylab = "Probability of quasi-extinction")
-for(i in levels(pop))
-{
-  pqe_F <- S_tot_F[,fish_data_F$pop==i & fish_data_F$type=="future",]
-  pqe_F <- colMeans(apply(pqe_F, c(1,3), function(x) any(rollmean(x, 4) < qet)))
-  lines(F_rate_future, pqe_F, col = c2t)
-}
-
-rm(list = c("qet","pop","c2","c2t","pqe_F"))
 # dev.off()
 
 
