@@ -10,11 +10,16 @@ library(zoo)
 
 # Load data
 fish_data <- read.table(file.path("~", "salmonIPM", "IPM_PVA", "fish_data.txt"), sep = "\t", header = T)
+fish_data <- fish_data[!is.na(fish_data$B_take_obs),]
 fish_data <- fish_data[order(fish_data$code, fish_data$year),]
 
-# Impute one NA value of S_tot_obs in Chamberlain 1986
-fish_data$S_tot_obs[fish_data$pop == "Chamberlain" & fish_data$year == 1986] <- 
-  mean(fish_data$S_tot_obs[fish_data$pop == "Chamberlain"][1:5], na.rm = T)
+# # Impute one NA value of S_tot_obs in Chamberlain 1986
+# fish_data$S_tot_obs[fish_data$pop == "Chamberlain" & fish_data$year == 1986] <- 
+#   mean(fish_data$S_tot_obs[fish_data$pop == "Chamberlain"][1:5], na.rm = T)
+
+# Load habitat area data and add area column (convert m2 to ha) to fish_data
+IP <- read.table(file.path("~", "salmonIPM", "IPM_PVA", "IP.txt"), sep = "\t", header = T)
+fish_data <- cbind(fish_data[,1:5], A = IP$A[match(fish_data$code, IP$code)]/1e4, fish_data[,-c(1:5)])
 
 # Change area to 1 for all pops (units of Rmax will be spawners, not spawners/ha)
 # fish_data$A <- 1
@@ -26,8 +31,9 @@ year_aug <- sapply(tapply(fish_data$year, fish_data$pop, max), function(x) (x + 
 pop_aug <- rep(names(year_aug), sapply(year_aug, length))
 code_aug <- fish_data$code[match(pop_aug, fish_data$pop)]
 MPG_aug <- fish_data$MPG[match(pop_aug, fish_data$pop)]
+ESU_aug <- fish_data$ESU[match(pop_aug, fish_data$pop)]
 A_aug <- rep(tapply(fish_data$A, fish_data$pop, mean), times = sapply(year_aug, length))
-fish_data_aug <- data.frame(pop = pop_aug, code = code_aug, MPG = MPG_aug, A = A_aug,
+fish_data_aug <- data.frame(pop = pop_aug, code = code_aug, MPG = MPG_aug, ESU = ESU_aug, A = A_aug,
                             year = unlist(year_aug), type = "future", fit_p_HOS = 0, 
                             S_tot_obs = NA, n_age3_obs = 0, n_age4_obs = 0, n_age5_obs = 0,
                             n_W_obs = 0, n_H_obs = 0, p_HOS = 0, B_take_obs = 0, F_rate = 0,
@@ -66,7 +72,21 @@ write.table(table1, "table1.txt", sep="\t", row.names=F)
 
 
 #===========================================================================
-# FIT MODELS
+# FIT RETROSPECTIVE MODELS
+#
+# Fit to observed data to check model behavior 
+#===========================================================================
+
+IPM_pp <- salmonIPM(fish_data = fish_data, model = "IPM", pool_pops = TRUE, 
+                        chains = 3, iter = 1000, warmup = 500,
+                        control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+
+print(IPM_pp, pars = c("phi","p_HOS","B_rate_all","q","gamma","p","S_tot","R_tot"), include = FALSE)
+launch_shinystan(IPM_pp)
+
+
+#===========================================================================
+# FIT PVA MODELS
 #===========================================================================
 
 #------------------------------------------

@@ -48,9 +48,14 @@ stan_data <- function(fish_data, env_data = NULL, catch_data = NULL, model)
       stop("Missing values not allowed in total run size and catch with model == 'IPM_F'.\n")
   }
   
-  for(i in c("pop","year","A","fit_p_HOS","B_take_obs","F_rate"))
+  for(i in c("pop","year","A","fit_p_HOS","B_take_obs"))
     if(any(is.na(fish_data[,i])))
       stop(paste0("Missing values not allowed in fish_data$", i, "\n"))
+  
+  max_age <- max(as.numeric(substring(names(fish_data)[grep("n_age", names(fish_data))], 6, 6)))
+  F_rate_check <- tapply(fish_data$F_rate, fish_data$pop, function(x) any(is.na(x[-c(1:max_age)])))
+  if(any(F_rate_check))
+    stop(paste0("Missing values not allowed in fish_data$F_rate except in years 1:max_age", i, "\n"))
   
   if(any(is.na(fish_data$n_W_obs) != is.na(fish_data$n_H_obs)))
     stop(paste("Conflicting NAs in n_W_obs and n_H_obs in rows", 
@@ -78,7 +83,7 @@ stan_data <- function(fish_data, env_data = NULL, catch_data = NULL, model)
                   which_S_obs = array(which(!is.na(S_tot_obs)), dim = sum(!is.na(S_tot_obs))),
                   S_tot_obs = replace(S_tot_obs, is.na(S_tot_obs) | S_tot_obs==0, 1),
                   N_age = sum(grepl("n_age", names(fish_data))), 
-                  max_age = max(as.numeric(substring(names(fish_data)[grep("n_age", names(fish_data))], 6, 6))),
+                  max_age = max_age,
                   n_age_obs = as.matrix(fish_data[,grep("n_age", names(fish_data))]),
                   N_H = sum(fit_p_HOS),
                   which_H = array(which(fit_p_HOS), dim = max(sum(fit_p_HOS), 1)),
@@ -87,7 +92,7 @@ stan_data <- function(fish_data, env_data = NULL, catch_data = NULL, model)
                   A = A,
                   # N_F = sum(F_rate > 0),
                   # which_F = array(which(F_rate > 0), dim = max(sum(F_rate > 0), 1)),
-                  F_rate = F_rate,
+                  F_rate = replace(F_rate, is.na(F_rate), 0),
                   N_B = sum(B_take_obs > 0),
                   which_B = array(which(B_take_obs > 0), dim = max(sum(B_take_obs > 0), 1)),
                   B_take_obs = B_take_obs[B_take_obs > 0])
