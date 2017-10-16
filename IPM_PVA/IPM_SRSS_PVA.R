@@ -1,6 +1,7 @@
 setwd(file.path("~","salmonIPM","IPM_PVA"))
 options(device=windows)
 library(salmonIPM)
+library(corrplot)
 library(magicaxis)
 library(zoo)
 
@@ -23,6 +24,11 @@ fish_data <- cbind(fish_data[,1:5], A = IP$A[match(fish_data$code, IP$code)]/1e4
 
 # Change area to 1 for all pops (units of Rmax will be spawners, not spawners/ha)
 # fish_data$A <- 1
+
+# Create dummy covariate for intervention analysis: pre/post-1970 (centered, not scaled)
+pre_post_1970 <- data.frame(pre_post_1970 = as.numeric(sort(unique(fish_data$year)) >= 1970),
+                       row.names = sort(unique(fish_data$year)))
+pre_post_1970$pre_post_1970 <- pre_post_1970$pre_post_1970 - mean(pre_post_1970$pre_post_1970)
 
 # Pad data with years through max_year
 N_future_years <- 50
@@ -77,12 +83,23 @@ write.table(table1, "table1.txt", sep="\t", row.names=F)
 # Fit to observed data to check model behavior 
 #===========================================================================
 
+# Base model
+
 IPM_pp <- salmonIPM(fish_data = fish_data, model = "IPM", pool_pops = TRUE, 
                         chains = 3, iter = 1000, warmup = 500,
                         control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
 
 print(IPM_pp, pars = c("phi","p_HOS","B_rate_all","q","gamma","p","S_tot","R_tot"), include = FALSE)
 launch_shinystan(IPM_pp)
+
+# Model with intervention in 1970
+IPM_pp_1970 <- salmonIPM(fish_data = fish_data, env_data = pre_post_1970, model = "IPM", pool_pops = TRUE, 
+                    chains = 3, iter = 1000, warmup = 500,
+                    control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+
+print(IPM_pp_1970, pars = c("phi","p_HOS","B_rate_all","q","gamma","p","S_tot","R_tot"), include = FALSE)
+launch_shinystan(IPM_pp_1970)
+
 
 
 #===========================================================================
@@ -307,8 +324,8 @@ Y <- 10
 c1 <- "blue4"
 c1t <- col2rgb(c1)
 c1tt <- c1t
-c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.25)
-c1tt <- rgb(c1tt[1], c1tt[2], c1tt[3], maxColorValue = 255, alpha = 255*0.45)
+c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.3)
+c1tt <- rgb(c1tt[1], c1tt[2], c1tt[3], maxColorValue = 255, alpha = 255*0.2)
 c2 <- "orangered3"
 c2 <- col2rgb(c2)
 c2 <- rgb(c2[1], c2[2], c2[3], maxColorValue = 255, alpha = 255*0.6)
@@ -335,7 +352,7 @@ for(i in pops)
   polygon(c(y2, rev(y2)), 
           c(apply(S_tot_obs_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025), 
             rev(apply(S_tot_obs_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975))),
-          col = c1t, border = NA)
+          col = c1tt, border = NA)
   points(y2, apply(S_tot_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median, na.rm = T), pch = 16, cex = 1.5, col = c2)
   segments(x0 = y2,
            y0 = apply(S_tot_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025, na.rm = T),
@@ -360,7 +377,7 @@ for(i in pops)
   polygon(c(y2, rev(y2)), 
           c(apply(RS_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025), 
             rev(apply(RS_IPM[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.975))),
-          col = c1tt, border = NA)
+          col = c1t, border = NA)
   points(y2, apply(RS_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, median, na.rm = T), pch = 16, cex = 1.5, col = c2)
   segments(x0 = y2, 
            y0 = apply(RS_RR[,fish_data_aug$pop==i & fish_data_aug$year %in% y2], 2, quantile, 0.025, na.rm = T), 
@@ -837,179 +854,343 @@ rm(list=c("mu_log_a","sigma_log_a","mu_log_b","sigma_log_b","sigma_log_phi","sig
 
 
 #--------------------------------------------------------------------------------
-# Time series of observed and fitted or predicted total spawners for each pop
+# Time series of observed and fitted total spawners for each pop
+# under hierarchical IPM
 #--------------------------------------------------------------------------------
 
 dev.new(width=16,height=10)
-par(mfrow=c(4,6), mar=c(1,2,4.1,1), oma=c(4.1,3.1,0,0))
-S_tot <- extract1(PVA_IPM_pp,"S_tot")
-c1 <- "darkgray"
+png(filename="S_tot_fit_IPM.png", width=16*0.9, height=10*0.9, units="in", res=200, type="cairo-png")
+par(mfrow=c(5,6), mar=c(1,2,4.1,1), oma=c(4.1,3.1,0,0))
+
+S_tot_IPM <- extract1(IPM_pp,"S_tot")
+S_tot_obs_IPM <- S_tot_IPM * rlnorm(length(S_tot_IPM), 0, extract1(IPM_pp,"sigma_obs"))
+init_NA <- fish_data$year
+for(i in levels(fish_data$code))
+  init_NA[fish_data$code==i] <- init_NA[fish_data$code==i] - min(init_NA[fish_data$code==i]) + 1
+init_NA <- is.na(fish_data$S_tot_obs) & init_NA < 5
+
+c1 <- "blue4"
 c1t <- col2rgb(c1)
-c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.6)
-c2 <- "blue"
-c2t <- col2rgb(c2)
-c2t <- rgb(c2t[1], c2t[2], c2t[3], maxColorValue = 255, alpha = 255*0.4)
-iters <- 1:5
-for(i in levels(fish_data_aug$pop))
+c1tt <- c1t
+c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.3)
+c1tt <- rgb(c1tt[1], c1tt[2], c1tt[3], maxColorValue = 255, alpha = 255*0.2)
+
+for(i in levels(fish_data$code))
 {
-  S_tot_i <- S_tot[,fish_data_aug$pop==i]
-  S_tot_fit_i <- S_tot_i[,fish_data_aug$type[fish_data_aug$pop==i]=="past"]
-  # S_tot_fit_pts_i <- density(log(S_tot_fit_i[,1]), 
-  #                          from = min(apply(log(S_tot_i), 2, quantile, 0.025)), 
-  #                          to = max(apply(log(S_tot_i), 2, quantile, 0.975)))$x
-  # S_tot_fit_dens_i <- apply(log(S_tot_fit_i), 2, function(x) 
-  #   density(x, from = min(apply(log(S_tot_i), 2, quantile, 0.025)), 
-  #           to = max(apply(log(S_tot_i), 2, quantile, 0.975)))$y)
-  S_tot_fore_i <- cbind(S_tot_fit_i[,ncol(S_tot_fit_i)],
-                        S_tot_i[,fish_data_aug$type[fish_data_aug$pop==i]=="future"])
-  # S_tot_fore_pts_i <- density(log(S_tot_fore_i[,1]), 
-  #                            from = min(apply(log(S_tot_i), 2, quantile, 0.025)), 
-  #                            to = max(apply(log(S_tot_i), 2, quantile, 0.975)))$x
-  # S_tot_fore_dens_i <- apply(log(S_tot_fore_i), 2, function(x) 
-  #   density(x, from = min(apply(log(S_tot_i), 2, quantile, 0.025)), 
-  #           to = max(apply(log(S_tot_i), 2, quantile, 0.975)))$y)
-  year_fit_i <- fish_data_aug$year[fish_data_aug$pop==i & fish_data_aug$type=="past"]
-  year_fore_i <- c(year_fit_i[length(year_fit_i)], 
-                   fish_data_aug$year[fish_data_aug$pop==i & fish_data_aug$type=="future"])
-  
-  plot(fish_data_aug$year[fish_data_aug$pop==i], fish_data_aug$S_tot_obs[fish_data_aug$pop==i], pch="", cex=1.2, cex.axis=1.2, las=1,
-       # ylim = c(0,max(apply(S_tot_i, 2, quantile, 0.975))), xlab="", ylab="")
-       # ylim = c(min(apply(S_tot_i, 2, quantile, 0.025)),max(apply(S_tot_i, 2, quantile, 0.975))),
-       xlim = range(fish_data_aug$year),
-       ylim = range(c(range(S_tot_i[iters,]),
-                      c(min(apply(S_tot_fit_i, 2, quantile, 0.025)),max(apply(S_tot_fit_i, 2, quantile, 0.975))),
-                      range(replace(fish_data_aug$S_tot_obs[fish_data_aug$pop==i], fish_data_aug$S_tot_obs[fish_data_aug$pop==i]==0, 1), 
-                            na.rm = T))),
-       xlab="", ylab="", log = "y", yaxt = "n")
+  y1 <- fish_data$year[fish_data$code==i]
+  plot(y1, fish_data$S_tot_obs[fish_data$code==i], pch = "",
+       xlim = range(fish_data$year),
+       ylim = range(pmax(fish_data$S_tot_obs[fish_data$code==i], 1),
+                    apply(S_tot_obs_IPM[,fish_data$code==i & !init_NA], 2, quantile, c(0.025,0.975)), na.rm = T), 
+       cex.axis = 1.2, las = 1, yaxs = "i", yaxt = "n", xlab = "", ylab = "", log = "y")
   at <- maglab(10^par("usr")[3:4], log = T)
   axis(2, at$labat, cex.axis=1.2, las=1,
        labels = sapply(log10(at$labat), function(i) as.expression(bquote(10^ .(i)))))
-  # densregion(year_fit_i, exp(S_tot_fit_pts_i), t(S_tot_fit_dens_i), colmax = c1)
-  lines(year_fit_i,apply(S_tot_fit_i, 2, quantile, 0.5), col=c1, lwd=3)
-  polygon(c(year_fit_i, rev(year_fit_i)),
-          c(apply(S_tot_fit_i, 2, quantile, 0.025), rev(apply(S_tot_fit_i, 2, quantile, 0.975))),
+  mtext(i, side = 3, line = 0.5, cex = par("cex")*1.5)
+  if(i %in% levels(fish_data$code)[seq(1,29,6)]) mtext("Spawners", side = 2, line = 3.5, cex = par("cex")*1.5)
+  if(i %in% levels(fish_data$code)[25:29]) mtext("Year", side = 1, line = 3, cex = par("cex")*1.5)
+  lines(y1, apply(S_tot_IPM[,fish_data$code==i], 2, median), col = c1, lwd = 2)
+  polygon(c(y1, rev(y1)), 
+          c(apply(S_tot_IPM[,fish_data$code==i], 2, quantile, 0.025), 
+            rev(apply(S_tot_IPM[,fish_data$code==i], 2, quantile, 0.975))),
           col = c1t, border = NA)
-  # densregion(year_fore_i, exp(S_tot_fore_pts_i), t(S_tot_fore_dens_i), colmax = c2)
-  # lines(year_fore_i,apply(S_tot_fore_i, 2, quantile, 0.5), col=c2, lwd=3)
-  # polygon(c(year_fore_i, rev(year_fore_i)),
-  #         c(apply(S_tot_fore_i, 2, quantile, 0.025), rev(apply(S_tot_fore_i, 2, quantile, 0.975))),
-  #         col = c2t, border = NA)
-  for(j in iters)
-  {
-    lines(year_fit_i, S_tot_fit_i[j,], col = c1)
-    lines(year_fore_i, S_tot_fore_i[j,], col = c2)
-  }
-  points(fish_data_aug$year[fish_data_aug$pop==i], fish_data_aug$S_tot_obs[fish_data_aug$pop==i], type="b", pch=16)
-  mtext(i, side=3, line=0.5, cex=1.2)
+  polygon(c(y1, rev(y1)), 
+          c(apply(S_tot_obs_IPM[,fish_data$code==i], 2, quantile, 0.025), 
+            rev(apply(S_tot_obs_IPM[,fish_data$code==i], 2, quantile, 0.975))),
+          col = c1tt, border = NA)
+  points(y1, fish_data$S_tot_obs[fish_data$code==i], pch=16, cex = 1)
 }
-mtext("Year", outer = T, side=1, line=2, cex=1.2)
-mtext("Spawners", outer = T, side=2, line=1.1, cex=1.2)
-rm(list=c("mod","S_tot","S_tot_i","S_tot_fit_i","S_tot_fore_i","year_fit_i","year_fore_i",
-          "c1","c1t","c2","c2t","at","iters"))
+
+rm(list = c("S_tot_IPM","S_tot_obs_IPM","at","c1","c1t","c1tt","y1","init_NA"))
+dev.off()
+
+
+# #-----------------------------------------------------------------------------------------
+# # Time series of observed and fitted or predicted recruits per spawner for each pop
+# #-----------------------------------------------------------------------------------------
+# 
+# dev.new(width=16,height=10)
+# par(mfrow=c(4,6), mar=c(1,2,4.1,1), oma=c(4.1,3.1,0,0))
+# S_tot <- extract1(PVA_IPM_pp,"S_tot")
+# R_tot <- extract1(PVA_IPM_pp,"R_tot")
+# RS <- R_tot/S_tot
+# rr <- run_recon(fish_data_aug)
+# c1 <- "darkgray"
+# c1t <- col2rgb(c1)
+# c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.6)
+# c2 <- "blue"
+# c2t <- col2rgb(c2)
+# c2t <- rgb(c2t[1], c2t[2], c2t[3], maxColorValue = 255, alpha = 255*0.4)
+# iters <- 1:5
+# for(i in levels(fish_data_aug$pop))
+# {
+#   RS_obs_i <- (rr$R/rr$S)[rr$pop==i]
+#   RS_i <- RS[,fish_data_aug$pop==i]
+#   RS_fit_i <- RS_i[,fish_data_aug$type[fish_data_aug$pop==i]=="past"]
+#   RS_fore_i <- cbind(RS_fit_i[,ncol(RS_fit_i)],
+#                      RS_i[,fish_data_aug$type[fish_data_aug$pop==i]=="future"])
+#   year_fit_i <- fish_data_aug$year[fish_data_aug$pop==i & fish_data_aug$type=="past"]
+#   year_fore_i <- c(year_fit_i[length(year_fit_i)], 
+#                    fish_data_aug$year[fish_data_aug$pop==i & fish_data_aug$type=="future"])
+#   
+#   plot(fish_data_aug$year[fish_data_aug$pop==i], RS_obs_i, pch = "", cex=1.2, cex.axis=1.2, las=1,
+#        # ylim=c(min(apply(RS_i, 2, quantile, 0.025)),max(apply(RS_i, 2, quantile, 0.975))), 
+#        xlim = range(fish_data_aug$year),
+#        ylim = range(c(range(RS_i[iters,]),
+#                       c(min(apply(RS_fit_i, 2, quantile, 0.025)),max(apply(RS_fit_i, 2, quantile, 0.975))),
+#                       range(replace(RS_obs_i, RS_obs_i==0 | is.infinite(RS_obs_i), NA), na.rm = T))),
+#        xlab="", ylab="", yaxt = "n", log = "y")
+#   at <- maglab(10^par("usr")[3:4], log = T)
+#   axis(2, at$labat, cex.axis=1.2, las=1,
+#        labels = at$labat)
+#   lines(year_fit_i,apply(RS_fit_i, 2, quantile, 0.5), col=c1, lwd=2)
+#   polygon(c(year_fit_i, rev(year_fit_i)),
+#           c(apply(RS_fit_i, 2, quantile, 0.025), rev(apply(RS_fit_i, 2, quantile, 0.975))),
+#           col = c1t, border = NA)
+#   # lines(year_fore_i,apply(RS_fore_i, 2, quantile, 0.5), col=c2, lwd=2)
+#   # polygon(c(year_fore_i, rev(year_fore_i)),
+#   #         c(apply(RS_fore_i, 2, quantile, 0.025), rev(apply(RS_fore_i, 2, quantile, 0.975))),
+#   #         col = c2t, border = NA)
+#   for(j in iters)
+#   {
+#     lines(year_fit_i, RS_fit_i[j,], col = c1)
+#     lines(year_fore_i, RS_fore_i[j,], col = c2)
+#   }
+#   points(fish_data_aug$year[fish_data_aug$pop==i], RS_obs_i, type = "b", pch = 16)
+#   mtext(i, side=3, line=0.5, cex=1.2)
+# }
+# mtext("Year", outer = T, side=1, line=2, cex=1.2)
+# mtext("Recruits / spawner", outer = T, side=2, line=1.1, cex=1.2)
+# rm(list=c("rr","S_tot","RS_obs_i","RS","RS_i","RS_fit_i","RS_fore_i",
+#           "year_fit_i","year_fore_i","c1","c1t","c2","c2t","at","iters"))
 
 
 #-----------------------------------------------------------------------------------------
-# Time series of observed and fitted or predicted recruits per spawner for each pop
+# Cross-correlation among pops in 
+# (1) Recruitment process error residuals log(R_tot) - log(R_tot_hat)
+# (2) Spawner observation error residuals log(S_tot_obs) - log(S_tot)
+# Correlation matrices are grouped by agglomerative clustering (UPGMA),
+# with the largest number of clusters such that each cluster contains >= 3 pops
 #-----------------------------------------------------------------------------------------
+
+c1 <- colorRampPalette(rev(c("#67001F", "#B2182B", "#D6604D", "#F4A582", "#FDDBC7",
+        "#FFFFFF", "#D1E5F0", "#92C5DE", "#4393C3", "#2166AC", "#053061")))(200)
+
+# Recruitment residuals
+dev.new(width = 10, height = 10, mar = c(1,1,1,1))
+# png(filename="log_R_tot_z_corr.png", width=10*0.9, height=10*0.9, units="in", res=200, type="cairo-png")
+cor_log_R_tot_z <- cor(tapply(stan_mean(IPM_pp,"log_R_tot_z"), list(fish_data$year, fish_data$code), identity), use = "pairwise")
+corrplot(cor_log_R_tot_z, diag = F, method = "ellipse", order = "hclust", 
+         hclust.method = "average", addrect = 4, col = c1, tl.col = "black") 
+mtext("Recruitment process error residuals", side = 3, line = 2.5, cex = 1.5)
+# dev.off()
+rm(cor_log_R_tot_z)
+
+# Spawner abundance residuals
+dev.new(width = 10, height = 10, mar = c(1,1,1,1))
+# png(filename="log_S_tot_err_corr.png", width=10*0.9, height=10*0.9, units="in", res=200, type="cairo-png")
+log_S_tot <- log(extract1(IPM_pp, "S_tot"))
+log_S_tot_err <- colMeans(sweep(log_S_tot, 2, log(fish_data$S_tot_obs), "-"))
+log_S_tot_err[!is.finite(log_S_tot_err)] <- NA
+cor_log_S_tot_err <- cor(tapply(log_S_tot_err, list(fish_data$year, fish_data$code), identity), use = "pairwise")
+corrplot(cor_log_S_tot_err, diag = F, method = "ellipse", order = "hclust", 
+         hclust.method = "average", addrect = 3, col = c1, tl.col = "black") 
+mtext("Spawner observation error residuals", side = 3, line = 2.5, cex = 1.5)
+# dev.off()
+rm(log_S_tot);rm(log_S_tot_err);rm(cor_log_S_tot_err);rm(c1)
+
+
+#--------------------------------------------------------------------------------
+# Time series of observed and fitted SPAWNER AGE DISTRIBUTIONS for each pop
+# under hierarchical IPM
+#--------------------------------------------------------------------------------
 
 dev.new(width=16,height=10)
-par(mfrow=c(4,6), mar=c(1,2,4.1,1), oma=c(4.1,3.1,0,0))
-S_tot <- extract1(PVA_IPM_pp,"S_tot")
-R_tot <- extract1(PVA_IPM_pp,"R_tot")
-RS <- R_tot/S_tot
-rr <- run_recon(fish_data_aug)
-c1 <- "darkgray"
+png(filename="q_fit_IPM.png", width=16*0.9, height=10*0.9, units="in", res=200, type="cairo-png")
+par(mfrow=c(5,6), mar=c(1,2,4.1,1), oma=c(4.1,3.1,0,0))
+
+q_IPM <- extract1(IPM_pp,"q")
+q_obs <- fish_data[,grep("n_age", names(fish_data))]
+q_obs <- sweep(q_obs, 1, ifelse(rowSums(q_obs) > 0, rowSums(q_obs), NA), "/")
+init_NA <- fish_data$year
+for(i in levels(fish_data$code))
+  init_NA[fish_data$code==i] <- init_NA[fish_data$code==i] - min(init_NA[fish_data$code==i]) + 1
+init_NA <- is.na(fish_data$S_tot_obs) & init_NA < 5
+
+c1 <- "salmon"
 c1t <- col2rgb(c1)
-c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.6)
-c2 <- "blue"
+c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.4)
+c2 <- "dodgerblue4"
 c2t <- col2rgb(c2)
 c2t <- rgb(c2t[1], c2t[2], c2t[3], maxColorValue = 255, alpha = 255*0.4)
-iters <- 1:5
-for(i in levels(fish_data_aug$pop))
+
+for(i in levels(fish_data$code))
 {
-  RS_obs_i <- (rr$R/rr$S)[rr$pop==i]
-  RS_i <- RS[,fish_data_aug$pop==i]
-  RS_fit_i <- RS_i[,fish_data_aug$type[fish_data_aug$pop==i]=="past"]
-  RS_fore_i <- cbind(RS_fit_i[,ncol(RS_fit_i)],
-                     RS_i[,fish_data_aug$type[fish_data_aug$pop==i]=="future"])
-  year_fit_i <- fish_data_aug$year[fish_data_aug$pop==i & fish_data_aug$type=="past"]
-  year_fore_i <- c(year_fit_i[length(year_fit_i)], 
-                   fish_data_aug$year[fish_data_aug$pop==i & fish_data_aug$type=="future"])
-  
-  plot(fish_data_aug$year[fish_data_aug$pop==i], RS_obs_i, pch = "", cex=1.2, cex.axis=1.2, las=1,
-       # ylim=c(min(apply(RS_i, 2, quantile, 0.025)),max(apply(RS_i, 2, quantile, 0.975))), 
-       xlim = range(fish_data_aug$year),
-       ylim = range(c(range(RS_i[iters,]),
-                      c(min(apply(RS_fit_i, 2, quantile, 0.025)),max(apply(RS_fit_i, 2, quantile, 0.975))),
-                      range(replace(RS_obs_i, RS_obs_i==0 | is.infinite(RS_obs_i), NA), na.rm = T))),
-       xlab="", ylab="", yaxt = "n", log = "y")
-  at <- maglab(10^par("usr")[3:4], log = T)
-  axis(2, at$labat, cex.axis=1.2, las=1,
-       labels = at$labat)
-  lines(year_fit_i,apply(RS_fit_i, 2, quantile, 0.5), col=c1, lwd=2)
-  polygon(c(year_fit_i, rev(year_fit_i)),
-          c(apply(RS_fit_i, 2, quantile, 0.025), rev(apply(RS_fit_i, 2, quantile, 0.975))),
+  y1 <- fish_data$year[fish_data$code==i]
+  plot(y1, q_obs[fish_data$code==i,1], pch = "",
+       xlim = range(fish_data$year), ylim = c(0,1), 
+       cex.axis = 1.2, las = 1, xlab = "", ylab = "")
+  mtext(i, side = 3, line = 0.5, cex = par("cex")*1.5)
+  if(i %in% levels(fish_data$code)[seq(1,29,6)]) mtext("P(spawner age)", side = 2, line = 3.5, cex = par("cex")*1.5)
+  if(i %in% levels(fish_data$code)[25:29]) mtext("Year", side = 1, line = 3, cex = par("cex")*1.5)
+  lines(y1, apply(q_IPM[,fish_data$code==i,1], 2, median), col = c1, lwd = 1.5)
+  polygon(c(y1, rev(y1)), 
+          c(apply(q_IPM[,fish_data$code==i,1], 2, quantile, 0.025), 
+            rev(apply(q_IPM[,fish_data$code==i,1], 2, quantile, 0.975))),
           col = c1t, border = NA)
-  # lines(year_fore_i,apply(RS_fore_i, 2, quantile, 0.5), col=c2, lwd=2)
-  # polygon(c(year_fore_i, rev(year_fore_i)),
-  #         c(apply(RS_fore_i, 2, quantile, 0.025), rev(apply(RS_fore_i, 2, quantile, 0.975))),
-  #         col = c2t, border = NA)
-  for(j in iters)
-  {
-    lines(year_fit_i, RS_fit_i[j,], col = c1)
-    lines(year_fore_i, RS_fore_i[j,], col = c2)
-  }
-  points(fish_data_aug$year[fish_data_aug$pop==i], RS_obs_i, type = "b", pch = 16)
-  mtext(i, side=3, line=0.5, cex=1.2)
+  lines(y1, apply(q_IPM[,fish_data$code==i,2], 2, median), col = c2, lwd = 1.5)
+  polygon(c(y1, rev(y1)), 
+          c(apply(q_IPM[,fish_data$code==i,2], 2, quantile, 0.025), 
+            rev(apply(q_IPM[,fish_data$code==i,2], 2, quantile, 0.975))),
+          col = c2t, border = NA)
+  points(y1, q_obs[fish_data$code==i,1], pch=16, col = c1, cex = 1)
+  points(y1, q_obs[fish_data$code==i,2], pch=16, col = c2, cex = 1)
 }
-mtext("Year", outer = T, side=1, line=2, cex=1.2)
-mtext("Recruits / spawner", outer = T, side=2, line=1.1, cex=1.2)
-rm(list=c("rr","S_tot","RS_obs_i","RS","RS_i","RS_fit_i","RS_fore_i",
-          "year_fit_i","year_fore_i","c1","c1t","c2","c2t","at","iters"))
+plot(0:1, 0:1, pch = "", xlab = "", ylab = "", xaxt = "n", yaxt = "n", bty = "n")
+legend("topleft", c("3","4"), pch = 16, lwd = 1.5, col = c(c1,c2), cex = 1.5,
+       title = "Spawner age (years)")
+
+rm(list = c("q_IPM","q_obs","c1","c1t","c2","c2t","y1","init_NA"))
+dev.off()
+
+
+#--------------------------------------------------------------------------------
+# Time series of observed and fitted MEAN SPAWNER AGE for each pop
+# under hierarchical IPM
+#--------------------------------------------------------------------------------
+
+dev.new(width=16,height=10)
+png(filename="mean_q_fit_IPM.png", width=16*0.9, height=10*0.9, units="in", res=200, type="cairo-png")
+par(mfrow=c(5,6), mar=c(1,2,4.1,1), oma=c(4.1,3.1,0,0))
+
+mean_q_IPM <- apply(extract1(IPM_pp,"q"), c(1,2), function(x) sum(x*3:5))
+q_obs <- fish_data[,grep("n_age", names(fish_data))]
+q_obs <- sweep(q_obs, 1, ifelse(rowSums(q_obs) > 0, rowSums(q_obs), NA), "/")
+mean_q_obs <- rowSums(sweep(q_obs, 2, 3:5, "*"))
+init_NA <- fish_data$year
+for(i in levels(fish_data$code))
+  init_NA[fish_data$code==i] <- init_NA[fish_data$code==i] - min(init_NA[fish_data$code==i]) + 1
+init_NA <- is.na(fish_data$S_tot_obs) & init_NA < 5
+
+c1 <- "blue4"
+c1t <- col2rgb(c1)
+c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.4)
+
+for(i in levels(fish_data$code))
+{
+  y1 <- fish_data$year[fish_data$code==i]
+  plot(y1, mean_q_obs[fish_data$code==i], pch = "", 
+       xlim = range(fish_data$year), 
+       ylim = range(fish_data$mean_q_obs,
+                    apply(mean_q_IPM[,!init_NA], 2, quantile, c(0.025,0.975)), na.rm = T), 
+       cex.axis = 1.2, las = 1, xlab = "", ylab = "")
+  mtext(i, side = 3, line = 0.5, cex = par("cex")*1.5)
+  if(i %in% levels(fish_data$code)[seq(1,29,6)]) mtext("Mean spawner age", side = 2, line = 3.5, cex = par("cex")*1.5)
+  if(i %in% levels(fish_data$code)[25:29]) mtext("Year", side = 1, line = 3, cex = par("cex")*1.5)
+  lines(y1, apply(mean_q_IPM[,fish_data$code==i], 2, median), col = c1, lwd = 1.5)
+  polygon(c(y1, rev(y1)), 
+          c(apply(mean_q_IPM[,fish_data$code==i], 2, quantile, 0.025), 
+            rev(apply(mean_q_IPM[,fish_data$code==i], 2, quantile, 0.975))),
+          col = c1t, border = NA)
+  points(y1, mean_q_obs[fish_data$code==i], pch=16, col = "black", cex = 1)
+}
+
+rm(list = c("mean_q_IPM","q_obs","mean_q_obs","c1","c1t","y1","init_NA"))
+dev.off()
+
+
+#--------------------------------------------------------------------------------
+# Time series of fitted MEAN RECRUIT AGE for each pop under hierarchical IPM
+# (data not shown b/c recruits not directly observed)
+#--------------------------------------------------------------------------------
+
+dev.new(width=16,height=10)
+png(filename="mean_p_fit_IPM.png", width=16*0.9, height=10*0.9, units="in", res=200, type="cairo-png")
+par(mfrow=c(5,6), mar=c(1,2,4.1,1), oma=c(4.1,3.1,0,0))
+
+mean_p_IPM <- apply(extract1(IPM_pp,"p"), c(1,2), function(x) sum(x*3:5))
+
+c1 <- "blue4"
+c1t <- col2rgb(c1)
+c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.4)
+
+for(i in levels(fish_data$code))
+{
+  y1 <- fish_data$year[fish_data$code==i]
+  plot(y1, colMeans(mean_p_IPM[,fish_data$code==i]), pch = "", 
+       xlim = range(fish_data$year), 
+       ylim = range(apply(mean_p_IPM, 2, quantile, c(0.025,0.975))), 
+       yaxs = "i", cex.axis = 1.2, las = 1, xlab = "", ylab = "")
+  mtext(i, side = 3, line = 0.5, cex = par("cex")*1.5)
+  if(i %in% levels(fish_data$code)[seq(1,29,6)]) mtext("Mean recruit age", side = 2, line = 3.5, cex = par("cex")*1.5)
+  if(i %in% levels(fish_data$code)[25:29]) mtext("Year", side = 1, line = 3, cex = par("cex")*1.5)
+  lines(y1, apply(mean_p_IPM[,fish_data$code==i], 2, median), col = c1, lwd = 2)
+  polygon(c(y1, rev(y1)), 
+          c(apply(mean_p_IPM[,fish_data$code==i], 2, quantile, 0.025), 
+            rev(apply(mean_p_IPM[,fish_data$code==i], 2, quantile, 0.975))),
+          col = c1t, border = NA)
+}
+
+rm(list = c("mean_p_IPM","c1","c1t","y1"))
+dev.off()
+
+
+#-----------------------------------------------------------------------------------------
+# Cross-correlation among pops in 
+# (1) Mean recruit age
+# (2) Mean spawner age
+# Correlation matrices are grouped by agglomerative clustering (UPGMA),
+# with the largest number of clusters such that each cluster contains >= 3 pops
+#-----------------------------------------------------------------------------------------
+
+c1 <- colorRampPalette(rev(c("#67001F", "#B2182B", "#D6604D", "#F4A582", "#FDDBC7",
+                             "#FFFFFF", "#D1E5F0", "#92C5DE", "#4393C3", "#2166AC", "#053061")))(200)
+
+# Mean recruit age
+dev.new(width = 10, height = 10, mar = c(1,1,1,1))
+# png(filename="mean_p_corr.png", width=10*0.9, height=10*0.9, units="in", res=200, type="cairo-png")
+mean_p_IPM <- colMeans(apply(extract1(IPM_pp,"p"), c(1,2), function(x) sum(x*3:5)))
+cor_mean_p <- cor(tapply(mean_p_IPM, list(fish_data$year, fish_data$code), identity), use = "pairwise")
+corrplot(cor_mean_p, diag = F, method = "ellipse", order = "hclust", 
+         hclust.method = "average", addrect = NULL, col = c1, tl.col = "black") 
+mtext("Mean recruit age", side = 3, line = 2.5, cex = 1.5)
+# dev.off()
+rm(mean_p_IPM);rm(cor_mean_p)
+
+dev.new(width = 10, height = 10, mar = c(1,1,1,1))
+# png(filename="mean_q_corr.png", width=10*0.9, height=10*0.9, units="in", res=200, type="cairo-png")
+mean_q_IPM <- colMeans(apply(extract1(IPM_pp,"q"), c(1,2), function(x) sum(x*3:5)))
+cor_mean_q <- cor(tapply(mean_q_IPM, list(fish_data$year, fish_data$code), identity), use = "pairwise")
+corrplot(cor_mean_q, diag = F, method = "ellipse", order = "hclust", 
+         hclust.method = "average", addrect = NULL, col = c1, tl.col = "black") 
+mtext("Mean spawner age", side = 3, line = 2.5, cex = 1.5)
+# dev.off()
+rm(mean_q_IPM);rm(cor_mean_q);rm(c1)
 
 
 #--------------------------------------------------
 # Shared brood-year productivity anomalies
 #--------------------------------------------------
 
-dev.new(height = 10, width = 10)
-# png(filename="IPM_SRSS_PVA_year_effects.png", width=10, height=10, units="in", res=200, type="cairo-png")
+dev.new(width = 10, height = 7)
+# png(filename="phi_timeseries.png", width=10, height=7, units="in", res=200, type="cairo-png")
 par(mar = c(5.1,5.1,4.1,2.1))
-phi <- extract1(PVA_IPM_pp, "phi")
-phi_fit <- phi[,1:max(stan_dat$year[srchin$type=="past"])]
-phi_fore <- phi[,(max(stan_dat$year[srchin$type=="past"]) + 1):ncol(phi)]
-phi_fore <- cbind(phi_fit[,ncol(phi_fit)], phi_fore)
-years <- sort(unique(srchin$brood.yr))
-years_fit <- years[1:max(stan_dat$year[srchin$type=="past"])]
-years_fore <- years[(max(stan_dat$year[srchin$type=="past"]) + 1):length(years)]
-years_fore <- c(years_fit[length(years_fit)], years_fore)
-iters <- 1:5
-c1 <- "darkgray"
+phi <- extract1(IPM_pp, "phi")
+y1 <- sort(unique(fish_data$year))
+c1 <- "blue4"
 c1t <- col2rgb(c1)
-c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.6)
-c2 <- "blue"
-c2t <- col2rgb(c2)
-c2t <- rgb(c2t[1], c2t[2], c2t[3], maxColorValue = 255, alpha = 255*0.4)
-plot(years, colMeans(phi), pch = "", las = 1, cex.axis = 1.5, cex.lab = 1.8, log = "y", yaxt = "n",
-     ylim = c(min(apply(phi, 2, quantile, 0.025)), max(apply(phi, 2, quantile, 0.975))),
+c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.5)
+plot(y1, colMeans(phi), type = "l", col = c1, lwd = 3, 
+     las = 1, cex.axis = 1.5, cex.lab = 1.8, log = "y", yaxt = "n",
+     ylim = range(apply(phi, 2, quantile, c(0.025, 0.975))),
      xlab = "Brood year", ylab = "Productivity anomaly")
+polygon(c(y1, rev(y1)),
+        c(apply(phi, 2, quantile, 0.025), rev(apply(phi, 2, quantile, 0.975))),
+        col = c1t, border = NA)
+abline(h = 1, lty = 2)
 at <- maglab(10^par("usr")[3:4], log = T)
 axis(2, at$labat, cex.axis=1.2, las=1, labels = at$labat, cex.axis = 1.5)
-lines(years_fit, colMeans(phi_fit), col = c1, lwd = 3)
-polygon(c(years_fit, rev(years_fit)),
-        c(apply(phi_fit, 2, quantile, 0.025), rev(apply(phi_fit, 2, quantile, 0.975))),
-        col = c1t, border = NA)
-# lines(years_fore, colMeans(phi_fore), col = c2, lwd = 3)
-# polygon(c(years_fore, rev(years_fore)),
-#         c(apply(phi_fore, 2, quantile, 0.025), rev(apply(phi_fore, 2, quantile, 0.975))),
-#         col = c2t, border = NA)
-for(i in iters)
-{
-  lines(years_fit, phi_fit[i,], col = c1t)
-  lines(years_fore, phi_fore[i,], col = c2)
-}
-rm(list = c("mod","phi","phi_fit","phi_fore","years","years_fit","years_fore",
-            "c1","c1t","c2","c2t","iters"))
+rm(list = c("phi","y1","c1","c1t"))
 # dev.off()
 
 
