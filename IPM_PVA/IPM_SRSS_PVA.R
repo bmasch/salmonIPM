@@ -1168,29 +1168,41 @@ mtext("Mean spawner age", side = 3, line = 2.5, cex = 1.5)
 rm(mean_q_IPM);rm(cor_mean_q);rm(c1)
 
 
-#--------------------------------------------------
-# Shared brood-year productivity anomalies
-#--------------------------------------------------
+#--------------------------------------------------------------------------
+# Shared brood-year productivity anomalies and process error innovations
+#--------------------------------------------------------------------------
 
 dev.new(width = 10, height = 7)
 # png(filename="phi_timeseries.png", width=10, height=7, units="in", res=200, type="cairo-png")
 par(mar = c(5.1,5.1,4.1,2.1))
-phi <- extract1(IPM_pp, "phi")
+mod <- IPM_pp
+log_phi <- log(extract1(mod, "phi"))
+log_phi_z_innov <- c(NA, stan_mean(mod,"log_phi_z")[-1])*stan_mean(mod, "sigma_log_phi")
 y1 <- sort(unique(fish_data$year))
 c1 <- "blue4"
 c1t <- col2rgb(c1)
-c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.5)
-plot(y1, colMeans(phi), type = "l", col = c1, lwd = 3, 
-     las = 1, cex.axis = 1.5, cex.lab = 1.8, log = "y", yaxt = "n",
-     ylim = range(apply(phi, 2, quantile, c(0.025, 0.975))),
+c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.3)
+c2 <- "green3"
+c2t <- col2rgb(c2)
+c2t <- rgb(c2t[1], c2t[2], c2t[3], maxColorValue = 255, alpha = 255*0.6)
+plot(y1, colMeans(log_phi), pch = "", las = 1, cex.axis = 1.5, cex.lab = 1.8, 
+     xaxt = "n", #log = "y", yaxt = "n",
+     ylim = range(apply(log_phi, 2, quantile, c(0.025, 0.975)), log_phi_z_innov, na.rm = T),
      xlab = "Brood year", ylab = "Productivity anomaly")
+axis(side = 1, at = y1[y1 %% 10 == 0], cex.axis = 1.5)
+rug(y1[y1 %% 10 != 0], ticksize = -0.01)
+rug(y1[y1 %% 10 != 0 & y1 %% 5 == 0], ticksize = -0.02)
+# at <- maglab(10^par("usr")[3:4], log = T)
+# axis(2, at$labat, cex.axis=1.2, las=1, labels = at$labat, cex.axis = 1.5)
+abline(h = 0, lty = 2)
+abline(v = y1, col = "lightgray")
+lines(y1, log_phi_z_innov, col = c2t, lwd = 3)
+lines(y1, colMeans(log_phi), type = "l", col = c1, lwd = 3)
 polygon(c(y1, rev(y1)),
-        c(apply(phi, 2, quantile, 0.025), rev(apply(phi, 2, quantile, 0.975))),
+        c(apply(log_phi, 2, quantile, 0.025), rev(apply(log_phi, 2, quantile, 0.975))),
         col = c1t, border = NA)
-abline(h = 1, lty = 2)
-at <- maglab(10^par("usr")[3:4], log = T)
-axis(2, at$labat, cex.axis=1.2, las=1, labels = at$labat, cex.axis = 1.5)
-rm(list = c("phi","y1","c1","c1t"))
+legend("topright", c("anomalies","innovations"), lty = 1, lwd = 3, col = c(c1,c2t), bg = "white")
+rm(list = c("mod","log_phi","y1","c1","c1t","log_phi_z_innov","c2","c2t"))
 # dev.off()
 
 
