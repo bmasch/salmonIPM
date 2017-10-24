@@ -3,7 +3,7 @@
 #' @param fish_data Data frame that includes the following \code{colnames}, in no particular order except where noted:
 #' \describe{
 #' \item{\code{pop}}{Numeric or character population ID.}
-#' \item{\code{year}}{Integer variable giving the year the fish spawned (i.e., the brood year).}
+#' \item{\code{year}}{Numeric variable giving the year the fish spawned (i.e., the brood year).}
 #' \item{\code{A}}{Spawning habitat size (either stream length or area). Will usually be time-invariant within a population, but need not be.}
 #' \item{\code{S_tot_obs}}{Total number (not density) of wild and hatchery-origin spawners.}
 #' \item{\code{n_age_minAge...n_age_maxAge}}{Multiple columns of observed spawner age frequencies (i.e., counts), where minAge (maxAge) is the numeral age in years (total, not ocean age) of the youngest (oldest) spawners.}
@@ -14,16 +14,6 @@
 #' \item{\code{B_take_obs}}{Number of adults taken for hatchery broodstock.}
 #' }
 #' @param env_data Optional data frame whose variables are time-varying environmental covariates, sequentially ordered with each row corresponding to a unique year in fish_data.
-#' @param fish_data_fwd Only if model == "IPM", optional data frame with the following \code{colnames}, representing "forward" or "future" simulations:
-#' \describe{
-#' \item{\code{pop}}{Numeric or character population ID. All values must also appear in \code{fish_data$pop}.}
-#' \item{\code{year}}{Integer variable giving the year the fish spawned (i.e., the brood year). For each population in \code{fish_data_fwd$pop}, the first year appearing in \code{fish_data_fwd$year} must be one greater than the last year appearing in \code{fish_data$year}, i.e., \code{min(fish_data_fwd$year[fish_data_fwd$pop==j]) == max(fish_data$year[fish_data$pop==j]) + 1}.}
-#' \item{\code{A}}{Spawning habitat size (either stream length or area). Will usually be time-invariant within a population, but need not be.}
-#' \item{\code{F_rate}}{Total harvest rate (proportion) of natural-origin fish.}
-#' \item{\code{B_rate}}{Total broodstock removal rate (proportion) of natural-origin fish.}
-#' \item{\code{p_HOS}}{Proportion of hatchery-origin spawners.}
-#' }
-#' @param env_data_fwd Only if model == "IPM", optional data frame whose variables are time-varying environmental covariates, sequentially ordered with each row corresponding to a unique year. If \code{env_data_fwd} is specified, \code{env_data} must also be specified and must have the same column names as \code{env_data_fwd}. The first row in \code{env_data_fwd} corresponds to the next year after the last row in \code{env_data}.
 #' @param catch_data Only if model == "IPM_F", a data frame with numeric columns
 #' \describe{
 #' \item{\code{year}}{Year for fishery data. Must be identical to \code{unique(fish_data$year)}.}
