@@ -39,34 +39,24 @@ data {
   int<lower=1,upper=N> which_H[max(N_H,1)]; # years with p_HOS > 0
   int<lower=0> n_W_obs[max(N_H,1)];    # count of wild spawners in samples (assumes no NAs)
   int<lower=0> n_H_obs[max(N_H,1)];    # count of hatchery spawners in samples (assumes no NAs)
-  vector[N]<lower=0> A;                # habitat area associated with each spawner abundance obs
-  vector[N]<lower=0,upper=1> F_rate;   # fishing mortality of wild adults
+  vector[N] A;                         # habitat area associated with each spawner abundance obs
+  vector[N] F_rate;                    # fishing mortality of wild adults
   int<lower=0,upper=N> N_B;            # number of years with B_take > 0
   int<lower=1,upper=N> which_B[max(N_B,1)]; # years with B_take > 0
   vector[max(N_B,1)] B_take_obs;       # observed broodstock take of wild adults
-  int<lower=0> N_fwd;                  # total number of cases in forward simulations
-  int<lower=1,upper=N> pop_fwd[max(N_fwd,1)]; # population identifier for forward simulations
-  int<lower=1,upper=N+N_fwd> year_fwd[max(N_fwd,1)]; # brood year identifier for forward simulations
-  matrix[max(year_fwd)-max(year),N_X] X_fwd; # brood-year productivity covariates for forward simulations
-  vector[max(N_fwd,1)]<lower=0> A_fwd; # habitat area for each forward simulation
-  vector[max(N_fwd,1)]<lower=0,upper=1> F_rate_fwd; # fishing mortality for forward simulations
-  vector[max(N_fwd,1)]<lower=0,upper=1> B_rate_fwd; # broodstock take rate for forward simulations
-  vector[max(N_fwd,1)]<lower=0,upper=1> p_HOS_fwd; # p_HOS for forward simulations
 }
 
 transformed data {
   int<lower=1,upper=N> N_pop;            # number of populations
   int<lower=1,upper=N> N_year;           # number of years
   int<lower=2> ages[N_age];              # adult ages
-  int<lower=0> n_HW_tot_obs[max(N_H,1)]; # total sample sizes for H/W frequencies
   int<lower=1> pop_year_indx[N];         # index of years within each pop, starting at 1
-  int<lower=1,upper=N> fwd_init_indx[max(N_fwd,1),N_age]; # 
+  int<lower=0> n_HW_tot_obs[max(N_H,1)]; # total sample sizes for H/W frequencies
 
   N_pop = max(pop);
   N_year = max(year);
   for(j in 1:N_age)
     ages[j] = max_age - N_age + j;
-  for(i in 1:max(N_H,1)) n_HW_tot_obs[i] = n_H_obs[i] + n_W_obs[i];
   pop_year_indx[1] = 1;
   for(i in 1:N)
   {
@@ -75,6 +65,7 @@ transformed data {
     else
       pop_year_indx[i] = pop_year_indx[i-1] + 1;
   }
+  for(i in 1:max(N_H,1)) n_HW_tot_obs[i] = n_H_obs[i] + n_W_obs[i];
 }
 
 parameters {
