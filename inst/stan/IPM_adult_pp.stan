@@ -138,7 +138,7 @@ transformed data {
       }
   }
 }
-
+###
 parameters {
   real mu_log_a;                        # hyper-mean log intrinsic productivity
   real<lower=0> sigma_log_a;            # hyper-SD log intrinsic productivity
