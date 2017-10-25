@@ -101,7 +101,7 @@ data {
   vector[max(N_fwd,1)]<lower=0,upper=1> F_rate_fwd; # fishing mortality for forward simulations
   vector[max(N_fwd,1)]<lower=0,upper=1> B_rate_fwd; # broodstock take rate for forward simulations
   vector[max(N_fwd,1)]<lower=0,upper=1> p_HOS_fwd; # p_HOS for forward simulations
-  matrix[max(year_fwd)-max(year),N_X] X_fwd; # brood-year productivity covariates for forward simulations
+  matrix[max(max(year_fwd)-max(year),1),N_X] X_fwd; # brood-year productivity covariates for forward simulations
 }
 
 transformed data {

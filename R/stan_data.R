@@ -36,12 +36,17 @@
 #' 
 #' @export
 
-stan_data <- function(fish_data, env_data = NULL, catch_data = NULL, model)
+stan_data <- function(fish_data, fish_data_fwd = NULL, env_data = NULL, env_data_fwd = NULL, catch_data = NULL, model)
 {
   fish_data <- as.data.frame(fish_data)
   fish_data$pop <- as.numeric(factor(fish_data$pop))
   fish_data$year <- as.numeric(factor(fish_data$year))
   fish_data$fit_p_HOS <- as.logical(fish_data$fit_p_HOS)
+  
+  if(!is.null(fish_data_fwd))
+  {
+    ###
+  }
   
   if(is.null(env_data))
     env_data <- matrix(0, max(fish_data$year))
