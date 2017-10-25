@@ -13,7 +13,7 @@
 #' \item{\code{F_rate}}{Total harvest rate (proportion) of natural-origin fish, only if model != "IPM_F".}
 #' \item{\code{B_take_obs}}{Number of adults taken for hatchery broodstock.}
 #' }
-#' @param env_data Optional data frame whose variables are time-varying environmental covariates, sequentially ordered with each row corresponding to a unique year in \code{fish_data} (and \{fish_data_fwd}, if not \{NULL}).
+#' @param env_data Optional data frame whose variables are time-varying environmental covariates, sequentially ordered with each row corresponding to a unique year in \code{fish_data} (and \code{fish_data_fwd}, if not \code{NULL}).
 #' @param fish_data_fwd Only if model == "IPM", optional data frame with the following \code{colnames}, representing "forward" or "future" simulations:
 #' \describe{
 #' \item{\code{pop}}{Numeric or character population ID. All values must also appear in \code{fish_data$pop}.}

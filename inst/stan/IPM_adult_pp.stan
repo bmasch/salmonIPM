@@ -27,7 +27,7 @@ functions {
       xeqy[i] = x[i] == y;
     return(xeqy);
   }
-  
+
   # Vectorized logical &&
   int[] vand(int[] cond1, int[] cond2) {
     int cond1_and_cond2[size(cond1)];
@@ -35,15 +35,15 @@ functions {
       cond1_and_cond2[i] = cond1[i] && cond2[i];
     return(cond1_and_cond2);
   }
-  
+
   # R-style conditional subsetting
-  vector rsub(vector x, int[] cond) {
-    vector[sum(cond)] xsub;
+  vector rsub(int[] x, int[] cond) {
+    int xsub[sum(cond)];
     int pos;
     pos = 1;
-    for (i in 1:rows(x)) 
+    for (i in 1:size(x))
     {
-      if (cond[i]) 
+      if (cond[i])
       {
         xsub[pos] = x[i];
         pos = pos + 1;
@@ -51,7 +51,7 @@ functions {
     }
     return(xsub);
   }
-  
+
   # Equivalent of R: which(cond)
   int[] which(int[] cond) {
     int indx[size(cond)];
@@ -87,18 +87,18 @@ data {
   int<lower=1,upper=N> which_H[max(N_H,1)]; # years with p_HOS > 0
   int<lower=0> n_W_obs[max(N_H,1)];    # count of wild spawners in samples (assumes no NAs)
   int<lower=0> n_H_obs[max(N_H,1)];    # count of hatchery spawners in samples (assumes no NAs)
-  vector[N]<lower=0> A;                # habitat area associated with each spawner abundance obs
-  vector[N]<lower=0,upper=1> F_rate;   # fishing mortality of wild adults
+  vector<lower=0>[N] A;                # habitat area associated with each spawner abundance obs
+  vector<lower=0,upper=1>[N] F_rate;   # fishing mortality of wild adults
   int<lower=0,upper=N> N_B;            # number of years with B_take > 0
   int<lower=1,upper=N> which_B[max(N_B,1)]; # years with B_take > 0
   vector[max(N_B,1)] B_take_obs;       # observed broodstock take of wild adults
   int<lower=0> N_fwd;                  # total number of cases in forward simulations
   int<lower=1,upper=N> pop_fwd[max(N_fwd,1)]; # population identifier for forward simulations
   int<lower=1,upper=N+N_fwd> year_fwd[max(N_fwd,1)]; # brood year identifier for forward simulations
-  vector[max(N_fwd,1)]<lower=0> A_fwd; # habitat area for each forward simulation
-  vector[max(N_fwd,1)]<lower=0,upper=1> F_rate_fwd; # fishing mortality for forward simulations
-  vector[max(N_fwd,1)]<lower=0,upper=1> B_rate_fwd; # broodstock take rate for forward simulations
-  vector[max(N_fwd,1)]<lower=0,upper=1> p_HOS_fwd; # p_HOS for forward simulations
+  vector<lower=0>[max(N_fwd,1)] A_fwd; # habitat area for each forward simulation
+  vector<lower=0,upper=1>[max(N_fwd,1)] F_rate_fwd; # fishing mortality for forward simulations
+  vector<lower=0,upper=1>[max(N_fwd,1)] B_rate_fwd; # broodstock take rate for forward simulations
+  vector<lower=0,upper=1>[max(N_fwd,1)] p_HOS_fwd; # p_HOS for forward simulations
   int<lower=1> N_X;                    # number of productivity covariates
   matrix[max(max(year),max(year_fwd)),N_X] X; # brood-year productivity covariates (if none, use vector of zeros)
 }

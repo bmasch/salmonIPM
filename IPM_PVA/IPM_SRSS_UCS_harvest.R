@@ -10,10 +10,6 @@ library(salmonIPM)
 fish_data <- read.table(file.path("~", "salmonIPM", "IPM_PVA", "fish_data.txt"), sep = "\t", header = T)
 fish_data <- fish_data[order(fish_data$code, fish_data$year),]
 
-# Impute one NA value of S_tot_obs in Chamberlain 1986
-fish_data$S_tot_obs[fish_data$pop == "Chamberlain" & fish_data$year == 1986] <- 
-  mean(fish_data$S_tot_obs[fish_data$pop == "Chamberlain"][1:5], na.rm = T)
-
 # Pad data with years through max_year
 N_future_years <- 50
 max_year <- max(fish_data$year) + N_future_years

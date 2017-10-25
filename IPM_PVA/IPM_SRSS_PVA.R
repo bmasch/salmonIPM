@@ -14,10 +14,6 @@ fish_data <- read.table(file.path("~", "salmonIPM", "IPM_PVA", "fish_data.txt"),
 fish_data <- fish_data[!is.na(fish_data$B_take_obs),]
 fish_data <- fish_data[order(fish_data$code, fish_data$year),]
 
-# # Impute one NA value of S_tot_obs in Chamberlain 1986
-# fish_data$S_tot_obs[fish_data$pop == "Chamberlain" & fish_data$year == 1986] <- 
-#   mean(fish_data$S_tot_obs[fish_data$pop == "Chamberlain"][1:5], na.rm = T)
-
 # Load habitat area data and add area column (convert m2 to ha) to fish_data
 IP <- read.table(file.path("~", "salmonIPM", "IPM_PVA", "IP.txt"), sep = "\t", header = T)
 fish_data <- cbind(fish_data[,1:5], A = IP$A[match(fish_data$code, IP$code)]/1e4, fish_data[,-c(1:5)])
