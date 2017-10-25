@@ -75,8 +75,6 @@ data {
   int<lower=1> N;                      # total number of cases in all pops and years
   int<lower=1,upper=N> pop[N];         # population identifier
   int<lower=1,upper=N> year[N];        # brood year identifier
-  int<lower=1> N_X;                    # number of productivity covariates
-  matrix[max(year),N_X] X;             # brood-year productivity covariates (if none, use vector of zeros)
   int<lower=0,upper=max(pop)> N_pop_H; # number of populations with hatchery input
   int<lower=1,upper=max(pop)> which_pop_H[max(N_pop_H,1)]; # populations with hatchery input
   int<lower=1,upper=N> N_S_obs;        # number of cases with non-missing spawner abundance obs 
@@ -101,7 +99,8 @@ data {
   vector[max(N_fwd,1)]<lower=0,upper=1> F_rate_fwd; # fishing mortality for forward simulations
   vector[max(N_fwd,1)]<lower=0,upper=1> B_rate_fwd; # broodstock take rate for forward simulations
   vector[max(N_fwd,1)]<lower=0,upper=1> p_HOS_fwd; # p_HOS for forward simulations
-  matrix[max(max(year_fwd)-max(year),1),N_X] X_fwd; # brood-year productivity covariates for forward simulations
+  int<lower=1> N_X;                    # number of productivity covariates
+  matrix[max(max(year),max(year_fwd)),N_X] X; # brood-year productivity covariates (if none, use vector of zeros)
 }
 
 transformed data {

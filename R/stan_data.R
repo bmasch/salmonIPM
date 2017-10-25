@@ -1,4 +1,4 @@
-#' Assembles input data in a format that can be passed to Stan for fitting either integrated or run-reconstruction spawner-recruit models.
+#' Assemble input data for integrated or run-reconstruction spawner-recruit models.
 #'
 #' @param fish_data Data frame that includes the following \code{colnames}, in no particular order except where noted:
 #' \describe{
@@ -13,7 +13,7 @@
 #' \item{\code{F_rate}}{Total harvest rate (proportion) of natural-origin fish, only if model != "IPM_F".}
 #' \item{\code{B_take_obs}}{Number of adults taken for hatchery broodstock.}
 #' }
-#' @param env_data Optional data frame whose variables are time-varying environmental covariates, sequentially ordered with each row corresponding to a unique year in fish_data.
+#' @param env_data Optional data frame whose variables are time-varying environmental covariates, sequentially ordered with each row corresponding to a unique year in \code{fish_data} (and \{fish_data_fwd}, if not \{NULL}).
 #' @param fish_data_fwd Only if model == "IPM", optional data frame with the following \code{colnames}, representing "forward" or "future" simulations:
 #' \describe{
 #' \item{\code{pop}}{Numeric or character population ID. All values must also appear in \code{fish_data$pop}.}
@@ -23,7 +23,6 @@
 #' \item{\code{B_rate}}{Total broodstock removal rate (proportion) of natural-origin fish.}
 #' \item{\code{p_HOS}}{Proportion of hatchery-origin spawners.}
 #' }
-#' @param env_data_fwd Only if model == "IPM", optional data frame whose variables are time-varying environmental covariates, sequentially ordered with each row corresponding to a unique year. If \code{env_data_fwd} is specified, \code{env_data} must also be specified and must have the same column names as \code{env_data_fwd}. The first row in \code{env_data_fwd} corresponds to the next year after the last row in \code{env_data}.
 #' @param catch_data Only if model == "IPM_F", a data frame with numeric columns
 #' \describe{
 #' \item{\code{year}}{Year for fishery data. Must be identical to \code{unique(fish_data$year)}.}
@@ -36,22 +35,42 @@
 #' 
 #' @export
 
-stan_data <- function(fish_data, fish_data_fwd = NULL, env_data = NULL, env_data_fwd = NULL, catch_data = NULL, model)
+stan_data <- function(fish_data, fish_data_fwd = NULL, env_data = NULL, catch_data = NULL, model)
 {
   fish_data <- as.data.frame(fish_data)
+  
+  if(!is.null(fish_data_fwd))
+  {
+    N_fwd <- nrow(fish_data_fwd)
+    fish_data_fwd <- as.data.frame(fish_data_fwd)
+    fish_data_fwd$pop <- factor(fish_data_fwd$pop, levels = levels(factor(fish_data$pop)))
+    if(any(!fish_data_fwd$pop %in% fish_data$pop))
+      stop("All populations in fish_data_fwd must appear in fish_data.\n")
+    year_check <- tapply(fish_data$year, fish_data$pop, max)
+    year_check <- year_check[names(year_check) %in% fish_data_fwd$pop]
+    year_fwd_check <- tapply(fish_data_fwd$year, fish_data_fwd$pop, max)
+    year_fwd_check <- year_fwd_check[names(year_fwd_check) %in% fish_data_fwd$pop]
+    if(any(year_fwd_check != year_check + 1))
+      stop("First year in fish_data_fwd must equal 1 + last year in fish_data for each population.\n")
+    fish_data_fwd$pop <- as.numeric(fish_data_fwd$pop)
+    fish_data_fwd$year <- as.numeric(factor(fish_data_fwd$year, 
+                                            levels = levels(factor(c(fish_data$year, fish_data_fwd$year)))))
+  }
+  
+  if(is.null(fish_data_fwd))
+  {
+    N_fwd <- 0
+    fish_data_fwd <- data.frame(pop = 1, year = 1, A = 0, F_rate = 0, B_rate = 0, p_HOS = 0)
+  }
+  
   fish_data$pop <- as.numeric(factor(fish_data$pop))
   fish_data$year <- as.numeric(factor(fish_data$year))
   fish_data$fit_p_HOS <- as.logical(fish_data$fit_p_HOS)
   
-  if(!is.null(fish_data_fwd))
-  {
-    ###
-  }
-  
   if(is.null(env_data))
-    env_data <- matrix(0, max(fish_data$year))
+    env_data <- matrix(0, max(fish_data$year, fish_data_fwd$year))
   
-  if(nrow(env_data) != max(fish_data$year)) 
+  if(nrow(env_data) != max(fish_data$year, fish_data_fwd$year)) 
     stop("Length of environmental time series does not equal number of brood years.\n")
   
   if(any(is.na(env_data)))
@@ -66,6 +85,9 @@ stan_data <- function(fish_data, fish_data_fwd = NULL, env_data = NULL, env_data
   for(i in c("pop","year","A","fit_p_HOS","B_take_obs"))
     if(any(is.na(fish_data[,i])))
       stop(paste0("Missing values not allowed in fish_data$", i, "\n"))
+  
+    if(any(is.na(fish_data_fwd)))
+      stop("Missing values not allowed in fish_data_fwd.\n")
   
   max_age <- max(as.numeric(substring(names(fish_data)[grep("n_age", names(fish_data))], 6, 6)))
   F_rate_check <- tapply(fish_data$F_rate, fish_data$pop, function(x) any(is.na(x[-c(1:max_age)])))
@@ -105,12 +127,17 @@ stan_data <- function(fish_data, fish_data_fwd = NULL, env_data = NULL, env_data
                   n_W_obs = array(n_W_obs[fit_p_HOS], dim = max(sum(fit_p_HOS), 1)),
                   n_H_obs = array(n_H_obs[fit_p_HOS], dim = max(sum(fit_p_HOS), 1)),
                   A = A,
-                  # N_F = sum(F_rate > 0),
-                  # which_F = array(which(F_rate > 0), dim = max(sum(F_rate > 0), 1)),
                   F_rate = replace(F_rate, is.na(F_rate), 0),
                   N_B = sum(B_take_obs > 0),
                   which_B = array(which(B_take_obs > 0), dim = max(sum(B_take_obs > 0), 1)),
-                  B_take_obs = B_take_obs[B_take_obs > 0])
+                  B_take_obs = B_take_obs[B_take_obs > 0],
+                  N_fwd = N_fwd,
+                  pop_fwd = fish_data_fwd$pop,
+                  year_fwd = fish_data_fwd$year,
+                  A_fwd = fish_data_fwd$A,
+                  B_rate_fwd = fish_data_fwd$B_rate,
+                  F_rate_fwd = fish_data_fwd$F_rate,
+                  p_HOS_fwd = fish_data_fwd$p_HOS)
       
       if(dat$N_pop_H == 0) dat$which_pop_H <- array(1, dim = 1)
       if(dat$N_H == 0) 
@@ -124,12 +151,7 @@ stan_data <- function(fish_data, fish_data_fwd = NULL, env_data = NULL, env_data
         dat$which_B <- array(1, dim = 1)
         dat$B_take_obs <- array(0, dim = 1)
       }
-      # if(dat$N_F == 0)
-      # {
-      #   dat$which_F <- array(1, dim = 1)
-      #   dat$F_rate_obs <- array(1, dim = 1)
-      # }
-      
+
       dat$n_W_obs[is.na(dat$n_W_obs)] <- 0
       dat$n_H_obs[is.na(dat$n_H_obs)] <- 0
       dat$n_age_obs[is.na(dat$n_age_obs)] <- 0
@@ -157,9 +179,6 @@ stan_data <- function(fish_data, fish_data_fwd = NULL, env_data = NULL, env_data
                   n_W_obs = array(n_W_obs[fit_p_HOS], dim = max(sum(fit_p_HOS), 1)),
                   n_H_obs = array(n_H_obs[fit_p_HOS], dim = max(sum(fit_p_HOS), 1)),
                   A = A,
-                  # N_F = sum(F_rate > 0),
-                  # which_F = array(which(F_rate > 0), dim = max(sum(F_rate > 0), 1)),
-                  # F_rate = F_rate,
                   R_F_obs = array(catch_data$R_F_obs, dim = nrow(catch_data)),
                   C_obs = array(catch_data$C_obs, dim = nrow(catch_data)),
                   N_B = sum(B_take_obs > 0),
@@ -178,12 +197,7 @@ stan_data <- function(fish_data, fish_data_fwd = NULL, env_data = NULL, env_data
         dat$which_B <- array(1, dim = 1)
         dat$B_take_obs <- array(0, dim = 1)
       }
-      # if(dat$N_F == 0)
-      # {
-      #   dat$which_F <- array(1, dim = 1)
-      #   dat$F_rate_obs <- array(1, dim = 1)
-      # }
-      
+
       dat$n_W_obs[is.na(dat$n_W_obs)] <- 0
       dat$n_H_obs[is.na(dat$n_H_obs)] <- 0
       dat$n_age_obs[is.na(dat$n_age_obs)] <- 0
