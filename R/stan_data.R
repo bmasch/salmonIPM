@@ -41,6 +41,8 @@ stan_data <- function(fish_data, fish_data_fwd = NULL, env_data = NULL, catch_da
   
   if(!is.null(fish_data_fwd))
   {
+    if(model != "IPM")
+      stop("Argument fish_data_fwd can only be specified if model == 'IPM'.\n")
     N_fwd <- nrow(fish_data_fwd)
     fish_data_fwd <- as.data.frame(fish_data_fwd)
     fish_data_fwd$pop <- factor(fish_data_fwd$pop, levels = levels(factor(fish_data$pop)))
