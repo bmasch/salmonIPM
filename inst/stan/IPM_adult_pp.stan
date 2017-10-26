@@ -37,37 +37,26 @@ functions {
   }
 
   # R-style conditional subsetting
-  vector rsub(int[] x, int[] cond) {
+  int[] rsub(int[] x, int[] cond) {
     int xsub[sum(cond)];
     int pos;
     pos = 1;
     for (i in 1:size(x))
-    {
       if (cond[i])
       {
         xsub[pos] = x[i];
         pos = pos + 1;
       }
-    }
     return(xsub);
   }
 
-  # Equivalent of R: which(cond)
-  int[] which(int[] cond) {
-    int indx[size(cond)];
-    int which_indx[sum(cond)];
-    int pos;
-    for(i in 1:size(indx))
-      indx[i] = i;
-    for(i in 1:size(which_indx))
-    {
+  # Equivalent of R: which(cond), where sum(cond) == 1
+  int which(int[] cond) {
+    int which_cond;
+    for(i in 1:size(cond))
       if(cond[i])
-      {
-        which_indx[pos] = i;
-        pos = pos + 1;
-      }
-    }
-    return(which_indx);
+        which_cond = i;
+    return(which_cond);
   }
 }
 

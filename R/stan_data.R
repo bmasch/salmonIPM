@@ -13,7 +13,6 @@
 #' \item{\code{F_rate}}{Total harvest rate (proportion) of natural-origin fish, only if model != "IPM_F".}
 #' \item{\code{B_take_obs}}{Number of adults taken for hatchery broodstock.}
 #' }
-#' @param env_data Optional data frame whose variables are time-varying environmental covariates, sequentially ordered with each row corresponding to a unique year in \code{fish_data} (and \code{fish_data_fwd}, if not \code{NULL}).
 #' @param fish_data_fwd Only if model == "IPM", optional data frame with the following \code{colnames}, representing "forward" or "future" simulations:
 #' \describe{
 #' \item{\code{pop}}{Numeric or character population ID. All values must also appear in \code{fish_data$pop}.}
@@ -23,6 +22,7 @@
 #' \item{\code{B_rate}}{Total broodstock removal rate (proportion) of natural-origin fish.}
 #' \item{\code{p_HOS}}{Proportion of hatchery-origin spawners.}
 #' }
+#' @param env_data Optional data frame whose variables are time-varying environmental covariates, sequentially ordered with each row corresponding to a unique year in \code{fish_data} (and \code{fish_data_fwd}, if not \code{NULL}).
 #' @param catch_data Only if model == "IPM_F", a data frame with numeric columns
 #' \describe{
 #' \item{\code{year}}{Year for fishery data. Must be identical to \code{unique(fish_data$year)}.}
@@ -69,6 +69,13 @@ stan_data <- function(fish_data, fish_data_fwd = NULL, env_data = NULL, catch_da
   fish_data$year <- as.numeric(factor(fish_data$year))
   fish_data$fit_p_HOS <- as.logical(fish_data$fit_p_HOS)
   
+  for(i in c("pop","year","A","fit_p_HOS","B_take_obs"))
+    if(any(is.na(fish_data[,i])))
+      stop(paste0("Missing values not allowed in fish_data$", i, "\n"))
+  
+  if(any(is.na(fish_data_fwd)))
+    stop("Missing values not allowed in fish_data_fwd.\n")
+  
   if(is.null(env_data))
     env_data <- matrix(0, max(fish_data$year, fish_data_fwd$year))
   
@@ -83,13 +90,6 @@ stan_data <- function(fish_data, fish_data_fwd = NULL, env_data = NULL, catch_da
     if(is.null(catch_data) | any(is.na(catch_data)))
       stop("Missing values not allowed in total run size and catch with model == 'IPM_F'.\n")
   }
-  
-  for(i in c("pop","year","A","fit_p_HOS","B_take_obs"))
-    if(any(is.na(fish_data[,i])))
-      stop(paste0("Missing values not allowed in fish_data$", i, "\n"))
-  
-    if(any(is.na(fish_data_fwd)))
-      stop("Missing values not allowed in fish_data_fwd.\n")
   
   max_age <- max(as.numeric(substring(names(fish_data)[grep("n_age", names(fish_data))], 6, 6)))
   F_rate_check <- tapply(fish_data$F_rate, fish_data$pop, function(x) any(is.na(x[-c(1:max_age)])))

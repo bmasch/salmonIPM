@@ -24,7 +24,7 @@ stan_data(fish_data, env_data = NULL, catch_data = NULL, model)
 \item{\code{B_take_obs}}{Number of adults taken for hatchery broodstock.}
 }}
 
-\item{env_data}{Optional data frame whose variables are time-varying environmental covariates, sequentially ordered with each row corresponding to a unique year in fish_data.}
+\item{env_data}{Optional data frame whose variables are time-varying environmental covariates, sequentially ordered with each row corresponding to a unique year in \code{fish_data} (and \code{fish_data_fwd}, if not \code{NULL}).}
 
 \item{catch_data}{Only if model == "IPM_F", a data frame with numeric columns
 \describe{
@@ -58,6 +58,8 @@ stan_data(fish_data, env_data = NULL, catch_data = NULL, model)
 \item{\code{F_rate}}{Total harvest rate (proportion) of natural-origin fish, only if model != "IPM_F".}
 \item{\code{B_take_obs}}{Number of adults taken for hatchery broodstock.}
 }}
+
+\item{env_data}{Optional data frame whose variables are time-varying environmental covariates, sequentially ordered with each row corresponding to a unique year in fish_data.}
 
 \item{catch_data}{Only if model == "IPM_F", a data frame with numeric columns
 \describe{
