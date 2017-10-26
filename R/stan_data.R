@@ -13,7 +13,7 @@
 #' \item{\code{F_rate}}{Total harvest rate (proportion) of natural-origin fish, only if model != "IPM_F".}
 #' \item{\code{B_take_obs}}{Number of adults taken for hatchery broodstock.}
 #' }
-#' @param fish_data_fwd Only if model == "IPM", optional data frame with the following \code{colnames}, representing "forward" or "future" simulations:
+#' @param fish_data_fwd Only if model == "IPM", optional data frame with the following \code{colnames}, representing "forward" or "future" simulations. Unlike \code{fish_data}, a given combination of population and year may occur multiple times, perhaps to facilitate comparisons across scenarios or "branches" with different inputs (e.g., harvest rate). In this case, all branches are subjected to the same sequence of process errors in recruitment and age structure. 
 #' \describe{
 #' \item{\code{pop}}{Numeric or character population ID. All values must also appear in \code{fish_data$pop}.}
 #' \item{\code{year}}{Integer variable giving the year the fish spawned (i.e., the brood year). For each population in \code{fish_data_fwd$pop}, the first year appearing in \code{fish_data_fwd$year} must be one greater than the last year appearing in \code{fish_data$year}, i.e., \code{min(fish_data_fwd$year[fish_data_fwd$pop==j]) == max(fish_data$year[fish_data$pop==j]) + 1}.}
@@ -50,7 +50,7 @@ stan_data <- function(fish_data, fish_data_fwd = NULL, env_data = NULL, catch_da
       stop("All populations in fish_data_fwd must appear in fish_data.\n")
     year_check <- tapply(fish_data$year, fish_data$pop, max)
     year_check <- year_check[names(year_check) %in% fish_data_fwd$pop]
-    year_fwd_check <- tapply(fish_data_fwd$year, fish_data_fwd$pop, max)
+    year_fwd_check <- tapply(fish_data_fwd$year, fish_data_fwd$pop, min)
     year_fwd_check <- year_fwd_check[names(year_fwd_check) %in% fish_data_fwd$pop]
     if(any(year_fwd_check != year_check + 1))
       stop("First year in fish_data_fwd must equal 1 + last year in fish_data for each population.\n")

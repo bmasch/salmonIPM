@@ -94,14 +94,14 @@ data {
 
 transformed data {
   int<lower=1,upper=N> N_pop;            # number of populations
-  int<lower=1,upper=N> N_year;           # number of years
+  int<lower=1,upper=N> N_year;           # number of years, including forward simulations
   int<lower=2> ages[N_age];              # adult ages
   int<lower=0> n_HW_tot_obs[max(N_H,1)]; # total sample sizes for H/W frequencies
   int<lower=1> pop_year_indx[N];         # index of years within each pop, starting at 1
   int<lower=0,upper=N> fwd_init_indx[max(N_fwd,1),N_age]; # links "fitted" brood years to recruits in forward sims
 
   N_pop = max(pop);
-  N_year = max(year);
+  N_year = max(max(year), max(year_fwd));
   for(j in 1:N_age)
     ages[j] = max_age - N_age + j;
   for(i in 1:max(N_H,1)) n_HW_tot_obs[i] = n_H_obs[i] + n_W_obs[i];
@@ -119,11 +119,13 @@ transformed data {
   if(N_fwd > 0)
   {
     for(i in 1:N_fwd)
+    {
       for(j in 1:N_age)
       {
         if(year_fwd[i] - ages[j] < min(rsub(year_fwd, veq(pop_fwd, pop_fwd[i]))))
           fwd_init_indx[i,j] = which(vand(veq(pop, pop_fwd[i]), veq(year, year_fwd[i] - ages[j])));
       }
+    }
   }
 }
 
@@ -210,20 +212,20 @@ transformed parameters {
   p = append_col(gamma[pop,] + (diag_matrix(sigma_alr_p) * L_alr_p * alr_p_z')', rep_vector(0,N));
                  
   # Calculate true total wild and hatchery spawners and spawner age distribution
-  # and predict recruitment from brood year t
+  # and predict recruitment from brood year i
   for(i in 1:N)
   {
     row_vector[N_age] exp_p; # temp variable: exp(p[i,])
     row_vector[N_age] S_W;   # temp variable: true wild spawners by age
 
-    # inverse log-ratio transform of cohort age distn
+    # Inverse log-ratio transform of cohort age distn
     # (built-in softmax function doesn't accept row vectors)
     exp_p = exp(p[i,]);
     p[i,] = exp_p/sum(exp_p);
 
     if(pop_year_indx[i] <= max_age)
     {
-      # use initial values
+      # Use initial values
       S_W_tot[i] = S_tot_init[(pop[i]-1)*max_age+pop_year_indx[i]]*(1 - p_HOS_all[i]);        
       S_H_tot[i] = S_tot_init[(pop[i]-1)*max_age+pop_year_indx[i]]*p_HOS_all[i];
       q[i,1:N_age] = to_row_vector(q_init[(pop[i]-1)*max_age+pop_year_indx[i],1:N_age]);
@@ -285,22 +287,73 @@ model {
   
   # Process model
   log_R_tot_z ~ normal(0,1); # total recruits: R_tot ~ lognormal(log(R_tot_hat), sigma_proc)
+
   # Observation model
-  # if(N_F > 0) logit(F_rate_obs[which_F]) ~ normal(logit(F_rate), sigma_F);  # observed fishing mortality rates
   S_tot_obs[which_S_obs] ~ lognormal(log(S_tot[which_S_obs]), sigma_obs);   # observed total spawners
   if(N_H > 0) n_H_obs ~ binomial(n_HW_tot_obs, p_HOS); # observed counts of hatchery vs. wild spawners
   target += sum(n_age_obs .* log(q));                  # obs wild age freq: n_age_obs[i] ~ multinomial(q[i])
 }
 
 generated quantities {
-  corr_matrix[N_age-1] R_gamma; # among-pop correlation matrix of mean log-ratio age distns 
-  corr_matrix[N_age-1] R_alr_p; # correlation matrix of within-pop cohort log-ratio age distns 
-  # vector[N] ll_S_tot_obs;  # pointwise log-likelihood of total spawners
-  # vector[N_H] ll_n_H_obs;  # pointwise log-likelihood of hatchery vs. wild frequencies
-  # vector[N] ll_n_age_obs;  # pointwise log-likelihood of wild age frequencies
+  corr_matrix[N_age-1] R_gamma;               # among-pop correlation matrix of mean log-ratio age distns 
+  corr_matrix[N_age-1] R_alr_p;               # correlation matrix of within-pop cohort log-ratio age distns 
+  vector<lower=0>[N_fwd] S_W_tot_fwd;         # true total wild spawner abundance in forward simulations
+  vector[N_fwd] S_H_tot_fwd;                  # true total hatchery spawner abundance in forward simulations
+  vector<lower=0>[N_fwd] S_tot_fwd;           # true total spawner abundance in forward simulations
+  matrix<lower=0,upper=1>[N_fwd,N_age] p_fwd; # cohort age distributions in forward simulations
+  matrix<lower=0,upper=1>[N_fwd,N_age] q_fwd; # spawner age distributions in forward simulations
+  vector<lower=0>[N_fwd] R_tot_hat_fwd;       # expected recruit abundance by brood year in forward simulations
+  vector<lower=0>[N_fwd] R_tot_fwd;           # true recruit abundance by brood year in forward simulations
+  vector[N] ll_S_tot_obs;                     # pointwise log-likelihood of total spawners
+  vector[N_H] ll_n_H_obs;                     # pointwise log-likelihood of hatchery vs. wild frequencies
+  vector[N] ll_n_age_obs;                     # pointwise log-likelihood of wild age frequencies
 
   R_gamma = multiply_lower_tri_self_transpose(L_gamma);
   R_alr_p = multiply_lower_tri_self_transpose(L_alr_p);
+  
+  # Generate true total wild and hatchery spawners and spawner age distribution
+  # and predict recruitment from brood year i
+  for(i in 1:N_fwd)
+  {
+    vector[N_age-1] alr_p;   # temp variable: alr(p[i,])'
+    row_vector[N_age] exp_p; # temp variable: exp(p[i,])
+    row_vector[N_age] S_W;   # temp variable: true wild spawners by age
+    
+    # Inverse log-ratio transform of cohort age distn
+    # (built-in softmax function doesn't accept row vectors)
+    alr_p = multi_normal_cholesky_rng(to_vector(gamma[pop_fwd[i],]), L_alr_p);
+    exp_p = exp(to_row_vector(alr_p));
+    p_fwd[i,] = exp_p/sum(exp_p);
+    
+    for(j in 1:N_age)
+    {
+      if(fwd_init_indx[i,j] ~= 0)
+      {
+        # Use estimated values from previous cohorts
+        ### remove
+        ### remove
+        S_W_tot[i] = S_tot_init[(pop[i]-1)*max_age+pop_year_indx[i]]*(1 - p_HOS_all[i]);        
+        S_H_tot[i] = S_tot_init[(pop[i]-1)*max_age+pop_year_indx[i]]*p_HOS_all[i];
+        q[i,1:N_age] = to_row_vector(q_init[(pop[i]-1)*max_age+pop_year_indx[i],1:N_age]);
+        S_W = S_W_tot[i]*q[i,];
+      }
+      else
+      {
+        for(j in 1:N_age)
+          S_W[j] = R_tot[i-ages[j]]*p[i-ages[j],j];
+        for(j in 2:N_age)  # catch and broodstock removal (assumes no take of age 1)
+          S_W[j] = S_W[j]*(1 - F_rate[i])*(1 - B_rate_all[i]);
+        S_W_tot[i] = sum(S_W);
+        S_H_tot[i] = S_W_tot[i]*p_HOS_all[i]/(1 - p_HOS_all[i]);
+        q[i,] = S_W/S_W_tot[i];
+      }
+      
+      S_tot[i] = S_W_tot[i] + S_H_tot[i];
+      R_tot_hat[i] = A[i]*SR(a[pop[i]], Rmax[pop[i]], S_tot[i], A[i]);
+      R_tot[i] = R_tot_hat[i]*phi[year[i]]*exp(sigma_proc*log_R_tot_z[i]);
+    }
+  }
+    
   # ll_S_tot_obs = rep_vector(0,N);
   # for(i in 1:N_S_obs)
   #   ll_S_tot_obs[which_S_obs[i]] = lognormal_lpdf(S_tot_obs[which_S_obs[i]],
