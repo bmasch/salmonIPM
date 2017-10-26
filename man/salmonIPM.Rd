@@ -4,9 +4,9 @@
 \alias{salmonIPM}
 \title{Fits an integrated or run-reconstruction spawner-recruit model.}
 \usage{
-salmonIPM(fish_data, env_data = NULL, catch_data = NULL, model,
-  pool_pops = TRUE, init = NULL, pars = NULL, chains, iter, warmup,
-  thin = 1, cores = 3, ...)
+salmonIPM(fish_data, fish_data_fwd = NULL, env_data = NULL,
+  catch_data = NULL, model, pool_pops = TRUE, init = NULL, pars = NULL,
+  chains, iter, warmup, thin = 1, cores = 3, ...)
 }
 \arguments{
 \item{fish_data}{Data frame that includes the following \code{colnames}, in no particular order except where noted:

@@ -134,12 +134,12 @@ stan_data <- function(fish_data, fish_data_fwd = NULL, env_data = NULL, catch_da
                   which_B = array(which(B_take_obs > 0), dim = max(sum(B_take_obs > 0), 1)),
                   B_take_obs = B_take_obs[B_take_obs > 0],
                   N_fwd = N_fwd,
-                  pop_fwd = fish_data_fwd$pop,
-                  year_fwd = fish_data_fwd$year,
-                  A_fwd = fish_data_fwd$A,
-                  B_rate_fwd = fish_data_fwd$B_rate,
-                  F_rate_fwd = fish_data_fwd$F_rate,
-                  p_HOS_fwd = fish_data_fwd$p_HOS)
+                  pop_fwd = array(fish_data_fwd$pop, dim = nrow(fish_data_fwd)),
+                  year_fwd = array(fish_data_fwd$year, dim = nrow(fish_data_fwd)),
+                  A_fwd = array(fish_data_fwd$A, dim = nrow(fish_data_fwd)),
+                  B_rate_fwd = array(fish_data_fwd$B_rate, dim = nrow(fish_data_fwd)),
+                  F_rate_fwd = array(fish_data_fwd$F_rate, dim = nrow(fish_data_fwd)),
+                  p_HOS_fwd = array(fish_data_fwd$p_HOS, dim = nrow(fish_data_fwd)))
       
       if(dat$N_pop_H == 0) dat$which_pop_H <- array(1, dim = 1)
       if(dat$N_H == 0) 

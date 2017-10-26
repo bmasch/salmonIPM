@@ -26,7 +26,7 @@
 #' 
 #' @export
 
-stan_data <- function(fish_data, env_data = NULL, catch_data = NULL, model)
+stan_data_v1 <- function(fish_data, env_data = NULL, catch_data = NULL, model)
 {
   fish_data <- as.data.frame(fish_data)
   fish_data$pop <- as.numeric(factor(fish_data$pop))

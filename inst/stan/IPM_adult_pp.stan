@@ -98,7 +98,7 @@ transformed data {
   int<lower=2> ages[N_age];              # adult ages
   int<lower=0> n_HW_tot_obs[max(N_H,1)]; # total sample sizes for H/W frequencies
   int<lower=1> pop_year_indx[N];         # index of years within each pop, starting at 1
-  int<lower=1,upper=N> fwd_init_indx[max(N_fwd,1),N_age]; # 
+  int<lower=0,upper=N> fwd_init_indx[max(N_fwd,1),N_age]; # links "fitted" brood years to recruits in forward sims
 
   N_pop = max(pop);
   N_year = max(year);

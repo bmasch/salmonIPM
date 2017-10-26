@@ -31,10 +31,10 @@
 #' @importFrom rstan stan
 #'
 #' @export
-salmonIPM <- function(fish_data, env_data = NULL, catch_data = NULL, model, pool_pops = TRUE, 
+salmonIPM <- function(fish_data, fish_data_fwd = NULL, env_data = NULL, catch_data = NULL, model, pool_pops = TRUE, 
                       init = NULL, pars = NULL, chains, iter, warmup, thin = 1, cores = 3, ...)
 {
-  dat <- stan_data(fish_data, env_data, catch_data, model)
+  dat <- stan_data(fish_data, fish_data_fwd, env_data, catch_data, model)
   if(is.null(pars))
     pars <- switch(model, 
                    IPM = switch(ifelse(pool_pops, "Y", "N"),
