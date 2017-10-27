@@ -22,7 +22,7 @@ stan_data(fish_data, fish_data_fwd = NULL, env_data = NULL,
 \item{\code{B_take_obs}}{Number of adults taken for hatchery broodstock.}
 }}
 
-\item{fish_data_fwd}{Only if model == "IPM", optional data frame with the following \code{colnames}, representing "forward" or "future" simulations:
+\item{fish_data_fwd}{Only if model == "IPM", optional data frame with the following \code{colnames}, representing "forward" or "future" simulations. Unlike \code{fish_data}, a given combination of population and year may occur multiple times, perhaps to facilitate comparisons across scenarios or "branches" with different inputs (e.g., harvest rate). In this case, all branches are subjected to the same sequence of process errors in recruitment and age structure. 
 \describe{
 \item{\code{pop}}{Numeric or character population ID. All values must also appear in \code{fish_data$pop}.}
 \item{\code{year}}{Integer variable giving the year the fish spawned (i.e., the brood year). For each population in \code{fish_data_fwd$pop}, the first year appearing in \code{fish_data_fwd$year} must be one greater than the last year appearing in \code{fish_data$year}, i.e., \code{min(fish_data_fwd$year[fish_data_fwd$pop==j]) == max(fish_data$year[fish_data$pop==j]) + 1}.}

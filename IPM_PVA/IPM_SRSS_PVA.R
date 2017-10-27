@@ -42,10 +42,10 @@ fish_data_aug <- rbind(cbind(type = "past", fish_data[,setdiff(names(fish_data_a
 fish_data_aug <- fish_data_aug[order(fish_data_aug$code, fish_data_aug$year),]
 row.names(fish_data_aug) <- NULL
 
-# Create "forward simulation" data
-fish_data_fwd <- data.frame(pop = rep(pop_aug,2), year = rep(unlist(year_aug), 2), 
-                            A = rep(A_aug,2), F_rate = 0, B_rate = 0, p_HOS = 0)
-row.names(fish_data_fwd) <- NULL
+# # Create "forward simulation" data
+# fish_data_fwd <- data.frame(pop = rep(pop_aug,2), year = rep(unlist(year_aug), 2), 
+#                             A = rep(A_aug,2), F_rate = 0, B_rate = 0, p_HOS = 0)
+# row.names(fish_data_fwd) <- NULL
 
 
 #--------------------------------------------------------
@@ -84,9 +84,8 @@ write.table(table1, "table1.txt", sep="\t", row.names=F)
 
 # Base model
 
-IPM_pp <- salmonIPM(fish_data = fish_data, fish_data_fwd = fish_data_fwd, model = "IPM", pool_pops = TRUE, 
-                        # chains = 3, iter = 1000, warmup = 500,
-                    chains = 1, iter = 1, warmup = 1,
+IPM_pp <- salmonIPM(fish_data = fish_data, model = "IPM", pool_pops = TRUE, 
+                    chains = 3, iter = 1000, warmup = 500,
                     control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
 
 print(IPM_pp, pars = c("phi","p_HOS","B_rate_all","q","gamma","p","S_tot","R_tot"), include = FALSE)

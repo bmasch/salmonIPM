@@ -104,7 +104,7 @@ transformed parameters {
     gamma[j,] = to_row_vector(log(exp_gamma[j,1:(N_age-1)]) - log(exp_gamma[j,N_age]));
   
   # Calculate true total wild and hatchery spawners and spawner age distribution
-  # and predict recruitment from brood year t
+  # and predict recruitment from brood year i
   for(i in 1:N)
   {
     row_vector[N_age] alr_p; # temp variable: alr(p[i,])

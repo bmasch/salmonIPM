@@ -10,23 +10,37 @@ library(salmonIPM)
 fish_data <- read.table(file.path("~", "salmonIPM", "IPM_PVA", "fish_data.txt"), sep = "\t", header = T)
 fish_data <- fish_data[order(fish_data$code, fish_data$year),]
 
-# Pad data with years through max_year
+# # Pad data with years through max_year
+# N_future_years <- 50
+# max_year <- max(fish_data$year) + N_future_years
+# year_aug <- unlist(sapply(tapply(fish_data$year, fish_data$pop, max), function(x) (x + 1):max_year))
+# pop_aug <- rep(names(year_aug), sapply(year_aug, length))
+# code_aug <- fish_data$code[match(pop_aug, fish_data$pop)]
+# MPG_aug <- fish_data$MPG[match(pop_aug, fish_data$pop)]
+# A_aug <- rep(tapply(fish_data$A, fish_data$pop, mean), times = sapply(year_aug, length))
+# fish_data_aug <- data.frame(pop = pop_aug, code = code_aug, MPG = MPG_aug, A = A_aug,
+#                             year = unlist(year_aug), type = "future", fit_p_HOS = 0, 
+#                             S_tot_obs = NA, n_age3_obs = 0, n_age4_obs = 0, n_age5_obs = 0,
+#                             n_W_obs = 0, n_H_obs = 0, p_HOS = 0, B_take_obs = 0, F_rate = 0,
+#                             row.names = NULL)
+# fish_data_aug <- rbind(cbind(type = "past", fish_data[,setdiff(names(fish_data_aug), "type")])[,names(fish_data_aug)], 
+#                        fish_data_aug)
+# fish_data_aug <- fish_data_aug[order(fish_data_aug$code, fish_data_aug$year),]
+# row.names(fish_data_aug) <- NULL
+
+# Create "forward simulation" data
+F_rate_fwd <- seq(0, 0.3, by = 0.5)
 N_future_years <- 50
 max_year <- max(fish_data$year) + N_future_years
-year_aug <- sapply(tapply(fish_data$year, fish_data$pop, max), function(x) (x + 1):max_year)
-pop_aug <- rep(names(year_aug), sapply(year_aug, length))
-code_aug <- fish_data$code[match(pop_aug, fish_data$pop)]
-MPG_aug <- fish_data$MPG[match(pop_aug, fish_data$pop)]
-A_aug <- rep(tapply(fish_data$A, fish_data$pop, mean), times = sapply(year_aug, length))
-fish_data_aug <- data.frame(pop = pop_aug, code = code_aug, MPG = MPG_aug, A = A_aug,
-                            year = unlist(year_aug), type = "future", fit_p_HOS = 0, 
-                            S_tot_obs = NA, n_age3_obs = 0, n_age4_obs = 0, n_age5_obs = 0,
-                            n_W_obs = 0, n_H_obs = 0, p_HOS = 0, B_take_obs = 0, F_rate = 0,
-                            row.names = NULL)
-fish_data_aug <- rbind(cbind(type = "past", fish_data[,setdiff(names(fish_data_aug), "type")])[,names(fish_data_aug)], 
-                       fish_data_aug)
-fish_data_aug <- fish_data_aug[order(fish_data_aug$code, fish_data_aug$year),]
-row.names(fish_data_aug) <- NULL
+year_fwd <- unlist(sapply(tapply(fish_data$year, fish_data$pop, max), function(x) (x + 1):max_year))
+pop_fwd <- rep(names(year_fwd), sapply(year_fwd, length))
+A_fwd <- rep(tapply(fish_data$A, fish_data$pop, mean), times = sapply(year_fwd, length))
+fish_data_fwd <- data.frame(pop = rep(pop_fwd, length(F_rate_fwd)), 
+                            year = rep(year_fwd, length(F_rate_fwd)), 
+                            A = rep(A_fwd, length(F_rate_fwd)), 
+                            F_rate = rep(F_rate_fwd, each = length(year_fwd)), 
+                            B_rate = 0, p_HOS = 0)
+row.names(fish_data_fwd) <- NULL
 
 
 #===========================================================================
