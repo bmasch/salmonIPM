@@ -83,10 +83,10 @@ write.table(table1, "table1.txt", sep="\t", row.names=F)
 #===========================================================================
 
 # Base model
-
-IPM_pp <- salmonIPM(fish_data = fish_data, fish_data_fwd = fish_data_fwd, model = "IPM", pool_pops = TRUE, 
-                    chains = 3, iter = 1000, warmup = 500,
-                    control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+set.seed(123)
+IPM_pp <- salmonIPM(fish_data = fish_data, fish_data_fwd = NULL, model = "IPM", pool_pops = TRUE, 
+                    chains = 3, iter = 1000, warmup = 500, seed = 5432,
+                    control = list(adapt_delta = 0.95, stepsize = 0.01, max_treedepth = 13))
 
 print(IPM_pp, pars = c("phi","p_HOS","B_rate_all","q","gamma","p","S_tot","R_tot"), include = FALSE)
 launch_shinystan(IPM_pp)
@@ -858,7 +858,7 @@ rm(list=c("mu_log_a","sigma_log_a","mu_log_b","sigma_log_b","sigma_log_phi","sig
 #--------------------------------------------------------------------------------
 
 dev.new(width=16,height=10)
-png(filename="S_tot_fit_IPM.png", width=16*0.9, height=10*0.9, units="in", res=200, type="cairo-png")
+# png(filename="S_tot_fit_IPM.png", width=16*0.9, height=10*0.9, units="in", res=200, type="cairo-png")
 par(mfrow=c(5,6), mar=c(1,2,4.1,1), oma=c(4.1,3.1,0,0))
 
 S_tot_IPM <- extract1(IPM_pp,"S_tot")
@@ -901,7 +901,7 @@ for(i in levels(fish_data$code))
 }
 
 rm(list = c("S_tot_IPM","S_tot_obs_IPM","at","c1","c1t","c1tt","y1","init_NA"))
-dev.off()
+# dev.off()
 
 
 # #-----------------------------------------------------------------------------------------
