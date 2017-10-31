@@ -142,7 +142,7 @@ parameters {
   vector[N_X] beta_log_phi;             # regression coefs for log productivity anomalies
   real<lower=-1,upper=1> rho_log_phi;   # AR(1) coef for log productivity anomalies
   real<lower=0> sigma_log_phi;          # hyper-SD of brood year log productivity anomalies
-  vector[N_year] log_phi_z;             # log brood year productivity anomalies (Z-scores)
+  vector[N_year_all] log_phi_z;         # log brood year productivity anomalies (Z-scores)
   real<lower=0> sigma_proc;             # unique process error SD
   simplex[N_age] mu_p;                  # mean of cohort age distributions
   vector<lower=0>[N_age-1] sigma_gamma; # among-pop SD of mean log-ratio age distributions
@@ -162,7 +162,7 @@ parameters {
 transformed parameters {
   vector<lower=0>[N_pop] a;           # intrinsic productivity 
   vector<lower=0>[N_pop] Rmax;        # asymptotic recruitment 
-  vector<lower=0>[N_year] phi;        # brood year productivity anomalies
+  vector<lower=0>[N_year_all] phi;    # brood year productivity anomalies
   vector<lower=0>[N] S_W_tot;         # true total wild spawner abundance
   vector[N] S_H_tot;                  # true total hatchery spawner abundance (can == 0)
   vector<lower=0>[N] S_tot;           # true total spawner abundance
@@ -195,9 +195,9 @@ transformed parameters {
   
   # AR(1) model for log(phi)
   phi[1] = log_phi_z[1]*sigma_log_phi/sqrt(1 - rho_log_phi^2); # initial anomaly
-  for(i in 2:N_year)
+  for(i in 2:N_year_all)
     phi[i] = rho_log_phi*phi[i-1] + log_phi_z[i]*sigma_log_phi;
-  phi = exp(phi - mean(phi) + X[1:N_year,]*beta_log_phi);  # constrain log anomalies to sum to 0 (X should be centered)
+  phi = exp(phi - mean(phi) + X*beta_log_phi);  # constrain log anomalies to sum to 0 (X should be centered)
   
   # Pad p_HOS and B_rate
   p_HOS_all = rep_vector(0,N);
@@ -304,7 +304,6 @@ model {
 generated quantities {
   corr_matrix[N_age-1] R_gamma;               # among-pop correlation matrix of mean log-ratio age distns 
   corr_matrix[N_age-1] R_alr_p;               # correlation matrix of within-pop cohort log-ratio age distns 
-  vector<lower=0>[N_year_all] phi_all;        # brood year productivity anomalies in all years
   vector<lower=0>[N_fwd] S_W_tot_fwd;         # true total wild spawner abundance in forward simulations
   vector[N_fwd] S_H_tot_fwd;                  # true total hatchery spawner abundance in forward simulations
   vector<lower=0>[N_fwd] S_tot_fwd;           # true total spawner abundance in forward simulations
@@ -319,11 +318,6 @@ generated quantities {
   R_gamma = multiply_lower_tri_self_transpose(L_gamma);
   R_alr_p = multiply_lower_tri_self_transpose(L_alr_p);
   
-  # AR(1) model for log(phi)
-  phi_all[1:N_year] = phi; # copy from phi
-  for(i in (N_year + 1):N_year_all)
-    phi_all[i] = lognormal_rng(rho_log_phi*log(phi_all[i-1]) + X[i,]*beta_log_phi, sigma_log_phi);
-
   # Calculate true total wild and hatchery spawners and spawner age distribution
   # and simulate recruitment from brood year i
   # (Note that if N_fwd == 0, this block will not execute)
@@ -357,7 +351,7 @@ generated quantities {
     q_fwd[i,] = S_W_fwd/S_W_tot_fwd[i];
     S_tot_fwd[i] = S_W_tot_fwd[i] + S_H_tot_fwd[i];
     R_tot_hat_fwd[i] = A_fwd[i]*SR(a[pop_fwd[i]], Rmax[pop_fwd[i]], S_tot_fwd[i], A_fwd[i]);
-    R_tot_fwd[i] = lognormal_rng(log(R_tot_hat_fwd[i]) + log(phi_all[year_fwd[i]]), sigma_proc);
+    R_tot_fwd[i] = lognormal_rng(log(R_tot_hat_fwd[i]) + log(phi[year_fwd[i]]), sigma_proc);
   }
   
   # ll_S_tot_obs = rep_vector(0,N);

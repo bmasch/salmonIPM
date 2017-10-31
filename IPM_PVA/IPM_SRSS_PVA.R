@@ -85,8 +85,7 @@ write.table(table1, "table1.txt", sep="\t", row.names=F)
 # Base model
 set.seed(123)
 IPM_pp1 <- salmonIPM(fish_data = fish_data, fish_data_fwd = NULL, model = "IPM", pool_pops = TRUE, 
-                    # chains = 3, iter = 1000, warmup = 500, seed = 5432,
-                    chains = 3, iter = 200, warmup = 100, seed = 5432, pars = "lp__",
+                    chains = 3, iter = 1000, warmup = 500, seed = 5432,
                     control = list(adapt_delta = 0.95, stepsize = 0.01, max_treedepth = 13))
 
 print(IPM_pp, pars = c("phi","p_HOS","B_rate_all","q","gamma","p","S_tot","R_tot"), include = FALSE)

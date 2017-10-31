@@ -15,5 +15,13 @@ rm(dlp)
 
 
 windows()
-plot(summary(IPM_pp1)$summary[,"n_eff"], summary(IPM_pp2)$summary[,"n_eff"])
+plot(summary(IPM_pp2b)$summary[,"n_eff"], summary(IPM_pp2)$summary[,"n_eff"],
+     xlim = c(0,1500), ylim = c(0,1500), xlab = "model 1", ylab = "model 2", main = "n_eff")
 abline(0,1)
+
+neff1 <- summary(IPM_pp2b)$summary[,"n_eff"]
+neff2 <-  summary(IPM_pp2)$summary[,"n_eff"]
+dneff <- neff1 - neff2
+summary(dneff[!(neff1 == 1500 & neff2 == 1500)])
+t.test(dneff[!(neff1 == 1500 & neff2 == 1500)])
+rm(dneff);rm(neff1);rm(neff2)

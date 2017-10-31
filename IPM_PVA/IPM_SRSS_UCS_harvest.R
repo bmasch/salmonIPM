@@ -8,17 +8,28 @@ library(salmonIPM)
 
 # Load data
 fish_data <- read.table(file.path("~", "salmonIPM", "IPM_PVA", "fish_data.txt"), sep = "\t", header = T)
+fish_data <- fish_data[!is.na(fish_data$B_take_obs),]
 fish_data <- fish_data[order(fish_data$code, fish_data$year),]
 
+# Load habitat area data and add area column (convert m2 to ha) to fish_data
+IP <- read.table(file.path("~", "salmonIPM", "IPM_PVA", "IP.txt"), sep = "\t", header = T)
+fish_data <- cbind(fish_data[,1:5], A = IP$A[match(fish_data$code, IP$code)]/1e4, fish_data[,-c(1:5)])
+
+# # Create dummy covariate for intervention analysis: pre/post-1970 (centered, not scaled)
+# pre_post_1970 <- data.frame(pre_post_1970 = as.numeric(sort(unique(fish_data$year)) >= 1970),
+#                             row.names = sort(unique(fish_data$year)))
+# pre_post_1970$pre_post_1970 <- pre_post_1970$pre_post_1970 - mean(pre_post_1970$pre_post_1970)
+# 
 # # Pad data with years through max_year
 # N_future_years <- 50
 # max_year <- max(fish_data$year) + N_future_years
-# year_aug <- unlist(sapply(tapply(fish_data$year, fish_data$pop, max), function(x) (x + 1):max_year))
+# year_aug <- sapply(tapply(fish_data$year, fish_data$pop, max), function(x) (x + 1):max_year)
 # pop_aug <- rep(names(year_aug), sapply(year_aug, length))
 # code_aug <- fish_data$code[match(pop_aug, fish_data$pop)]
 # MPG_aug <- fish_data$MPG[match(pop_aug, fish_data$pop)]
+# ESU_aug <- fish_data$ESU[match(pop_aug, fish_data$pop)]
 # A_aug <- rep(tapply(fish_data$A, fish_data$pop, mean), times = sapply(year_aug, length))
-# fish_data_aug <- data.frame(pop = pop_aug, code = code_aug, MPG = MPG_aug, A = A_aug,
+# fish_data_aug <- data.frame(pop = pop_aug, code = code_aug, MPG = MPG_aug, ESU = ESU_aug, A = A_aug,
 #                             year = unlist(year_aug), type = "future", fit_p_HOS = 0, 
 #                             S_tot_obs = NA, n_age3_obs = 0, n_age4_obs = 0, n_age5_obs = 0,
 #                             n_W_obs = 0, n_H_obs = 0, p_HOS = 0, B_take_obs = 0, F_rate = 0,
@@ -29,12 +40,13 @@ fish_data <- fish_data[order(fish_data$code, fish_data$year),]
 # row.names(fish_data_aug) <- NULL
 
 # Create "forward simulation" data
-F_rate_fwd <- seq(0, 0.3, by = 0.5)
+F_rate_fwd <- seq(0, 0.3, by = 0.05)
 N_future_years <- 50
 max_year <- max(fish_data$year) + N_future_years
-year_fwd <- unlist(sapply(tapply(fish_data$year, fish_data$pop, max), function(x) (x + 1):max_year))
+year_fwd <- sapply(tapply(fish_data$year, fish_data$pop, max), function(x) (x + 1):max_year)
 pop_fwd <- rep(names(year_fwd), sapply(year_fwd, length))
 A_fwd <- rep(tapply(fish_data$A, fish_data$pop, mean), times = sapply(year_fwd, length))
+year_fwd = unlist(year_fwd)
 fish_data_fwd <- data.frame(pop = rep(pop_fwd, length(F_rate_fwd)), 
                             year = rep(year_fwd, length(F_rate_fwd)), 
                             A = rep(A_fwd, length(F_rate_fwd)), 
@@ -49,30 +61,42 @@ row.names(fish_data_fwd) <- NULL
 # impact on quasi-extinction risk under multi-pop IPM
 #===========================================================================
 
-n_chains <- 3
-n_warmup <- 500
-n_save <- 500
+# Model without any covariates
+PVA_F <- salmonIPM(fish_data = fish_data, fish_data_fwd = fish_data_fwd, model = "IPM", pool_pops = TRUE, 
+                   pars = c("mu_log_a","sigma_log_a","a",
+                            "mu_log_Rmax","sigma_log_Rmax","Rmax","rho_log_aRmax",
+                            "beta_log_phi","sigma_log_phi","rho_log_phi","phi",
+                            "mu_p","sigma_gamma","R_gamma","gamma",
+                            "sigma_alr_p","R_alr_p","p","p_fwd",
+                            "p_HOS","sigma_proc","sigma_obs",
+                            "S_tot","S_tot_fwd","R_tot","R_tot_fwd","q","q_fwd"),
+                   chains = 3, iter = 1000, warmup = 500,
+                   control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
 
-F_rate_future <- seq(0, 0.3, length=7)
-S_tot_F <- array(NA, dim = c(n_chains*n_save, nrow(fish_data_aug), length(F_rate_future)))
-R_tot_F <- array(NA, dim = c(n_chains*n_save, nrow(fish_data_aug), length(F_rate_future)))
-log_phi_F <- array(NA, dim = c(n_chains*n_save, length(unique(fish_data_aug$year)), length(F_rate_future)))
-
-for(i in 1:length(F_rate_future))
-{
-  fish_data_F <- fish_data_aug
-  fish_data_F$F_rate[fish_data_F$type=="future"] <- F_rate_future[i]
-  
-  PVA_F <- salmonIPM(fish_data = fish_data_F, model = "IPM", pool_pops = TRUE, 
-                     pars = c("R_tot","S_tot"),
-                     chains = n_chains, iter = n_warmup + n_save, warmup = n_warmup,
-                     control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
-  S_tot_F[,,i] <- extract1(PVA_F,"S_tot")
-  R_tot_F[,,i] <- extract1(PVA_F,"R_tot")
-  log_phi_F[,,i] <- log(extract1(PVA_F,"phi"))
-}
-
-rm(list = c("n_chains","n_warmup","n_save"))
+# n_chains <- 3
+# n_warmup <- 500
+# n_save <- 500
+# 
+# F_rate_future <- seq(0, 0.3, length=7)
+# S_tot_F <- array(NA, dim = c(n_chains*n_save, nrow(fish_data_aug), length(F_rate_future)))
+# R_tot_F <- array(NA, dim = c(n_chains*n_save, nrow(fish_data_aug), length(F_rate_future)))
+# log_phi_F <- array(NA, dim = c(n_chains*n_save, length(unique(fish_data_aug$year)), length(F_rate_future)))
+# 
+# for(i in 1:length(F_rate_future))
+# {
+#   fish_data_F <- fish_data_aug
+#   fish_data_F$F_rate[fish_data_F$type=="future"] <- F_rate_future[i]
+#   
+#   PVA_F <- salmonIPM(fish_data = fish_data_F, model = "IPM", pool_pops = TRUE, 
+#                      pars = c("R_tot","S_tot"),
+#                      chains = n_chains, iter = n_warmup + n_save, warmup = n_warmup,
+#                      control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
+#   S_tot_F[,,i] <- extract1(PVA_F,"S_tot")
+#   R_tot_F[,,i] <- extract1(PVA_F,"R_tot")
+#   log_phi_F[,,i] <- log(extract1(PVA_F,"phi"))
+# }
+# 
+# rm(list = c("n_chains","n_warmup","n_save"))
 
 
 #===========================================================================

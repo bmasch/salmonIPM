@@ -71,7 +71,7 @@ stan_init <- function(data, chains, model, pool_pops = TRUE)
                beta_log_phi = array(rnorm(N_X,0,1), dim = N_X),
                rho_log_phi = runif(1,0.1,0.7),
                sigma_log_phi = runif(1,0.1,0.5),
-               log_phi_z = array(rnorm(max(year),0,0.1), dim = max(year)),
+               log_phi_z = array(rnorm(max(year),0,0.1), dim = max(year,year_fwd)),
                sigma_proc = runif(1,0.5,1),
                sigma_obs = runif(1,0.5,1),
                mu_p = colMeans(p), sigma_gamma = array(runif(N_age-1,0.5,1), dim = N_age-1),
@@ -82,7 +82,6 @@ stan_init <- function(data, chains, model, pool_pops = TRUE)
                q_init = matrix(colMeans(q_obs), max_age*max(pop), 3, byrow = T),
                p_HOS = p_HOS_obs,
                log_R_tot_z = as.vector(scale(log(R_tot)))*0.1,
-               # F_rate = F_rate_obs[which_F],
                B_rate = B_rate)))
       } else {
         return(lapply(1:chains, function(i)
