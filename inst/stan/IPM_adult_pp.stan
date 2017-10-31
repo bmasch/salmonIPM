@@ -278,15 +278,20 @@ model {
   }
   
   # Hierarchical priors
-  # [log(a), log(Rmax)] ~ MVN(0,D*R_log_aRmax*D), where D = diag_matrix(sigma_log_a, sigma_log_Rmax)
+  # [log(a), log(Rmax)] ~ MVN([mu_log_a, mu_log_Rmax],D*R_log_aRmax*D), 
+  # where D = diag_matrix(sigma_log_a, sigma_log_Rmax)
   log_a_z ~ normal(0,1);
   log_Rmax_z ~ normal(0,1);
-  log_phi_z ~ normal(0,1);   # log(phi[i]) ~ N(rho_log_phi*log(phi[i-1]), sigma_log_phi)
-  # pop mean age probs logistic MVN: gamma[i,] ~ MVN(0,D*R_gamma*D), where D = diag_matrix(sigma_gamma)
+  # pop mean age probs logistic MVN: 
+  # gamma[i,] ~ MVN(mu_alr_p,D*R_gamma*D), 
+  # where D = diag_matrix(sigma_gamma)
   to_vector(gamma_z) ~ normal(0,1);
   
   # Process model
-  # age probs logistic MVN: alr_p[i,] ~ MVN(gamma[pop[i],], D*R_alr_p*D), where D = diag_matrix(sigma_alr_p)
+  log_phi_z ~ normal(0,1);   # log(phi[i]) ~ N(rho_log_phi*log(phi[i-1]), sigma_log_phi)
+  # age probs logistic MVN: 
+  # alr_p[i,] ~ MVN(gamma[pop[i],], D*R_alr_p*D), 
+  # where D = diag_matrix(sigma_alr_p)
   to_vector(alr_p_z) ~ normal(0,1);
   log_R_tot_z ~ normal(0,1); # total recruits: R_tot ~ lognormal(log(R_tot_hat), sigma_proc)
   
