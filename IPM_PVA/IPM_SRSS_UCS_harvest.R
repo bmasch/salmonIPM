@@ -146,27 +146,47 @@ rm(list = c("qet","c2","c2t","S_tot_fwd","pqe_F"))
 #------------------------------------------------------------------------------------
 
 dev.new(width = 14, height = 7)
-# png(filename="log_phi_sample_paths.png", width=14, height=7, units="in", res=200, type="cairo-png")
+png(filename="log_phi_sample_paths.png", width=14, height=7, units="in", res=200, type="cairo-png")
 layout(matrix(c(1,2), nrow = 1), widths = c(14,2))
 
+mod <- "PVA_F"
 type <- ifelse(years %in% fish_data$year, "past", "future")
-log_phi <- log(PVA_F_1970[,,substring(dimnames(PVA_F_1970)[[3]],1,4)=="phi["])
+log_phi <- log(eval(as.name(mod))[,,substring(dimnames(eval(as.name(mod)))[[3]],1,4)=="phi["])
 log_phi <- matrix(log_phi, nrow = prod(dim(log_phi)[1:2]))
+beta_log_phi <- as.vector(eval(as.name(mod))[,,grep("beta_log_phi", dimnames(eval(as.name(mod)))[[3]])])
 quantiles <- quantile(rowMeans(log_phi[,type == "future"]), c(1/3, 2/3))
 
 c1 <- "blue4"
 c1t <- col2rgb(c1)
 c1t <- rgb(c1t[1], c1t[2], c1t[3], maxColorValue = 255, alpha = 255*0.5)
+c2 <- "darkgray"
+c2t <- col2rgb(c2)
+c2t <- rgb(c2t[1], c2t[2], c2t[3], maxColorValue = 255, alpha = 255*0.5)
 
 indx1 <- c(which.max(rowMeans(log_phi[,type=="future"])), which.min(rowMeans(log_phi[,type=="future"])))
 indx2 <- sample(nrow(log_phi),100)
 
 # layer 1
 par(mar = c(5.1, 4.5, 4.1, 0.2))
-plot(years, log_phi[indx1[1],], type = "l", col = c1t, las = 1, cex.lab = 1.8, cex.axis = 1.5, 
-     xaxt = "n", xaxs = "i", yaxs = "i", ylim = range(log_phi[indx1,]), 
-     xlab = "Brood year", ylab = "Productivity anomaly")
+plot(years, log_phi[indx1[1],], type = "l", col = c1t, las = 1, cex.lab = 1.8, cex.axis = 1.5, cex.main = 1.8,
+     xaxt = "n", xaxs = "i", yaxs = "i", ylim = c(-5,5), #range(log_phi[union(indx1,indx2),]), 
+     xlab = "Brood year", ylab = "Productivity anomaly", 
+     main = ifelse(mod == "PVA_F", "Constant baseline", "Step change 1970"))
 abline(v = max(years[type == "past"]), lty = 2)
+if(mod == "PVA_F") abline(h = 0, col = c2, lwd = 3)
+if(mod  ==  "PVA_F_1970")
+{
+  mu_log_phi <- as.matrix(beta_log_phi) %*% t(step_1970)
+  lines(years[years < 1970], colMeans(mu_log_phi[,years < 1970]), col = c2, lwd = 3)
+  polygon(c(years[years < 1970], rev(years[years < 1970])),
+          c(apply(mu_log_phi[,years < 1970], 2, quantile, 0.025),
+            rev(apply(mu_log_phi[,years < 1970], 2, quantile, 0.975))), col = c2t, border = NA)
+  lines(years[years >= 1970], colMeans(mu_log_phi[,years >= 1970]), col = c2, lwd = 3)
+  polygon(c(years[years >= 1970], rev(years[years >= 1970])),
+          c(apply(mu_log_phi[,years >= 1970], 2, quantile, 0.025),
+            rev(apply(mu_log_phi[,years >= 1970], 2, quantile, 0.975))), col = c2t, border = NA)
+  rm(mu_log_phi)
+}
 axis(side = 1, at = years[years %% 10 == 0], cex.axis = 1.5)
 rug(years[years %% 10 != 0], ticksize = -0.01)
 rug(years[years %% 10 != 0 & years %% 5 == 0], ticksize = -0.02)
@@ -190,12 +210,12 @@ x3 <- length(dd$x)
 polygon(c(rep(0,x1), dd$y[1:x1]), c(dd$x[x1:1], dd$x[1:x1]), col = "red", border = NA)
 polygon(c(rep(0, x2 - x1), dd$y[(x1+1):x2]), c(dd$x[x2:(x1+1)], dd$x[(x1+1):x2]), col = "yellow", border = NA)
 polygon(c(rep(0, x3 - x2), dd$y[(x2+1):x3]), c(dd$x[x3:(x2+1)], dd$x[(x2+1):x3]), col = "green", border = NA)
-
 segments(x0 = 0, x1 = dd$y[which.min(abs(dd$x - quantiles[1]))], y0 = quantiles[1], col = c1)
 segments(x0 = 0, x1 = dd$y[which.min(abs(dd$x - quantiles[2]))], y0 = quantiles[2], col = c1)
 
-rm(list = c("type","log_phi","c1","c1t","indx1","indx2","dd","quantiles","x1","x2","x3"))
-# dev.off()
+rm(list = c("mod","type","log_phi","beta_log_phi","c1","c1t","c2","c2t","indx1","indx2",
+            "dd","quantiles","x1","x2","x3"))
+dev.off()
 
 
 #------------------------------------------------------------------------------------
