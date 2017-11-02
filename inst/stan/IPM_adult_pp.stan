@@ -197,7 +197,8 @@ transformed parameters {
   phi[1] = log_phi_z[1]*sigma_log_phi/sqrt(1 - rho_log_phi^2); # initial anomaly
   for(i in 2:N_year_all)
     phi[i] = rho_log_phi*phi[i-1] + log_phi_z[i]*sigma_log_phi;
-  phi = exp(phi - mean(phi) + X*beta_log_phi);  # constrain log anomalies to sum to 0 (X should be centered)
+  # constrain "fitted" log anomalies to sum to 0 (X should be centered)
+  phi = exp(phi - mean(phi[1:N_year]) + X*beta_log_phi);
   
   # Pad p_HOS and B_rate
   p_HOS_all = rep_vector(0,N);
@@ -282,13 +283,13 @@ model {
   # where D = diag_matrix(sigma_log_a, sigma_log_Rmax)
   log_a_z ~ normal(0,1);
   log_Rmax_z ~ normal(0,1);
+  log_phi_z ~ normal(0,1);   # log(phi[i]) ~ N(rho_log_phi*log(phi[i-1]), sigma_log_phi)
   # pop mean age probs logistic MVN: 
   # gamma[i,] ~ MVN(mu_alr_p,D*R_gamma*D), 
   # where D = diag_matrix(sigma_gamma)
   to_vector(gamma_z) ~ normal(0,1);
   
   # Process model
-  log_phi_z ~ normal(0,1);   # log(phi[i]) ~ N(rho_log_phi*log(phi[i-1]), sigma_log_phi)
   # age probs logistic MVN: 
   # alr_p[i,] ~ MVN(gamma[pop[i],], D*R_alr_p*D), 
   # where D = diag_matrix(sigma_alr_p)
