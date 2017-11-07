@@ -883,7 +883,7 @@ for(i in levels(fish_data$code))
                     apply(S_tot_obs_IPM[,fish_data$code==i & !init_NA], 2, quantile, c(0.025,0.975)), na.rm = T), 
        cex.axis = 1.2, las = 1, yaxs = "i", yaxt = "n", xlab = "", ylab = "", log = "y")
   at <- maglab(10^par("usr")[3:4], log = T)
-  axis(2, at$labat, cex.axis=1.2, las=1,
+  axis(2, at$labat, cex.axis = 1.2, las = 1,
        labels = sapply(log10(at$labat), function(i) as.expression(bquote(10^ .(i)))))
   mtext(i, side = 3, line = 0.5, cex = par("cex")*1.5)
   if(i %in% levels(fish_data$code)[seq(1,29,6)]) mtext("Spawners", side = 2, line = 3.5, cex = par("cex")*1.5)
