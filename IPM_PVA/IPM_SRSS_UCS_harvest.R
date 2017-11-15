@@ -17,6 +17,9 @@ fish_data <- fish_data[order(fish_data$code, fish_data$year),]
 IP <- read.table(file.path("~", "salmonIPM", "IPM_PVA", "IP.txt"), sep = "\t", header = T)
 fish_data <- cbind(fish_data[,1:5], A = IP$A[match(fish_data$code, IP$code)]/1e4, fish_data[,-c(1:5)])
 
+# Load minimum abundance target (MAT) data for each pop
+MAT <- read.table(file.path("~", "salmonIPM", "IPM_PVA", "MAT.txt"), sep = "\t", header = T)
+
 # Create "forward simulation" data
 F_rate_fwd <- seq(0, 0.3, by = 0.05)
 N_future_years <- 50
@@ -37,9 +40,41 @@ row.names(fish_data_fwd) <- NULL
 # years (N_year + 1):N_year_all are given the post-1970 value
 years <- sort(unique(c(fish_data$year, fish_data_fwd$year)))
 step_1970 <- data.frame(step_1970 = as.numeric(years >= 1970),
-                            row.names = years)
+                        row.names = years)
 step_1970$step_1970 <- step_1970$step_1970 - 
   mean(step_1970[as.character(min(fish_data$year):max(fish_data$year)),"step_1970"])
+
+
+#--------------------------------------------------------
+# Create data summary table 
+#--------------------------------------------------------
+
+Ph <- fish_data$p_HOS
+S_tot_obs <- fish_data$S_tot_obs
+pop <- fish_data$pop
+mat <- paste0(MAT$MAT, ifelse(MAT$target=="maintained", "*", ""))
+mat <- mat[order(MAT$code)]
+table1 <- data.frame(Population=rep(NA,length(levels(pop))), ESU = NA, Years=NA, 
+                     MAT=mat, St=NA, P.hatchery=NA)
+table1$Population <- levels(pop)[order(fish_data$code[match(levels(pop), pop)])]
+table1$ESU <- fish_data$ESU[match(table1$Population, fish_data$pop)]
+for(i in 1:nrow(table1))
+{
+  table1$Years[i] <- paste(min(fish_data$year[pop==table1$Population[i]]), "-", 
+                           max(fish_data$year[pop==table1$Population[i]]), sep="")
+  table1$St[i] <- paste0(round(median(S_tot_obs[pop==table1$Population[i]], na.rm = T),0), " (", 
+                         paste0(round(quantile(S_tot_obs[pop==table1$Population[i]], c(0.05,0.95), na.rm = T),0), collapse = "-"),
+                         ")")
+  table1$P.hatchery[i] <- paste(round(mean(Ph[pop==table1$Population[i]]),2), 
+                                ifelse(round(mean(Ph[pop==table1$Population[i]]),2)==0, "",
+                                       paste0("(", 
+                                              paste(round(quantile(Ph[pop==table1$Population[i]], c(0.05,0.95)),2), collapse = "-"),
+                                              ")")))
+}
+table1$Population <- paste0(table1$Population, " (", levels(fish_data$code), ")")
+rm(Ph);rm(S_tot_obs);rm(pop);rm(mat)
+print(table1)
+write.table(table1, "harvest_table1.txt", sep="\t", row.names=F)
 
 
 #===========================================================================
@@ -97,7 +132,7 @@ PVA_F_1970 <- salmonIPM(fish_data = fish_data, fish_data_fwd = fish_data_fwd, en
                         control = list(adapt_delta = 0.95, stepsize = 0.1, max_treedepth = 13))
 
 print(PVA_F_1970, pars = c("a","Rmax","phi","p_HOS","B_rate_all","q","q_fwd","gamma",
-                      "p","p_fwd","S_tot","S_tot_fwd","R_tot","R_tot_fwd"), 
+                           "p","p_fwd","S_tot","S_tot_fwd","R_tot","R_tot_fwd"), 
       include = FALSE, use_cache = FALSE)
 
 launch_shinystan(as.shinystan(PVA_F_1970, 
@@ -111,11 +146,91 @@ launch_shinystan(as.shinystan(PVA_F_1970,
 ### (ARE YOU SURE YOU'RE READY TO DO THIS??)
 PVA_F_1970 <- as.array(PVA_F_1970)
 gc()
-                 
+
 
 #===========================================================================
 # FIGURES
 #===========================================================================
+
+#--------------------------------------------------------------------
+# S-R curves and posterior distributions of parameters
+#--------------------------------------------------------------------
+
+dev.new(width = 11, height = 3.5)
+png(filename="harvest_SR.png", width=11, height=3.5, units="in", res=200, type="cairo-png")
+par(mfrow = c(1,3), mar = c(5.1,5.1,1,1))
+BH <- function(a, Rmax, S) 
+{
+  a*S/(1 + a*S/Rmax)
+}
+
+S <- matrix(seq(0, quantile(fish_data$S_tot_obs/fish_data$A, 0.9, na.rm = T), length = 100),
+            nrow = sum(IPM_pp@sim$n_save - IPM_pp@sim$warmup2), ncol = 100, byrow = T)
+
+# S-R curves
+mu_log_a <- as.vector(extract1(IPM_pp,"mu_log_a"))
+mu_log_Rmax <- as.vector(extract1(IPM_pp,"mu_log_Rmax"))
+R_ESU_IPM <- BH(a = exp(mu_log_a), Rmax = exp(mu_log_Rmax), S = S)
+a <- extract1(IPM_pp,"a")
+Rmax <- extract1(IPM_pp,"Rmax")
+R_pop_IPM <- sapply(1:ncol(a), 
+                    function(i) apply(BH(a = a[,i], Rmax = Rmax[,i], S = S), 2, median))
+
+bb <- "blue4"
+plot(S[1,], apply(R_ESU_IPM, 2, median), type = "l", lwd=3, col = bb, las = 1,
+     cex.lab = 2, cex.axis = 1.5, xaxs = "i", yaxs = "i",
+     ylim = range(R_pop_IPM),
+     xlab=bquote("Spawner density (ha"^-1*")"), ylab=bquote("Recruit density (ha"^-1*")"))
+bbt <- col2rgb(bb)
+bbt <- rgb(bbt[1], bbt[2], bbt[3], maxColorValue = 255, alpha = 255*0.3)
+for(i in 1:ncol(R_pop_IPM))
+  lines(S[1,], R_pop_IPM[,i], col = bbt)
+bbt <- col2rgb(bb)
+bbt <- rgb(bbt[1], bbt[2], bbt[3], maxColorValue = 255, alpha = 255*0.2)
+polygon(c(S[1,], rev(S[1,])), 
+        c(apply(R_ESU_IPM, 2, quantile, 0.025), 
+          rev(apply(R_ESU_IPM, 2, quantile, 0.975))), 
+        col = bbt, border = NA)
+text(par("usr")[1], par("usr")[4], adj = c(-1,1.5), "A", cex = 2)
+
+# Posterior densities of log(a)
+dd_IPM_ESU <- density(extract1(IPM_pp,"mu_log_a"))
+dd_IPM_pop <- vector("list", length(levels(fish_data$pop)))
+for(i in 1:length(dd_IPM_pop))
+  dd_IPM_pop[[i]] <- density(log(extract1(IPM_pp,"a")[,i]))
+
+bb <- "blue4"
+plot(dd_IPM_ESU$x, dd_IPM_ESU$y, type = "l", lwd = 3, col = bb, las = 1, cex.lab = 2, cex.axis = 1.5,
+     xlab = bquote(log(alpha)), ylab = "Probability density", xaxs = "i",
+     xlim = range(c(dd_IPM_ESU$x, sapply(dd_IPM_pop, function(m) m$x))),
+     ylim = range(c(dd_IPM_ESU$y, sapply(dd_IPM_pop, function(m) m$y))))
+bb <- col2rgb(bb)
+bb <- rgb(bb[1], bb[2], bb[3], maxColorValue = 255, alpha = 255*0.3)
+for(i in 1:length(dd_IPM_pop))
+  lines(dd_IPM_pop[[i]]$x, dd_IPM_pop[[i]]$y, col = bb)
+text(par("usr")[1], par("usr")[4], adj = c(-1,1.5), "B", cex = 2)
+
+# Posterior densities of log(Rmax)
+dd_IPM_ESU <- density(extract1(IPM_pp,"mu_log_Rmax"))
+dd_IPM_pop <- vector("list", length(levels(fish_data$pop)))
+for(i in 1:length(dd_IPM_pop))
+  dd_IPM_pop[[i]] <- density(log(extract1(IPM_pp,"Rmax")[,i]))
+
+bb <- "blue4"
+plot(dd_IPM_ESU$x, dd_IPM_ESU$y, type = "l", lwd = 3, col = bb, las = 1, cex.lab = 2, cex.axis = 1.5,
+     xlab = bquote(log(italic(R)[max]*" [ha"^-1*"]")), ylab = "Probability density", xaxs = "i",
+     xlim = range(c(dd_IPM_ESU$x, sapply(dd_IPM_pop, function(m) m$x))),
+     ylim = range(c(dd_IPM_ESU$y, sapply(dd_IPM_pop, function(m) m$y))))
+bb <- col2rgb(bb)
+bb <- rgb(bb[1], bb[2], bb[3], maxColorValue = 255, alpha = 255*0.3)
+for(i in 1:length(dd_IPM_pop))
+  lines(dd_IPM_pop[[i]]$x, dd_IPM_pop[[i]]$y, col = bb)
+text(par("usr")[1], par("usr")[4], adj = c(-1,1.5), "C", cex = 2)
+
+rm(list=c("mu_log_a","mu_log_Rmax","S","R_ESU_IPM","BH","bb","bbt",
+          "dd_IPM_ESU","dd_IPM_pop","a","Rmax","R_pop_IPM"))
+dev.off()
+
 
 #------------------------------------------------------------------------------------
 # Sample paths of brood-year log productivity anomalies (log phi)
@@ -313,7 +428,7 @@ for(i in pops)
   plot(range(F_rate_fwd), 0:1, pch = "", las = 1, cex.lab = 1.5, cex.axis = 1.2,
        xaxs = "i", yaxs = "i", xlab = "", ylab = "")
   mtext(i, side = 3, line = 0.5, cex = par("cex")*1.5)
-  if(i %in% pops[4:6]) mtext("Exploitation rate", side = 1, line = 3.5, cex = par("cex")*2)
+  if(i %in% pops[4:6]) mtext("Mortality rate", side = 1, line = 3.5, cex = par("cex")*2)
   
   pqe_F_g <- vector("numeric", length(F_rate_fwd))
   pqe_F_m <- vector("numeric", length(F_rate_fwd))
@@ -374,7 +489,7 @@ alpha <- c(0.2, 0.3, 0.2)
 cgmb <- c(good = "green3", medium = "yellow2", bad = "red2")
 cgmbt <- lapply(cgmb, col2rgb)
 cgmbt <- sapply(c(good = 1, medium = 2, bad = 3), 
-               function(i) rgb(cgmbt[[i]][1], cgmbt[[i]][2], cgmbt[[i]][3], maxColorValue = 255, alpha = 255*alpha[i]))
+                function(i) rgb(cgmbt[[i]][1], cgmbt[[i]][2], cgmbt[[i]][3], maxColorValue = 255, alpha = 255*alpha[i]))
 S_tot_fwd <- eval(as.name(mod))[,,substring(dimnames(eval(as.name(mod)))[[3]],1,9)=="S_tot_fwd"]
 S_tot_fwd <- matrix(S_tot_fwd, nrow = prod(dim(S_tot_fwd)[1:2]))
 
@@ -382,23 +497,23 @@ for(i in pops)
 {
   FF <- fish_data_fwd$F_rate[fish_data_fwd$pop==i & fish_data_fwd$year==yfin[i]]
   S_tot_F <- S_tot_fwd[,fish_data_fwd$pop==i & fish_data_fwd$year==yfin[i]]
-
+  
   plot(FF, apply(S_tot_F, 2, median), pch = "", las = 1, cex.lab = 1.5, cex.axis = 1.2,
        ylim = c(5e-2, 1e5),
        # ylim = range(apply(S_tot_fwd[,fish_data_fwd$pop %in% pops & fish_data_fwd$year %in% yfin], 2, quantile, c(0.01,0.99))),
        xaxs = "i", yaxt = "n", log = "y", xlab = "", ylab = "")
   for(j in c("bad","medium","good"))
     polygon(c(FF, rev(FF)), 
-             c(apply(S_tot_F[gmb==j,], 2, quantile, 0.025), 
-               rev(apply(S_tot_F[gmb==j,], 2, quantile, 0.975))),
-             col = cgmbt[j], border = NA)
+            c(apply(S_tot_F[gmb==j,], 2, quantile, 0.025), 
+              rev(apply(S_tot_F[gmb==j,], 2, quantile, 0.975))),
+            col = cgmbt[j], border = NA)
   for(j in c("bad","medium","good"))
     lines(FF, apply(S_tot_F[gmb==j,], 2, median), lwd = 3, col = cgmb[j])
   at <- maglab(10^par("usr")[3:4], log = T)
   axis(2, at$labat, cex.axis = 1.2, las = 1,
        labels = sapply(log10(at$labat), function(i) as.expression(bquote(10^ .(i)))))
   mtext(i, side = 3, line = 0.5, cex = par("cex")*1.5)
-  if(i %in% pops[4:6]) mtext("Exploitation rate", side = 1, line = 3.5, cex = par("cex")*2)
+  if(i %in% pops[4:6]) mtext("Mortality rate", side = 1, line = 3.5, cex = par("cex")*2)
 }
 mtext(paste("Spawners in year", tfin), side = 2, line = 0, outer = T, cex = par("cex")*2)
 mtext(ifelse(mod == "PVA_F", "Constant baseline", "Step change 1970"), 
@@ -433,6 +548,217 @@ for(i in levels(pqe_F$pop))
 rm(list = c("qet","c2","c2t","S_tot_fwd","pqe_F"))
 # dev.off()
 
+
+#===========================================================================
+# TABLES
+#===========================================================================
+
+#------------------------------------------------------------------------------------
+# Posterior predictive summaries of population size at year tfin 
+# under multi-pop IPM with constant baseline or step change,
+# as a function of harvest rate and average environmental conditions
+# (good/medium/bad)
+#------------------------------------------------------------------------------------
+
+table2 <- data.frame(Population = rep(levels(fish_data$code), each = 4),
+                     Mortality = rep(c(0, 0.1, 0.2, 0.3), length(levels(fish_data$code))),
+                     base_good = NA, base_med = NA, base_bad = NA,
+                     step_good = NA, step_med = NA, step_bad = NA)
+
+tfin <- 50    # set time horizon
+type <- ifelse(years %in% fish_data$year, "past", "future")
+yfin <- sapply(levels(fish_data$code), function(i) max(fish_data$year[fish_data$code==i]) + tfin)
+
+log_phi1 <- log(PVA_F[,,substring(dimnames(PVA_F)[[3]],1,4)=="phi["])
+log_phi1 <- matrix(log_phi1, nrow = prod(dim(log_phi1)[1:2]))
+log_phi1 <- log_phi1[,type=="future"][,1:tfin]
+quantiles1 <- quantile(rowMeans(log_phi1), c(1/3, 2/3))
+gmb1 <- ifelse(rowMeans(log_phi1) >= quantiles1[1],
+               ifelse(rowMeans(log_phi1) >= quantiles1[2], "good", "medium"), "bad")
+S_tot_fwd1 <- PVA_F[,,substring(dimnames(PVA_F)[[3]],1,9)=="S_tot_fwd"]
+S_tot_fwd1 <- matrix(S_tot_fwd1, nrow = prod(dim(S_tot_fwd1)[1:2]))
+
+log_phi2 <- log(PVA_F_1970[,,substring(dimnames(PVA_F)[[3]],1,4)=="phi["])
+log_phi2 <- matrix(log_phi2, nrow = prod(dim(log_phi2)[1:2]))
+log_phi2 <- log_phi2[,type=="future"][,1:tfin]
+quantiles2 <- quantile(rowMeans(log_phi2), c(1/3, 2/3))
+gmb2 <- ifelse(rowMeans(log_phi2) >= quantiles2[1],
+               ifelse(rowMeans(log_phi2) >= quantiles2[2], "good", "medium"), "bad")
+S_tot_fwd2 <- PVA_F_1970[,,substring(dimnames(PVA_F_1970)[[3]],1,9)=="S_tot_fwd"]
+S_tot_fwd2 <- matrix(S_tot_fwd2, nrow = prod(dim(S_tot_fwd2)[1:2]))
+
+for(i in levels(fish_data$code))
+{
+  pop <- fish_data$pop[match(i, fish_data$code)]  
+  FF <- fish_data_fwd$F_rate[fish_data_fwd$pop==pop & fish_data_fwd$year==yfin[i]]
+  S_tot_F1 <- S_tot_fwd1[,fish_data_fwd$pop==pop & fish_data_fwd$year==yfin[i]]
+  S_tot_F2 <- S_tot_fwd2[,fish_data_fwd$pop==pop & fish_data_fwd$year==yfin[i]]
+  
+  for(j in unique(table2$Mortality))
+  {
+    idx <- which(table2$Population == i & table2$Mortality == j)
+    table2$base_good[idx] <- paste0(round(median(S_tot_F1[gmb1=="good",FF==j]), 0), " (",
+                                    paste0(round(quantile(S_tot_F1[gmb1=="good",FF==j], c(0.025,0.975)), 0), collapse = "-"), ")")
+    table2$base_med[idx] <- paste0(round(median(S_tot_F1[gmb1=="medium",FF==j]), 0), " (",
+                                   paste0(round(quantile(S_tot_F1[gmb1=="medium",FF==j], c(0.025,0.975)), 0), collapse = "-"), ")")
+    table2$base_bad[idx] <- paste0(round(median(S_tot_F1[gmb1=="bad",FF==j]), 0), " (",
+                                   paste0(round(quantile(S_tot_F1[gmb1=="bad",FF==j], c(0.025,0.975)), 0), collapse = "-"), ")")
+    table2$step_good[idx] <- paste0(round(median(S_tot_F2[gmb2=="good",FF==j]), 0), " (",
+                                    paste0(round(quantile(S_tot_F2[gmb2=="good",FF==j], c(0.025,0.975)), 0), collapse = "-"), ")")
+    table2$step_med[idx] <- paste0(round(median(S_tot_F2[gmb2=="medium",FF==j]), 0), " (",
+                                   paste0(round(quantile(S_tot_F2[gmb2=="medium",FF==j], c(0.025,0.975)), 0), collapse = "-"), ")")
+    table2$step_bad[idx] <- paste0(round(median(S_tot_F2[gmb2=="bad",FF==j]), 0), " (",
+                                   paste0(round(quantile(S_tot_F2[gmb2=="bad",FF==j], c(0.025,0.975)), 0), collapse = "-"), ")")
+  }
+}
+
+table2$Population <- as.vector(sapply(levels(fish_data$code), function(x) c(x,"","","")))
+write.table(table2, file = paste0("table_S_tot", tfin, ".txt"), sep = "\t", row.names = FALSE)
+
+rm(list = c("tfin","yfin","type","log_phi1","quantiles1","gmb1","log_phi2","quantiles2","gmb2",
+            "S_tot_fwd1","S_tot_fwd2","pop","FF","S_tot_F1","S_tot_F2","idx"))
+
+
+#------------------------------------------------------------------------------------
+# Posterior predictive summaries of 100 * population size / MAT at year tfin 
+# under multi-pop IPM with constant baseline or step change,
+# as a function of harvest rate and average environmental conditions
+# (good/medium/bad)
+#------------------------------------------------------------------------------------
+
+table4 <- data.frame(Population = rep(levels(fish_data$code), each = 4),
+                     Mortality = rep(c(0, 0.1, 0.2, 0.3), length(levels(fish_data$code))),
+                     base_good = NA, base_med = NA, base_bad = NA,
+                     step_good = NA, step_med = NA, step_bad = NA)
+
+tfin <- 50    # set time horizon
+type <- ifelse(years %in% fish_data$year, "past", "future")
+yfin <- sapply(levels(fish_data$code), function(i) max(fish_data$year[fish_data$code==i]) + tfin)
+
+log_phi1 <- log(PVA_F[,,substring(dimnames(PVA_F)[[3]],1,4)=="phi["])
+log_phi1 <- matrix(log_phi1, nrow = prod(dim(log_phi1)[1:2]))
+log_phi1 <- log_phi1[,type=="future"][,1:tfin]
+quantiles1 <- quantile(rowMeans(log_phi1), c(1/3, 2/3))
+gmb1 <- ifelse(rowMeans(log_phi1) >= quantiles1[1],
+               ifelse(rowMeans(log_phi1) >= quantiles1[2], "good", "medium"), "bad")
+S_tot_fwd1 <- PVA_F[,,substring(dimnames(PVA_F)[[3]],1,9)=="S_tot_fwd"]
+S_tot_fwd1 <- matrix(S_tot_fwd1, nrow = prod(dim(S_tot_fwd1)[1:2]))
+
+log_phi2 <- log(PVA_F_1970[,,substring(dimnames(PVA_F)[[3]],1,4)=="phi["])
+log_phi2 <- matrix(log_phi2, nrow = prod(dim(log_phi2)[1:2]))
+log_phi2 <- log_phi2[,type=="future"][,1:tfin]
+quantiles2 <- quantile(rowMeans(log_phi2), c(1/3, 2/3))
+gmb2 <- ifelse(rowMeans(log_phi2) >= quantiles2[1],
+               ifelse(rowMeans(log_phi2) >= quantiles2[2], "good", "medium"), "bad")
+S_tot_fwd2 <- PVA_F_1970[,,substring(dimnames(PVA_F_1970)[[3]],1,9)=="S_tot_fwd"]
+S_tot_fwd2 <- matrix(S_tot_fwd2, nrow = prod(dim(S_tot_fwd2)[1:2]))
+
+for(i in levels(fish_data$code))
+{
+  pop <- fish_data$pop[match(i, fish_data$code)]  
+  FF <- fish_data_fwd$F_rate[fish_data_fwd$pop==pop & fish_data_fwd$year==yfin[i]]
+  S_tot_F1 <- S_tot_fwd1[,fish_data_fwd$pop==pop & fish_data_fwd$year==yfin[i]]
+  S_tot_F2 <- S_tot_fwd2[,fish_data_fwd$pop==pop & fish_data_fwd$year==yfin[i]]
+  mat <- MAT$MAT[MAT$code == i]
+  
+  for(j in unique(table4$Mortality))
+  {
+    idx <- which(table4$Population == i & table4$Mortality == j)
+    table4$base_good[idx] <- paste0(round(100*median(S_tot_F1[gmb1=="good",FF==j])/mat, 0), " (",
+                                    paste0(round(100*quantile(S_tot_F1[gmb1=="good",FF==j], c(0.025,0.975))/mat, 0), collapse = "-"), ")")
+    table4$base_med[idx] <- paste0(round(100*median(S_tot_F1[gmb1=="medium",FF==j])/mat, 0), " (",
+                                   paste0(round(100*quantile(S_tot_F1[gmb1=="medium",FF==j], c(0.025,0.975))/mat, 0), collapse = "-"), ")")
+    table4$base_bad[idx] <- paste0(round(100*median(S_tot_F1[gmb1=="bad",FF==j])/mat, 0), " (",
+                                   paste0(round(100*quantile(S_tot_F1[gmb1=="bad",FF==j], c(0.025,0.975))/mat, 0), collapse = "-"), ")")
+    table4$step_good[idx] <- paste0(round(100*median(S_tot_F2[gmb2=="good",FF==j])/mat, 0), " (",
+                                    paste0(round(100*quantile(S_tot_F2[gmb2=="good",FF==j], c(0.025,0.975))/mat, 0), collapse = "-"), ")")
+    table4$step_med[idx] <- paste0(round(100*median(S_tot_F2[gmb2=="medium",FF==j])/mat, 0), " (",
+                                   paste0(round(100*quantile(S_tot_F2[gmb2=="medium",FF==j], c(0.025,0.975))/mat, 0), collapse = "-"), ")")
+    table4$step_bad[idx] <- paste0(round(100*median(S_tot_F2[gmb2=="bad",FF==j])/mat, 0), " (",
+                                   paste0(round(100*quantile(S_tot_F2[gmb2=="bad",FF==j], c(0.025,0.975))/mat, 0), collapse = "-"), ")")
+  }
+}
+
+table4$Population <- as.vector(sapply(levels(fish_data$code), function(x) c(x,"","","")))
+write.table(table4, file = paste0("table_S_tot_pct_MAT", tfin, ".txt"), sep = "\t", row.names = FALSE)
+
+rm(list = c("tfin","yfin","type","log_phi1","quantiles1","gmb1","log_phi2","quantiles2","gmb2",
+            "S_tot_fwd1","S_tot_fwd2","pop","FF","S_tot_F1","S_tot_F2","idx","mat"))
+
+
+#------------------------------------------------------------------------------------
+# Posterior predictive summaries of PQE by year tfin 
+# under multi-pop IPM with constant baseline or step change,
+# as a function of harvest rate and average environmental conditions
+# (good/medium/bad)
+#------------------------------------------------------------------------------------
+
+table6 <- data.frame(Population = rep(levels(fish_data$code), each = 4),
+                     Mortality = rep(c(0, 0.1, 0.2, 0.3), length(levels(fish_data$code))),
+                     base_good = NA, base_med = NA, base_bad = NA,
+                     step_good = NA, step_med = NA, step_bad = NA)
+
+tfin <- 50    # set time horizon
+qet <- 50     # set quasi-extinction threshold (4-year moving average)
+type <- ifelse(years %in% fish_data$year, "past", "future")
+
+log_phi1 <- log(PVA_F[,,substring(dimnames(PVA_F)[[3]],1,4)=="phi["])
+log_phi1 <- matrix(log_phi1, nrow = prod(dim(log_phi1)[1:2]))
+log_phi1 <- log_phi1[,type=="future"][,1:tfin]
+quantiles1 <- quantile(rowMeans(log_phi1), c(1/3, 2/3))
+gmb1 <- ifelse(rowMeans(log_phi1) >= quantiles1[1],
+               ifelse(rowMeans(log_phi1) >= quantiles1[2], "good", "medium"), "bad")
+S_tot_fwd1 <- PVA_F[,,substring(dimnames(PVA_F)[[3]],1,9)=="S_tot_fwd"]
+S_tot_fwd1 <- matrix(S_tot_fwd1, nrow = prod(dim(S_tot_fwd1)[1:2]))
+
+log_phi2 <- log(PVA_F_1970[,,substring(dimnames(PVA_F)[[3]],1,4)=="phi["])
+log_phi2 <- matrix(log_phi2, nrow = prod(dim(log_phi2)[1:2]))
+log_phi2 <- log_phi2[,type=="future"][,1:tfin]
+quantiles2 <- quantile(rowMeans(log_phi2), c(1/3, 2/3))
+gmb2 <- ifelse(rowMeans(log_phi2) >= quantiles2[1],
+               ifelse(rowMeans(log_phi2) >= quantiles2[2], "good", "medium"), "bad")
+S_tot_fwd2 <- PVA_F_1970[,,substring(dimnames(PVA_F_1970)[[3]],1,9)=="S_tot_fwd"]
+S_tot_fwd2 <- matrix(S_tot_fwd2, nrow = prod(dim(S_tot_fwd2)[1:2]))
+
+for(i in levels(fish_data$code))
+{
+  pop <- fish_data$pop[match(i, fish_data$code)]  
+
+  for(j in unique(table6$Mortality))
+  {
+    idx <- which(table6$Population == i & table6$Mortality == j)
+    
+    ss <- S_tot_fwd1[gmb1 == "good",fish_data_fwd$pop==pop & fish_data_fwd$F_rate==j]
+    ss <- ss[,1:tfin]
+    table6$base_good[idx] <- round(mean(apply(ss, 1, function(x) any(rollmean(x, 4) < qet))), 2)
+
+    ss <- S_tot_fwd1[gmb1 == "medium",fish_data_fwd$pop==pop & fish_data_fwd$F_rate==j]
+    ss <- ss[,1:tfin]
+    table6$base_med[idx] <- round(mean(apply(ss, 1, function(x) any(rollmean(x, 4) < qet))), 2)
+  
+    ss <- S_tot_fwd1[gmb1 == "bad",fish_data_fwd$pop==pop & fish_data_fwd$F_rate==j]
+    ss <- ss[,1:tfin]
+    table6$base_bad[idx] <- round(mean(apply(ss, 1, function(x) any(rollmean(x, 4) < qet))), 2)
+
+    ss <- S_tot_fwd2[gmb2 == "good",fish_data_fwd$pop==pop & fish_data_fwd$F_rate==j]
+    ss <- ss[,1:tfin]
+    table6$step_good[idx] <- round(mean(apply(ss, 1, function(x) any(rollmean(x, 4) < qet))), 2)
+    
+    ss <- S_tot_fwd2[gmb2 == "medium",fish_data_fwd$pop==pop & fish_data_fwd$F_rate==j]
+    ss <- ss[,1:tfin]
+    table6$step_med[idx] <- round(mean(apply(ss, 1, function(x) any(rollmean(x, 4) < qet))), 2)
+    
+    ss <- S_tot_fwd2[gmb2 == "bad",fish_data_fwd$pop==pop & fish_data_fwd$F_rate==j]
+    ss <- ss[,1:tfin]
+    table6$step_bad[idx] <- round(mean(apply(ss, 1, function(x) any(rollmean(x, 4) < qet))), 2)
+  }
+}
+
+table6$Population <- as.vector(sapply(levels(fish_data$code), function(x) c(x,"","","")))
+write.table(table6, file = paste0("table_PQE", tfin, ".txt"), sep = "\t", row.names = FALSE)
+
+rm(list = c("tfin","type","log_phi1","quantiles1","gmb1","log_phi2","quantiles2","gmb2",
+            "S_tot_fwd1","S_tot_fwd2","pop","idx","ss","qet"))
 
 
 

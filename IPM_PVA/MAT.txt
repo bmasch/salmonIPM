@@ -1,0 +1,30 @@
+code	target	MAT
+GRCAT	viable	1000
+GRLOS	viable	1000
+GRMIN	viable	750
+GRUMA	maintained	1000
+GRWEN	viable	750
+IRMAI	viable	750
+MFBEA	viable	750
+MFBIG	highly viable	1000
+MFCAM	maintained	500
+MFCHA	viable	750
+MFLOO	viable	500
+MFMAR	viable	500
+MFSUL	maintained	500
+MFUMA	maintained	750
+SFEFS	maintained	1000
+SFMAI	viable	1000
+SFSEC	highly viable	750
+SNTUC	highly viable	500
+SREFS	viable	1000
+SRLEM	viable	2000
+SRLMA	maintained	2000
+SRNFS	maintained	500
+SRPAH	viable	1000
+SRUMA	highly viable	1000
+SRVAL	viable	500
+SRYFS	maintained	500
+UCENT	viable	500
+UCMET	viable	2000
+UCWEN	viable	2000

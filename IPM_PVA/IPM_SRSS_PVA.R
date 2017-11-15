@@ -83,9 +83,8 @@ write.table(table1, "table1.txt", sep="\t", row.names=F)
 #===========================================================================
 
 # Base model
-set.seed(123)
-IPM_pp1 <- salmonIPM(fish_data = fish_data, fish_data_fwd = NULL, model = "IPM", pool_pops = TRUE, 
-                    chains = 3, iter = 1000, warmup = 500, seed = 5432,
+IPM_pp <- salmonIPM(fish_data = fish_data, fish_data_fwd = NULL, model = "IPM", pool_pops = TRUE, 
+                    chains = 3, iter = 1000, warmup = 500,
                     control = list(adapt_delta = 0.95, stepsize = 0.01, max_treedepth = 13))
 
 print(IPM_pp, pars = c("phi","p_HOS","B_rate_all","q","gamma","p","S_tot","R_tot"), include = FALSE)
@@ -861,6 +860,9 @@ dev.new(width=16,height=10)
 # png(filename="S_tot_fit_IPM.png", width=16*0.9, height=10*0.9, units="in", res=200, type="cairo-png")
 par(mfrow=c(5,6), mar=c(1,2,4.1,1), oma=c(4.1,3.1,0,0))
 
+# png(filename="S_tot_fit_IPM.png", width=12*0.9, height=12*0.9, units="in", res=200, type="cairo-png")
+# par(mfrow=c(6,5), mar=c(1,2,4.1,1), oma=c(4.1,3.1,0,0))
+
 S_tot_IPM <- extract1(IPM_pp,"S_tot")
 S_tot_obs_IPM <- S_tot_IPM * rlnorm(length(S_tot_IPM), 0, extract1(IPM_pp,"sigma_obs"))
 init_NA <- fish_data$year
@@ -886,8 +888,10 @@ for(i in levels(fish_data$code))
   axis(2, at$labat, cex.axis = 1.2, las = 1,
        labels = sapply(log10(at$labat), function(i) as.expression(bquote(10^ .(i)))))
   mtext(i, side = 3, line = 0.5, cex = par("cex")*1.5)
-  if(i %in% levels(fish_data$code)[seq(1,29,6)]) mtext("Spawners", side = 2, line = 3.5, cex = par("cex")*1.5)
-  if(i %in% levels(fish_data$code)[25:29]) mtext("Year", side = 1, line = 3, cex = par("cex")*1.5)
+  if(i %in% levels(fish_data$code)[seq(1,29,par("mfrow")[2])]) 
+    mtext("Spawners", side = 2, line = 3.5, cex = par("cex")*1.5)
+  if(i %in% levels(fish_data$code)[(30-par("mfrow")[2]):29]) 
+    mtext("Year", side = 1, line = 3, cex = par("cex")*1.5)
   lines(y1, apply(S_tot_IPM[,fish_data$code==i], 2, median), col = c1, lwd = 2)
   polygon(c(y1, rev(y1)), 
           c(apply(S_tot_IPM[,fish_data$code==i], 2, quantile, 0.025), 
